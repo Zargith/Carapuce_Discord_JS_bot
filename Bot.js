@@ -28,22 +28,17 @@ bot.on("error", function (error) {
 
 const applyText = (canvas, text) => {
 	const ctx = canvas.getContext('2d');
-
-	// Declare a base size of the font
 	let fontSize = 70;
 
 	do {
-		// Assign the font to the context and decrement it so it can be measured again
 		ctx.font = `${fontSize -= 10}px sans-serif`;
-		// Compare pixel width of the text to the canvas minus the approximate avatar size
 	} while (ctx.measureText(text).width > canvas.width - 300);
 
-	// Return the result to use in the actual canvas
 	return ctx.font;
 };
 
 bot.on("guildMemberAdd", async member => {
-	const channel = member.guild.systemChannel //.channels.array()
+	const channel = member.guild.systemChannel
 	if (!channel)
 		return
 	try {
@@ -76,51 +71,51 @@ function printHelp(message)
 			description: "__**Les différentes commandes**__",
 			fields: [
 				{
-					name: "!carahelp",
+					name: config.prefix + "help",
 					value: "Pour afficher cette aide."
 				},
 				{
-					name: "!carabonjour",
+					name: config.prefix + "bonjour",
 					value: "Carapuce te dit bonjour."
 				},
 				{
-					name: "!caraping",
+					name: config.prefix + "ping",
 					value: "Pong !"
 				},
 				{
-					name: "!carapuce",
+					name: config.prefix + "puce",
 					value: "Carapuce !"
 				},
 				{
-					name: "!caralove",
+					name: config.prefix + "love",
 					value: "Envoie de l\'amour."
 				},
 				{
-					name: "!listemojis",
+					name: config.prefix + "listemojis",
 					value: "Envoie la liste des emojis du serveur."
 				},
 				{
-					name: "!caraplay [*lien ou ID de vidéo youtube*]",
+					name: config.prefix + "play [*lien ou ID de vidéo youtube*]",
 					value: "Joue la vidéo du lien (ou ID) Youtube fourni en paramètre."
 				},
 				{
-					name: "!carapin",
+					name: config.prefix + "pin",
 					value: "Epingle le message qui commence par cette commande"
 				},
 				{
-					name: "!caraquiz",
+					name: config.prefix + "quiz",
 					value: "Permet de jouer à un quiz!"
 				},
 				{
-					name: "!caravatar",
+					name: config.prefix + "vatar",
 					value: "Renvoie l\'URL vers votre Avatar."
 				},
 				{
-					name: "!caraflip [pile ou face]",
+					name: config.prefix + "flip [pile ou face]",
 					value: "permet de jouer à pile ou face."
 				},
 				{
-					name: "!carashifumi [pierre (ou p) ou feuille (ou f) ou ciseaux (ou c)]",
+					name: config.prefix + "shifumi [pierre (ou p) ou feuille (ou f) ou ciseaux (ou c)]",
 					value: "permet de jouer à shifumi (ou pierre feuille ciseaux selon comment tu appelle ce jeu)."
 				}
 			],
@@ -132,12 +127,9 @@ var listMusics = []
 var isPlayingMusic = false
 
 function setURL(content, channel) {
-	// On récupère les arguments de la commande que l'on consièrent séparés par des espaces (caractère ' ')
 	let args = content.split(" ")
-	// On rejoint le channel audio
 	let requestUrl
-	// On regarde si l'argument ressemble à une URL sinon on considère que c'est un ID et dans ce cas on lui ajoute le début de chaque URL Youtube
-	// On démarre un stream à partir de la vidéo youtube
+
 	if (args[1]) {
 
 		if (!args[1].startsWith("https://www.youtube.com/") && !args[1].startsWith("http://www.youtube.com/") && !args[1].startsWith("www.youtube.com/"))
@@ -175,12 +167,9 @@ function DJCarapuce(message)
 
 	if (message.member.voiceChannel) {
 
-		// On récupère le salon audio de la personne ayant envoyé le message
-		message.member.voiceChannel.join().then(connection => { // Connection is an instance of VoiceConnection
-
+		message.member.voiceChannel.join().then(connection => {
 			try {
 
-				// Ici on s'assure de récupérer tout problème qui puisse arriver comme un lien invalide
 				isPlayingMusic = true
 				let stream = YoutubeStream(requestUrl)
 				stream.on('error', function (err) {
@@ -200,7 +189,6 @@ function DJCarapuce(message)
 				})
 			} catch (exception) {
 
-				// Seulement ici nous réceptionnons l'erreur qui s'est produite
 				connection.disconnect()
 				console.log(exception)
 				message.channel.send("Tu dois ajouter une URL ou un identifiant de vidéo (ID) YouTube valide après avoir utilisé la commande *!caraplay* 😉")
@@ -322,7 +310,7 @@ function redirectCommands(message) {
 		message.react(emojiCarapuce)
 	}
 
-	if (message.content === "!listemojis") {
+	if (message.content === config.prefix + "listemojis") {
 		const emojiList = message.guild.emojis.map((e) => e + " => :" + e.name + ":")
 		message.channel.send(emojiList)
 	}

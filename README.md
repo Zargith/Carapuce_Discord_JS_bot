@@ -1,4 +1,9 @@
 # myBotDiscord
 
-Need to have a config.json file within a varible prefix, token and ownerID for Bot.js.
-(Example with file configExample.json)
+Need to have a config.json file like the following:
+
+{
+    "prefix": "your prefix (ex: !cara)",
+    "token": "bot's token",
+    "ownerID": "your id"
+}
