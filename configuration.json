@@ -1,0 +1,12 @@
+{
+    "name": "myBotDiscord",
+    "version": "1.0.0",
+    "description": "A Discord bot!",
+    "main": "stable/Bot_stableVersion.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC"
+}

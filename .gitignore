@@ -1,0 +1,10 @@
+*.o
+*.a
+*~
+*.#
+\#*\#
+units
+a.out
+.vscode
+config.json
+configtest.json
