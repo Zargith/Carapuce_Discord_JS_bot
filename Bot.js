@@ -47,14 +47,20 @@ bot.on("guildMemberAdd", async member => {
 		const background = await Canvas.loadImage("./welcome.png");
 		ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
 		ctx.strokeStyle = '#74037b';
-		ctx.strokeRect(0, 0, canvas.width - 1, canvas.height - 1);
+		ctx.strokeRect(0, 0, canvas.width - 2, canvas.height - 1);
+		ctx.strokeRect(1, 1, canvas.width - 3, canvas.height - 2);
+		ctx.strokeRect(2, 2, canvas.width - 4, canvas.height - 3);
+		ctx.strokeRect(2, 2, canvas.width - 5, canvas.height - 4);
 		ctx.font = ctx.font = applyText(canvas, member.displayName)
 		ctx.fillStyle = '#ce0707';
 		ctx.fillText(member.displayName, 20, 685)
-		const { body: buffer } = await snekfetch.get(member.user.displayAvatarURL)
-		const avatar = await Canvas.loadImage(buffer)
-		ctx.drawImage(avatar, canvas.height, 15, 300, 300)
-		const attachment = new Discord.Attachment(canvas.toBuffer(), "welcome-image.png")
+		ctx.beginPath();
+		ctx.arc(825, 175, 125, 0, Math.PI * 2, true);
+		ctx.closePath();
+		ctx.clip();
+		const avatar = await Canvas.loadImage(member.user.displayAvatarURL);
+		ctx.drawImage(avatar, 700, 50, 256, 256);
+		const attachment = new Discord.Attachment(canvas.toBuffer(), 'welcome-image.png');
 		channel.send("Bienvenue sur ce CaraServeur, " + member + " ! <:happy_carapuce:553490319103098883>", attachment)
 	} catch (exception) {
 		channel.send({ embed: { color: 16711680, description: "__**ERREUR**__\nLa commande n'a pas fonctionnée <:surprised_carapuce:568777407046221824>\n\n__L'erreur suivante s'est produite:__\n" + exception + "*" } })
