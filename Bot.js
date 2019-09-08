@@ -284,6 +284,9 @@ function redirectCommands(message) {
 
 	if (message.content === config.prefix+"help")
 		printHelp(message)
+	
+	if (message.content == config.prefix + "ownerHelp")
+		message.channel.send("Désolé mais tu n'as pas accès à cette commande... <:sad_carapuce:562773515745361920>");
 
 	if (message.content === config.prefix+"quiz" || caraquiz.inQuizz === true || caraquiz.waitResponse === true)
 		caraquiz.CaraQuiz(message)
@@ -398,6 +401,11 @@ function ownerCommands(message) {
 		return
 	}
 
+	if (message.content == config.prefix + "ownerHelp") {
+		printOwnerHelp(message);
+		return;
+	}
+
 	if (message.content === '!caraemote') {
 		message.delete()
 		message.channel.send("<:carapuce:551198314687758357>")
@@ -431,13 +439,60 @@ function ownerCommands(message) {
 	redirectCommands(message)
 }
 
+function printOwnerHelp(message) {
+	message.channel.send({
+		embed: {
+			color: 3447003,
+			description: "__**Les différentes commandes**__",
+			fields: [
+				{
+					name: "!caraemote",
+					value: "Pour afficher l\'émote Carapuce débile."
+				},
+				{
+					name: "!carhappy",
+					value: "Pour afficher l\'émote Carapuce heureux."
+				},
+				{
+					name: "!carasad",
+					value: "Pour afficher l\'emote Carapuce triste."
+				},
+				{
+					name: "!carangry",
+					value: "Pour afficher l\'emote Carapuce en colère."
+				},
+				{
+					name: "!carachocked",
+					value: "Pour afficher l\'emote Carapuce choqué."
+				},
+				{
+					name: "!carajoin",
+					value: "Pour simuler notre arrivée sur le serveur."
+				},
+				{
+					name: "!caraownerHelp",
+					value: "Pour afficher cette aide pour les membres de la white list."
+				},
+			],
+		}
+	})
+}
+
+function isInWhiteList(id) {
+	config.whiteList.forEach(function (whiteID) {
+		if (whiteID == id)
+			return (true);
+	})
+	return (false);
+}
+
 bot.on("message", message => {
 	try {
 		if (message.author.bot)
 			return
 		
 		if (message.guild === null) {
-			if (message.author.id === config.ownerID)
+			if (message.author.id === config.ownerID || isInWhiteList(message.author.id))
 				ownerDMCommands(message)
 			else
 				bot.users.get(config.ownerID).send({ embed: { color: 3447003, description: "L'utilisateur " + message.author.username + " m'a envoyé:\n\n" + message.content}})

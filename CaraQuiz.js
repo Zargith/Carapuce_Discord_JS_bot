@@ -87,6 +87,36 @@ module.exports = {
 						}
 					}
 					break;
+				case 3:
+					if (!this.waitResponse) {
+						this.inQuizz = true
+						message.channel.send({
+							embed: {
+								color: 3447003,
+								description: "__**Question n°3:**__",
+								fields: [{
+									name: "Qu'est-ce qui est jaune et qui attend ?",
+									value: "A: Jonathan\tB: Salamèche vu par un daltonien\tC: Pikachu"
+								}
+								],
+							}
+						})
+						this.waitResponse = true
+					} else {
+						if (message.content.toLowerCase() === "a") {
+							this.score++
+							this.numQuestion++
+							this.waitResponse = false
+							message.channel.send("Bonne réponse ! <:happy_carapuce:553490319103098883>")
+							this.CaraQuiz(message)
+						} else if (message.content === "b" || message.content === "c") {
+							this.numQuestion++
+							this.waitResponse = false
+							message.channel.send("Mauvaise réponse... <:sad_carapuce:562773515745361920>")
+							this.CaraQuiz(message)
+						}
+					}
+					break;
 				default:
 					message.channel.send("Fin du cara-quiz!\nTu as fais un score de " + this.score + "/" + (this.numQuestion - 1) + " <:happy_carapuce:553490319103098883>")
 					this.score = 0
