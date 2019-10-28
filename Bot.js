@@ -276,7 +276,7 @@ function redirectCommands(message) {
 
 	bannedWords.forEach(function (bannedWord) {
 		if (!message.channel.nsfw && message.content.toLowerCase().includes(bannedWord)) {
-			message.delete()
+//			message.delete()
 			message.reply("je peux pas te laisser dire des cara-gros-mots... <:angry_carapuce:568356340003635200>")
 			return
 		}
