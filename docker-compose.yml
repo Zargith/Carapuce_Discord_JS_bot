@@ -1,0 +1,11 @@
+version: "3.7"
+services:
+  bot:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+    command: node Bot.js
+    image: zargith/carabot
+    container_name: CaraBot
