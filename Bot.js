@@ -268,7 +268,7 @@ function redirectCommands(message) {
 	console.log("Message from server " + message.guild.name + ", and from user " + message.author.username + ":\n\"" + message.content + "\"\n")
 
 	if (message.content.startsWith(config.prefix+"play")) {
-		message.channel.send({ embed: { color: 16731904, description: "Cette fonctionnalitée ne fonctionne pas réellement en ce moment. (Merci DiscordJS <:carapuce:551198314687758357>)" } })
+//		message.channel.send({ embed: { color: 16731904, description: "Cette fonctionnalitée ne fonctionne pas réellement en ce moment. (Merci DiscordJS <:carapuce:551198314687758357>)" } })
 		DJCarapuce(message)
 	}
 
@@ -308,7 +308,7 @@ function redirectCommands(message) {
 	if (message.content === config.prefix+"love")
 		message.channel.send("dab dab, I dab you some dabing love! :heart:")
 
-	if (message.content.includes("Stan"))
+	if (message.content.includes("stan"))
 		message.channel.send("J\'aime embêter <@127132143842361345>")
 
 	if (message.content.includes("ta maman") || message.content.includes("ta mère"))
