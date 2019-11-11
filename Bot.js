@@ -20,6 +20,7 @@ bot.on("ready", function () {
 		},
 		status: 'online'
 	})
+	bot.users.get(config.ownerID).send({ embed: { color: 65330, description: "Started successfully" } })
 })
 
 bot.on("error", function (error) {
@@ -389,6 +390,10 @@ function ownerDMCommands(message) {
 			bot.users.get(id).send(str)
 			message.channel.send("Message envoyé!")
 		}
+
+		if (message.content == "!restart") {
+			process.exit()
+		}
 	} catch (exception) {
 		bot.users.get(config.ownerID).send({ embed: { color: 16711680, description: "__**ERREUR**__\nLa commande n'a pas fonctionnée pour cette raison:\n\n*" + exception.stack + "*" } })
 		console.log("ERREUR\nLa commande n'a pas fonctionnée pour cette raison:\n\n" + exception.stack)
@@ -403,6 +408,11 @@ function ownerCommands(message) {
 
 	if (message.content == config.prefix + "ownerHelp") {
 		printOwnerHelp(message);
+		return;
+	}
+
+	if (message.content == config.prefix + "restart") {
+		process.exit()
 		return;
 	}
 
