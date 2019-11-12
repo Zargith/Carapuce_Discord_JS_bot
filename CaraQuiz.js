@@ -9,7 +9,7 @@ module.exports = {
 	CaraQuiz : function(message) {
 
 		try {
-
+			message.content = message.content.toLowerCase();
 			if (message.content === "stop") {
 
 				message.channel.send("Fin du cara-quiz !\nFélicitations, ton score est de " + this.score + "/" + (this.numQuestion - 1) + "! <:carapuce:551198314687758357>")

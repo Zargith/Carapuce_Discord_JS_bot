@@ -15,7 +15,7 @@ bot.on("ready", function () {
 	console.log("\n")
 	bot.user.setPresence({
 		game: {
-			name: config.prefix + "help",
+			name: `${config.prefix}help`,
 			type: 'WATCHING'
 		},
 		status: 'online'
@@ -78,52 +78,56 @@ function printHelp(message)
 			description: "__**Les différentes commandes**__",
 			fields: [
 				{
-					name: config.prefix + "help",
+					name: `${config.prefix}help`,
 					value: "Pour afficher cette aide."
 				},
 				{
-					name: config.prefix + "bonjour",
+					name: `${config.prefix}bonjour`,
 					value: "Carapuce te dit bonjour."
 				},
 				{
-					name: config.prefix + "ping",
+					name: `${config.prefix}ping`,
 					value: "Pong !"
 				},
 				{
-					name: config.prefix + "puce",
+					name: `${config.prefix}puce`,
 					value: "Carapuce !"
 				},
 				{
-					name: config.prefix + "love",
+					name: `${config.prefix}love`,
 					value: "Envoie de l\'amour."
 				},
 				{
-					name: config.prefix + "listemojis",
+					name: `${config.prefix}listemojis`,
 					value: "Envoie la liste des emojis du serveur."
 				},
 				{
-					name: config.prefix + "play [*lien ou ID de vidéo youtube*]",
+					name: `${config.prefix}play [*lien ou ID de vidéo youtube*]`,
 					value: "Joue la vidéo du lien (ou ID) Youtube fourni en paramètre."
 				},
 				{
-					name: config.prefix + "pin",
+					name: `${config.prefix}pin`,
 					value: "Epingle le message qui commence par cette commande"
 				},
 				{
-					name: config.prefix + "quiz",
+					name: `${config.prefix}quiz`,
 					value: "Permet de jouer à un quiz!"
 				},
 				{
-					name: config.prefix + "vatar",
+					name: `${config.prefix}vatar`,
 					value: "Renvoie l\'URL vers votre Avatar."
 				},
 				{
-					name: config.prefix + "flip [pile ou face]",
-					value: "permet de jouer à pile ou face."
+					name: `${config.prefix}flip [pile ou face]`,
+					value: "Permet de jouer à pile ou face."
 				},
 				{
-					name: config.prefix + "shifumi [pierre (ou p) ou feuille (ou f) ou ciseaux (ou c)]",
-					value: "permet de jouer à shifumi (ou pierre feuille ciseaux selon comment tu appelle ce jeu)."
+					name: `${config.prefix}shifumi [pierre (ou p) ou feuille (ou f) ou ciseaux (ou c)]`,
+					value: "Permet de jouer à shifumi (ou pierre feuille ciseaux selon comment tu appelle ce jeu)."
+				},
+				{
+					name: `${config.prefix}DansLaWhiteList`,
+					value: "Permet de savoir si vous êtes dans la white list."
 				}
 			],
 		}
@@ -266,14 +270,13 @@ function flipCoin(message) {
 var bannedWords = ["fuck", "pute", "fils de pute", "bite", "ta race", "connard", "conard", "connasse", "conasse", "conase", "conace", "connace", "salope", "enculé"]
 
 function redirectCommands(message) {
-	console.log("Message from server " + message.guild.name + ", and from user " + message.author.username + ":\n\"" + message.content + "\"\n")
+	if (message.guild !== null)
+		console.log("Message from server " + message.guild.name + ", and from user " + message.author.username + ":\n\"" + message.content + "\"\n")
 
 	if (message.content.startsWith(config.prefix+"play")) {
 //		message.channel.send({ embed: { color: 16731904, description: "Cette fonctionnalitée ne fonctionne pas réellement en ce moment. (Merci DiscordJS <:carapuce:551198314687758357>)" } })
 		DJCarapuce(message)
 	}
-
-	message.content = message.content.toLowerCase()
 
 	bannedWords.forEach(function (bannedWord) {
 		if (!message.channel.nsfw && message.content.toLowerCase().includes(bannedWord)) {
@@ -283,10 +286,10 @@ function redirectCommands(message) {
 		}
 	})
 
-	if (message.content === config.prefix+"help")
+	if (message.content === `${config.prefix}help`)
 		printHelp(message)
 	
-	if (message.content == config.prefix + "ownerHelp")
+	if (message.content == `${config.prefix}ownerHelp`)
 		message.channel.send("Désolé mais tu n'as pas accès à cette commande... <:sad_carapuce:562773515745361920>");
 
 	if (message.content === config.prefix+"quiz" || caraquiz.inQuizz === true || caraquiz.waitResponse === true)
@@ -320,19 +323,26 @@ function redirectCommands(message) {
 		message.react(emojiCarapuce)
 	}
 
-	if (message.content === config.prefix + "listemojis") {
+	if (message.content === `${config.prefix}listemojis`) {
 		const emojiList = message.guild.emojis.map((e) => e + " => :" + e.name + ":")
 		message.channel.send(emojiList)
 	}
 
-	if (message.content.startsWith(config.prefix+"pin"))
+	if (message.content.startsWith(`${config.prefix}pin`))
 		message.pin()
 
-	if (message.content.startsWith(config.prefix + "flip"))
+	if (message.content.startsWith(`${config.prefix}flip`))
 		flipCoin(message)
 
-	if (message.content.startsWith(config.prefix + "shifumi"))
+	if (message.content.startsWith(`${config.prefix}shifumi`))
 		shufumi(message)
+	
+	if (message.content === `${config.prefix}DansLaWhiteList`) {
+		if (isInWhiteList(message.author.id) || message.author.id === config.ownerID)
+			message.reply("oui tu y es!");			
+		else
+			message.reply("non tu n'y es pas.");
+	}
 }
 
 function ownerDMCommands(message) {
@@ -391,9 +401,11 @@ function ownerDMCommands(message) {
 			message.channel.send("Message envoyé!")
 		}
 
-		if (message.content == "!restart") {
+		if (message.content == "!restart")
 			process.exit()
-		}
+
+		redirectCommands(message)
+
 	} catch (exception) {
 		bot.users.get(config.ownerID).send({ embed: { color: 16711680, description: "__**ERREUR**__\nLa commande n'a pas fonctionnée pour cette raison:\n\n*" + exception.stack + "*" } })
 		console.log("ERREUR\nLa commande n'a pas fonctionnée pour cette raison:\n\n" + exception.stack)
@@ -401,46 +413,46 @@ function ownerDMCommands(message) {
 }
 
 function ownerCommands(message) {
-	if (message.content === config.prefix + 'join') {
+	if (message.content === `${config.prefix}join`) {
 		bot.emit('guildMemberAdd', message.member);
 		return
 	}
 
-	if (message.content == config.prefix + "ownerHelp") {
+	if (message.content == `${config.prefix}ownerHelp`) {
 		printOwnerHelp(message);
 		return;
 	}
 
-	if (message.content == config.prefix + "restart") {
+	if (message.content == `${config.prefix}restart`) {
 		process.exit()
 		return;
 	}
 
-	if (message.content === '!caraemote') {
+	if (message.content === `${config.prefix}emote`) {
 		message.delete()
 		message.channel.send("<:carapuce:551198314687758357>")
 		return
 	}
 
-	if (message.content === '!carhappy') {
+	if (message.content === `${config.prefix}happy`) {
 		message.delete()
 		message.channel.send("<:happy_carapuce:553490319103098883>")
 		return
 	}
 
-	if (message.content === '!carasad') {
+	if (message.content === `${config.prefix}sad`) {
 		message.delete()
 		message.channel.send("<:sad_carapuce:562773515745361920>")
 		return
 	}
 
-	if (message.content === '!carangry') {
+	if (message.content === `${config.prefix}angry`) {
 		message.delete()
 		message.channel.send("<:angry_carapuce:568356340003635200>")
 		return
 	}
 
-	if (message.content === '!carachocked') {
+	if (message.content === `${config.prefix}chocked`) {
 		message.delete()
 		message.channel.send("<:surprised_carapuce:568777407046221824>")
 		return
@@ -456,44 +468,51 @@ function printOwnerHelp(message) {
 			description: "__**Les différentes commandes**__",
 			fields: [
 				{
-					name: "!caraemote",
+					name: `${config.prefix}emote`,
 					value: "Pour afficher l\'émote Carapuce débile."
 				},
 				{
-					name: "!carhappy",
+					name: `${config.prefix}happy`,
 					value: "Pour afficher l\'émote Carapuce heureux."
 				},
 				{
-					name: "!carasad",
+					name: `${config.prefix}sad`,
 					value: "Pour afficher l\'emote Carapuce triste."
 				},
 				{
-					name: "!carangry",
+					name: `${config.prefix}angry`,
 					value: "Pour afficher l\'emote Carapuce en colère."
 				},
 				{
-					name: "!carachocked",
+					name: `${config.prefix}chocked`,
 					value: "Pour afficher l\'emote Carapuce choqué."
 				},
 				{
-					name: "!carajoin",
+					name: `${config.prefix}join`,
 					value: "Pour simuler notre arrivée sur le serveur."
 				},
 				{
-					name: "!caraownerHelp",
+					name: `${config.prefix}ownerHelp`,
 					value: "Pour afficher cette aide pour les membres de la white list."
 				},
+				{
+					name: `${config.prefix}restart`,
+					value: "Pour redémarrer le bot."
+				},
+
 			],
 		}
 	})
 }
 
 function isInWhiteList(id) {
+	let res = false;
+
 	config.whiteList.forEach(function (whiteID) {
-		if (whiteID == id)
-			return (true);
+		if (whiteID === id)
+			res = true;
 	})
-	return (false);
+	return (res);
 }
 
 bot.on("message", message => {
@@ -502,17 +521,17 @@ bot.on("message", message => {
 			return
 		
 		if (message.guild === null) {
-			if (message.author.id === config.ownerID || isInWhiteList(message.author.id))
+			if (message.author.id === config.ownerID)
 				ownerDMCommands(message)
 			else
 				bot.users.get(config.ownerID).send({ embed: { color: 3447003, description: "L'utilisateur " + message.author.username + " m'a envoyé:\n\n" + message.content}})
 			return
 		}
 
-		if (message.author.id !== config.ownerID)
-			redirectCommands(message)
-		else
+		if (message.author.id === config.ownerID || isInWhiteList(message.author.id))
 			ownerCommands(message)
+		else
+			redirectCommands(message)
 	} catch (exception) {
 		message.channel.send({ embed: { color: 16711680, description: "__**ERREUR**__\nLa commande n'a pas fonctionnée <:surprised_carapuce:568777407046221824>\n\n__L'erreur suivante s'est produite:__\n*" + exception + "*"}})
 		bot.users.get(config.ownerID).send({embed:{color: 16711680, description: "__**ERREUR**__\nL'utilisateur " + message.author.username + ", sur le serveur " + message.member.guild.name +  " a envoyé la commande:\n" + message.content + "\n\n__L'erreur suivante s'est produite:__\n*" + exception.stack + "*"}})
