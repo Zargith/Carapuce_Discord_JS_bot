@@ -153,7 +153,7 @@ function setURL(content, channel) {
 			requestUrl = args[1]
 		
 		if (!YoutubeStream.validateURL(requestUrl)) {
-			channel.send("Tu dois ajouter une URL ou un identifiant de vidéo (ID) YouTube valide après avoir utilisé la commande *!caraplay* 😉")
+			channel.send(`Tu dois ajouter une URL ou un identifiant de vidéo (ID) YouTube valide après avoir utilisé la commande *${config.prefix}play* 😉`)
 			return ("")
 		}
 
@@ -164,7 +164,7 @@ function setURL(content, channel) {
 	} else {
 
 		if (listMusics.length === 0) {
-			channel.send("Tu dois ajouter une URL ou un identifiant de vidéo (ID) YouTube valide après avoir utilisé la commande *!caraplay* 😉")
+			channel.send(`Tu dois ajouter une URL ou un identifiant de vidéo (ID) YouTube valide après avoir utilisé la commande *${config.prefix}play* 😉`)
 			return ("")
 		} else
 			requestUrl = listMusics[0]
