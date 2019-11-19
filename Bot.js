@@ -123,11 +123,15 @@ function printHelp(message)
 				},
 				{
 					name: `${config.prefix}shifumi [pierre (ou p) ou feuille (ou f) ou ciseaux (ou c)]`,
-					value: "Permet de jouer à shifumi (ou pierre feuille ciseaux selon comment tu appelle ce jeu)."
+					value: "Permet de jouer à shifumi (ou pierre feuille ciseaux selon comment tu appelles ce jeu)."
 				},
 				{
 					name: `${config.prefix}DansLaWhiteList`,
 					value: "Permet de savoir si vous êtes dans la white list."
+				},
+				{
+					name: `${config.prefix}invite`,
+					value: "Permet d'obtenir un lien d'invitation du bot, si vous voulez l'inviter sur votre serveur."
 				}
 			],
 		}
@@ -343,6 +347,9 @@ function redirectCommands(message) {
 		else
 			message.reply("non tu n'y es pas.");
 	}
+
+	if (message.content === `${config.prefix}invite`)
+		message.channel.send("https://discordapp.com/api/oauth2/authorize?client_id=550786957245153290&permissions=0&scope=bot");
 }
 
 function ownerDMCommands(message) {
