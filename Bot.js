@@ -52,7 +52,7 @@ bot.on("guildMemberAdd", async member => {
 		ctx.strokeRect(1, 1, canvas.width - 3, canvas.height - 2);
 		ctx.strokeRect(2, 2, canvas.width - 4, canvas.height - 3);
 		ctx.strokeRect(2, 2, canvas.width - 5, canvas.height - 4);
-		ctx.font = ctx.font = applyText(canvas, member.displayName)
+		ctx.font = applyText(canvas, member.displayName)
 		ctx.fillStyle = '#ce0707';
 		ctx.fillText(member.displayName, 20, 685)
 		ctx.beginPath();
@@ -138,8 +138,8 @@ function printHelp(message)
 	})
 }
 
-var listMusics = []
-var isPlayingMusic = false
+let listMusics = []
+let isPlayingMusic = false
 
 function setURL(content, channel) {
 	let args = content.split(" ")
@@ -197,7 +197,7 @@ function DJCarapuce(message)
 					isPlayingMusic = false
 					if (listMusics.length != 0)
 						listMusics.shift()
-					var newMessage = message
+					let newMessage = message
 					message.content = message.content.split(" ")[0]
 					if (listMusics.length != 0)
 						DJCarapuce(newMessage)
@@ -271,7 +271,7 @@ function flipCoin(message) {
 		message.channel.send("Oh non tu as perdu... <:sad_carapuce:562773515745361920>")
 }
 
-var bannedWords = ["fuck", "pute", "fils de pute", "bite", "ta race", "connard", "conard", "connasse", "conasse", "conase", "conace", "connace", "salope", "enculé"]
+let bannedWords = ["fuck", "pute", "fils de pute", "bite", "ta race", "connard", "conard", "connasse", "conasse", "conase", "conace", "connace", "salope", "enculé"]
 
 function redirectCommands(message) {
 	if (message.guild !== null)

@@ -66,7 +66,7 @@ module.exports = {
 								description: "__**Question n°2:**__",
 								fields: [{
 									name: "Quel est le meilleur starteur parmis ces choix ?",
-									value: "A: Bulbizarre\tB: Carapuce\tC: Salemèche"
+									value: "A: Bulbizarre\tB: Carapuce\tC: Salamèche"
 								}
 								],
 							}
