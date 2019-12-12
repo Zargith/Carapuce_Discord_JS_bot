@@ -209,38 +209,56 @@ function DJCarapuce(message)
 		message.reply("Tu dois d'abord rejoindre un salon vocal!");
 }
 
+function isInArray(elem, arr) {
+	for (let i = 0; i < arr.length; i++)
+		if (arr[i] === elem)
+			return (true);
+	return (false);
+}
+
 function shufumi(message) {
 	let arg = message.content.split(" ");
 	if (arg.length !== 2) {
 		message.channel.send("Dis moi juste pierre, feuille ou ciseaux, je n'ai pas besoin d'autre chose ici <:carapuce:551198314687758357>");
 		return;
 	}
-	if (arg[1] !== "pierre" && arg[1] !== "p" && arg[1] !== "feuille" && arg[1] !== "f" && arg[1] !== "ciseaux" && arg[1] !== "c") {
+	if (!isInArray(arg[1], ["pierre", "p", "feuille", "f", "ciseaux", "c"])) {
 		message.channel.send("Dis moi ce que tu veux jouer quand même! <:angry_carapuce:568356340003635200>");
 		return;
 	}
+
 	let pChoice = 0;
-	if (arg[1].startsWith("p"))
-		pChoice = 1;
-	else if (arg[1].startsWith("f"))
-		pChoice = 2;
-	else if (arg[1].startsWith("c"))
-		pChoice = 3;
-	else {
-		message.channel.send("Il y a eu une erreur");
-		return;
+
+	switch (arg[1][0]) {
+		case ("p"):
+			pChoice = 1;
+			break;
+		case ("f"):
+			pChoice = 2;
+			break;
+		case ("c"):
+			pChoice = 3;
+			break;
+		default:
+			message.channel.send("Il y a eu une erreur");
+			return;
 	}
 
 	let flip = Math.floor(Math.random() * 3 + 1);
 
-	if (flip === 1)
-		message.channel.send({ embed: { color: 3447003, description: "Pierre!" } });
-	else if (flip === 2)
-		message.channel.send({ embed: { color: 3447003, description: "Feuille!" } });
-	else 
-		message.channel.send({ embed: { color: 3447003, description: "Ciseaux!" } });
+	switch (flip) {
+		case 1:
+			message.channel.send({ embed: { color: 3447003, description: "Pierre!" } });
+			break;
+		case 2:
+			message.channel.send({ embed: { color: 3447003, description: "Feuille!" } });
+			break;
+		case 3:
+			message.channel.send({ embed: { color: 3447003, description: "Ciseaux!" } });
+			break;
+	}
 
-		if ((flip === 1 && pChoice === 2) || (flip === 2 && pChoice === 3) || (flip === 3 && pChoice === 1))
+	if ((flip === 1 && pChoice === 2) || (flip === 2 && pChoice === 3) || (flip === 3 && pChoice === 1))
 		message.channel.send("Bien joué, tu as été meilleur(e) ! <:happy_carapuce:553490319103098883>");
 	else
 		message.channel.send("Oh non tu n'as pas été meilleur(e)... <:sad_carapuce:562773515745361920>");
@@ -253,7 +271,7 @@ function flipCoin(message) {
 		message.channel.send("Dis moi juste pile ou face, je n'ai pas besoin d'autre chose ici <:carapuce:551198314687758357>");
 		return;
 	}
-	if (arg[1] !== "pile" && arg[1] !== "face") {
+	if (!isInArray(arg[1], ["pile", "face"])) {
 		message.channel.send("Dis moi pile ou face quand même! <:angry_carapuce:568356340003635200>");
 		return;
 	}
@@ -264,6 +282,7 @@ function flipCoin(message) {
 		message.channel.send({ embed: { color: 3447003, description: "C'est tombé sur Pile!" } });
 	else
 		message.channel.send({ embed: { color: 3447003, description: "C'est tombé sur Face!" } });
+
 	if ((flip === 1 && arg[1] === "pile") || (flip === 2 && arg[1] === "face"))
 		message.channel.send("Super tu as gagné!!! <:happy_carapuce:553490319103098883>");
 	else
@@ -273,9 +292,6 @@ function flipCoin(message) {
 let bannedWords = ["fuck", "pute", "fils de pute", "bite", "ta race", "connard", "conard", "connasse", "conasse", "conase", "conace", "connace", "salope", "enculé"];
 
 function redirectCommands(message) {
-	if (message.guild !== null)
-		console.log("Message from server " + message.guild.name + ", and from user " + message.author.username + ":\n\"" + message.content + "\"\n");
-
 	if (message.content.startsWith(config.prefix+"play"))
 		DJCarapuce(message);
 
@@ -287,31 +303,52 @@ function redirectCommands(message) {
 		}
 	});
 
-	if (message.content === `${config.prefix}help`)
-		printHelp(message);
-	
-	if (message.content == `${config.prefix}ownerHelp`)
-		message.channel.send("Désolé mais tu n'as pas accès à cette commande... <:sad_carapuce:562773515745361920>");
-
 	if (message.content === config.prefix+"quiz" || caraquiz.inQuizz === true || caraquiz.waitResponse === true)
 		caraquiz.CaraQuiz(message);
 
-	if (message.content === config.prefix+"ping")
-		message.channel.send("Carapong ! <:carapuce:551198314687758357>");
-
-	if (message.content === config.prefix+"vatar")
-		message.reply(message.author.avatarURL);
-
-	if (message.content === config.prefix+"bonjour") {
-		message.react("553490319103098883");
-		message.reply("Carabonjour à toi! <:happy_carapuce:553490319103098883>");
+	switch (message.content) {
+		case (`${config.prefix}help`):
+			printHelp(message);
+			break;
+		case (`${config.prefix}ownerHelp`):
+			message.channel.send("Désolé mais tu n'as pas accès à cette commande... <:sad_carapuce:562773515745361920>");
+			break;
+		case (config.prefix+"ping"):
+			message.channel.send("Carapong ! <:carapuce:551198314687758357>");
+			break;
+		case (config.prefix+"vatar"):
+			message.reply(message.author.avatarURL);
+			break;
+		case (config.prefix+"bonjour"):
+			message.react("553490319103098883");
+			message.reply("Carabonjour à toi! <:happy_carapuce:553490319103098883>");
+			break;
+		case (config.prefix+"puce"):
+			message.channel.send("Cara, carapuce !\nhttps://img.fireden.net/v/image/1527/08/1527086908147.gif");
+			break;
+		case (config.prefix+"love"):
+			message.channel.send("dab dab, I dab you some dabing love! :heart:");
+			break;
+		case (`${config.prefix}listemojis`):
+			const emojiList = message.guild.emojis.map((e) => e + " => :" + e.name + ":");
+			message.channel.send(emojiList);
+			break;
+		case (`${config.prefix}DansLaWhiteList`):
+			if (isInWhiteList(message.author.id) || message.author.id === config.ownerID)
+				message.reply("oui tu y es!");
+			else
+				message.reply("non tu n'y es pas.");
+			break;
+		case (`${config.prefix}invite`):
+			message.channel.send("https://discordapp.com/api/oauth2/authorize?client_id=550786957245153290&permissions=0&scope=bot");
+			break;
 	}
 
-	if (message.content === config.prefix+"puce")
-		message.channel.send("Cara, carapuce !\nhttps://img.fireden.net/v/image/1527/08/1527086908147.gif");
+	if (message.content.startsWith(`${config.prefix}flip`))
+		flipCoin(message);
 
-	if (message.content === config.prefix+"love")
-		message.channel.send("dab dab, I dab you some dabing love! :heart:");
+	if (message.content.startsWith(`${config.prefix}shifumi`))
+		shufumi(message);
 
 	if (message.content.includes("stan"))
 		message.channel.send("J\'aime embêter <@127132143842361345>");
@@ -319,43 +356,25 @@ function redirectCommands(message) {
 	if (message.content.includes("ta maman") || message.content.includes("ta mère"))
 		message.reply(" ON AVAIT DIT PAS LES MAMANS!!! <:angry_carapuce:568356340003635200>");
 
+	if (message.content.startsWith(`${config.prefix}pin`))
+		message.pin();
+
 	if (message.content.includes("carapuce") || (message.content.includes("<@550786957245153290>"))) {
 		const emojiCarapuce = bot.emojis.find(emoji => emoji.name === "carapuce");
 		message.react(emojiCarapuce);
 	}
-
-	if (message.content === `${config.prefix}listemojis`) {
-		const emojiList = message.guild.emojis.map((e) => e + " => :" + e.name + ":");
-		message.channel.send(emojiList);
-	}
-
-	if (message.content.startsWith(`${config.prefix}pin`))
-		message.pin();
-
-	if (message.content.startsWith(`${config.prefix}flip`))
-		flipCoin(message);
-
-	if (message.content.startsWith(`${config.prefix}shifumi`))
-		shufumi(message);
-	
-	if (message.content === `${config.prefix}DansLaWhiteList`) {
-		if (isInWhiteList(message.author.id) || message.author.id === config.ownerID)
-			message.reply("oui tu y es!");
-		else
-			message.reply("non tu n'y es pas.");
-	}
-
-	if (message.content === `${config.prefix}invite`)
-		message.channel.send("https://discordapp.com/api/oauth2/authorize?client_id=550786957245153290&permissions=0&scope=bot");
 }
 
 function ownerDMCommands(message) {
 	try {
+		if (message.content == "!restart");
+		process.exit();
+
 		if (message.content === "!listGuilds") {
 			let str = "";
 			bot.guilds.forEach((guild) => {
 				str += ("- __name:__ " + guild.name + "\n\t\t__id:__ " + guild.id + "\n\n");
-			})
+			});
 			message.channel.send(str);
 		}
 
@@ -405,9 +424,6 @@ function ownerDMCommands(message) {
 			message.channel.send("Message envoyé!");
 		}
 
-		if (message.content == "!restart");
-			process.exit();
-
 		redirectCommands(message);
 	} catch (exception) {
 		bot.users.get(config.ownerID).send({ embed: { color: 16711680, description: "__**ERREUR**__\nLa commande n'a pas fonctionnée pour cette raison:\n\n*" + exception.stack + "*" } });
@@ -416,52 +432,40 @@ function ownerDMCommands(message) {
 }
 
 function ownerCommands(message) {
-	if (message.content === `${config.prefix}join`) {
-		bot.emit('guildMemberAdd', message.member);
-		return;
-	}
 
-	if (message.content == `${config.prefix}ownerHelp`) {
-		printOwnerHelp(message);
-		return;
+	switch (message.content) {
+		case (`${config.prefix}join`):
+			bot.emit('guildMemberAdd', message.member);
+			return;
+		case (`${config.prefix}ownerHelp`):
+			printOwnerHelp(message);
+			return;
+		case (`${config.prefix}restart`):
+			process.exit();
+			return;
+		case (`${config.prefix}emote`):
+			message.delete();
+			message.channel.send("<:carapuce:551198314687758357>");
+			return;
+		case (`${config.prefix}happy`):
+			message.delete();
+			message.channel.send("<:happy_carapuce:553490319103098883>");
+			return;
+		case (`${config.prefix}sad`):
+			message.delete();
+			message.channel.send("<:sad_carapuce:562773515745361920>");
+			return;
+		case (`${config.prefix}angry`):
+			message.delete();
+			message.channel.send("<:angry_carapuce:568356340003635200>");
+			return;
+		case (`${config.prefix}chocked`):
+			message.delete();
+			message.channel.send("<:surprised_carapuce:568777407046221824>");
+			return;
+		default:
+			redirectCommands(message);
 	}
-
-	if (message.content == `${config.prefix}restart`) {
-		process.exit();
-		return;
-	}
-
-	if (message.content === `${config.prefix}emote`) {
-		message.delete();
-		message.channel.send("<:carapuce:551198314687758357>");
-		return;
-	}
-
-	if (message.content === `${config.prefix}happy`) {
-		message.delete();
-		message.channel.send("<:happy_carapuce:553490319103098883>");
-		return;
-	}
-
-	if (message.content === `${config.prefix}sad`) {
-		message.delete();
-		message.channel.send("<:sad_carapuce:562773515745361920>");
-		return;
-	}
-
-	if (message.content === `${config.prefix}angry`) {
-		message.delete();
-		message.channel.send("<:angry_carapuce:568356340003635200>");
-		return;
-	}
-
-	if (message.content === `${config.prefix}chocked`) {
-		message.delete();
-		message.channel.send("<:surprised_carapuce:568777407046221824>");
-		return;
-	}
-
-	redirectCommands(message);
 }
 
 function printOwnerHelp(message) {
