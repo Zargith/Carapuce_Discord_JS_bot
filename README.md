@@ -1,4 +1,4 @@
-# myBotDiscord
+# Carapuce JS Bot Discord
 
 Need to have a config.json file like the following:
 
