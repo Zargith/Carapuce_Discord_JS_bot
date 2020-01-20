@@ -78,59 +78,72 @@ function printHelp(message)
 			description: "__**Les différentes commandes**__",
 			fields: [
 				{
-					name: `${config.prefix}help`,
-					value: "Pour afficher cette aide."
+					name: `__${config.prefix}help__`,
+					value: "Pour afficher cette aide.",
+					inline: true
 				},
 				{
-					name: `${config.prefix}bonjour`,
-					value: "Carapuce te dit bonjour."
+					name: `__${config.prefix}bonjour__`,
+					value: "Carapuce te dit bonjour.",
+					inline: true
 				},
 				{
-					name: `${config.prefix}ping`,
-					value: "Pong !"
+					name: `__${config.prefix}ping__`,
+					value: "Pong !",
+					inline: true
 				},
 				{
-					name: `${config.prefix}puce`,
-					value: "Carapuce !"
+					name: `__${config.prefix}puce__`,
+					value: "Carapuce !",
+					inline: true
 				},
 				{
-					name: `${config.prefix}love`,
-					value: "Envoie de l\'amour."
+					name: `__${config.prefix}love__`,
+					value: "Envoie de l\'amour.",
+					inline: true
 				},
 				{
-					name: `${config.prefix}listemojis`,
-					value: "Envoie la liste des emojis du serveur."
+					name: `__${config.prefix}listemojis__`,
+					value: "Envoie la liste des emojis du serveur.",
+					inline: true
 				},
 				{
-					name: `${config.prefix}play [*lien ou ID de vidéo youtube*]`,
+					name: `__${config.prefix}quiz__`,
+					value: "Permet de jouer à un quiz !",
+					inline: true
+				},
+				{
+					name: `__${config.prefix}vatar__`,
+					value: "Renvoie l\'URL vers votre Avatar.",
+					inline: true
+				},
+				{
+					name: `__${config.prefix}flip [pile ou face]__`,
+					value: "Permet de jouer à pile ou face.",
+					inline: true
+				},
+				{
+					name: `__${config.prefix}play [*lien ou ID de vidéo youtube*]__`,
 					value: "Joue la vidéo du lien (ou ID) Youtube fourni en paramètre."
 				},
 				{
-					name: `${config.prefix}pin`,
+					name: `__${config.prefix}pin__`,
 					value: "Epingle le message qui commence par cette commande"
 				},
 				{
-					name: `${config.prefix}quiz`,
-					value: "Permet de jouer à un quiz!"
-				},
-				{
-					name: `${config.prefix}vatar`,
-					value: "Renvoie l\'URL vers votre Avatar."
-				},
-				{
-					name: `${config.prefix}flip [pile ou face]`,
-					value: "Permet de jouer à pile ou face."
-				},
-				{
-					name: `${config.prefix}shifumi [pierre (ou p) ou feuille (ou f) ou ciseaux (ou c)]`,
+					name: `__${config.prefix}shifumi [pierre (ou p) ou feuille (ou f) ou ciseaux (ou c)]__`,
 					value: "Permet de jouer à shifumi (ou pierre feuille ciseaux selon comment tu appelles ce jeu)."
 				},
 				{
-					name: `${config.prefix}DansLaWhiteList`,
+					name: `__${config.prefix}poll [question; réponse 1; réponse 2; ...]__`,
+					value: "Permet de créer un sondage de 2 à 11 propositions."
+				},
+				{
+					name: `__${config.prefix}DansLaWhiteList__`,
 					value: "Permet de savoir si vous êtes dans la white list."
 				},
 				{
-					name: `${config.prefix}invite`,
+					name: `__${config.prefix}invite__`,
 					value: "Permet d'obtenir un lien d'invitation du bot, si vous voulez l'inviter sur votre serveur."
 				}
 			],
@@ -289,7 +302,32 @@ function flipCoin(message) {
 		message.channel.send("Oh non tu as perdu... <:sad_carapuce:562773515745361920>");
 }
 
-let bannedWords = ["fuck", "pute", "fils de pute", "bite", "ta race", "connard", "conard", "connasse", "conasse", "conase", "conace", "connace", "salope", "enculé"];
+function myPoll(message) {
+	let args = message.content.split(";");
+
+	if (args.length < 3 || args.length > 12) {
+		message.channel.send("Il me faut entre 3 et 12 arguments séparés par des points-virgule\nC'est à dire : *question; arg 1; arg 2; ...* <:sad_carapuce:562773515745361920>");
+		return;
+	}
+	const len = config.prefix.length + 5;
+	args[0] = args[0].substring(len);
+	const emotes = ["0⃣", "1⃣", "2⃣", "3⃣", "4⃣", "5⃣", "6⃣", "7⃣", "8⃣", "9⃣", "🔟"];
+	let poll = new Discord.RichEmbed()
+		.setColor(3447003)
+		.setTitle("CaraPoll")
+		.setDescription(`${args[0]}`);
+	args.splice(0, 1);
+	const startAt = ((args.length >= 10) ? 0 : 1);
+	for (let i = startAt; i < args.length + startAt; i++)
+		poll.addField(`__**Option ${emotes[i]} :**__`, args[i - startAt], true);
+	message.channel.send(poll)
+		.then(async m => {
+			for (let i = startAt; i < args.length + startAt; i++)
+				await m.react(emotes[i]);
+		});
+}
+
+const bannedWords = ["fuck", "pute", "fils de pute", "bite", "ta race", "connard", "conard", "connasse", "conasse", "conase", "conace", "connace", "salope", "enculé"];
 
 function redirectCommands(message) {
 	if (message.content.startsWith(config.prefix+"play"))
@@ -349,6 +387,9 @@ function redirectCommands(message) {
 
 	if (message.content.startsWith(`${config.prefix}shifumi`))
 		shufumi(message);
+
+	if (message.content.startsWith(`${config.prefix}poll`))
+		myPoll(message);
 
 	if (message.content.includes("stan"))
 		message.channel.send("J\'aime embêter <@127132143842361345>");
