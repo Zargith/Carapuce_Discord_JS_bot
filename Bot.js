@@ -7,7 +7,9 @@ const Canvas = require('canvas');
 //src
 const caraquiz = require("./src/CaraQuiz.js");
 const myPoll = require("./src/poll.js");
-const help = require("./src/help.js")
+const help = require("./src/help.js");
+const shifumi = require("./src/shifumi.js");
+const flipCoin = require("./src/flipCoin.js");
 
 bot.on("ready", function () {
 	console.log("Log in as " + bot.user.tag + "!");
@@ -144,86 +146,6 @@ function DJCarapuce(message)
 		message.reply("Tu dois d'abord rejoindre un salon vocal!");
 }
 
-function isInArray(elem, arr) {
-	for (let i = 0; i < arr.length; i++)
-		if (arr[i] === elem)
-			return (true);
-	return (false);
-}
-
-function shufumi(message) {
-	let arg = message.content.split(" ");
-	if (arg.length !== 2) {
-		message.channel.send("Dis moi juste pierre, feuille ou ciseaux, je n'ai pas besoin d'autre chose ici <:carapuce:551198314687758357>");
-		return;
-	}
-	if (!isInArray(arg[1], ["pierre", "p", "feuille", "f", "ciseaux", "c"])) {
-		message.channel.send("Dis moi ce que tu veux jouer quand même! <:angry_carapuce:568356340003635200>");
-		return;
-	}
-
-	let pChoice = 0;
-
-	switch (arg[1][0]) {
-		case ("p"):
-			pChoice = 1;
-			break;
-		case ("f"):
-			pChoice = 2;
-			break;
-		case ("c"):
-			pChoice = 3;
-			break;
-		default:
-			message.channel.send("Il y a eu une erreur");
-			return;
-	}
-
-	let flip = Math.floor(Math.random() * 3 + 1);
-
-	switch (flip) {
-		case 1:
-			message.channel.send({ embed: { color: 3447003, description: "Pierre!" } });
-			break;
-		case 2:
-			message.channel.send({ embed: { color: 3447003, description: "Feuille!" } });
-			break;
-		case 3:
-			message.channel.send({ embed: { color: 3447003, description: "Ciseaux!" } });
-			break;
-	}
-
-	if ((flip === 1 && pChoice === 2) || (flip === 2 && pChoice === 3) || (flip === 3 && pChoice === 1))
-		message.channel.send("Bien joué, tu as été meilleur(e) ! <:happy_carapuce:553490319103098883>");
-	else
-		message.channel.send("Oh non tu n'as pas été meilleur(e)... <:sad_carapuce:562773515745361920>");
-}
-
-function flipCoin(message) {
-	let arg = message.content.split(" ");
-
-	if (arg.length !== 2) {
-		message.channel.send("Dis moi juste pile ou face, je n'ai pas besoin d'autre chose ici <:carapuce:551198314687758357>");
-		return;
-	}
-	if (!isInArray(arg[1], ["pile", "face"])) {
-		message.channel.send("Dis moi pile ou face quand même! <:angry_carapuce:568356340003635200>");
-		return;
-	}
-
-	let flip = Math.floor(Math.random() * 2 + 1);
-
-	if (flip === 1)
-		message.channel.send({ embed: { color: 3447003, description: "C'est tombé sur Pile!" } });
-	else
-		message.channel.send({ embed: { color: 3447003, description: "C'est tombé sur Face!" } });
-
-	if ((flip === 1 && arg[1] === "pile") || (flip === 2 && arg[1] === "face"))
-		message.channel.send("Super tu as gagné!!! <:happy_carapuce:553490319103098883>");
-	else
-		message.channel.send("Oh non tu as perdu... <:sad_carapuce:562773515745361920>");
-}
-
 const bannedWords = ["fuck", "pute", "fils de pute", "bite", "ta race", "connard", "conard", "connasse", "conasse", "conase", "conace", "connace", "salope", "enculé"];
 
 function redirectCommands(message) {
@@ -283,7 +205,7 @@ function redirectCommands(message) {
 		flipCoin(message);
 
 	if (message.content.startsWith(`${config.prefix}shifumi`))
-		shufumi(message);
+		shifumi(message);
 
 	if (message.content.startsWith(`${config.prefix}poll`))
 		myPoll(message);

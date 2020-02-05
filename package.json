@@ -24,14 +24,14 @@
     "libsodium-wrappers": "^0.7.6",
     "lodash": "^4.17.15",
     "nan": "^2.14.0",
-    "node-gyp": "^6.0.1",
+    "node-gyp": "^6.1.0",
     "node-opus": "^0.3.3",
     "node-pre-gyp": "^0.11.0",
     "opusscript": "0.0.6",
-    "superagent": "^5.1.2",
+    "superagent": "^5.2.1",
     "tar": "^4.4.13",
     "uws": "^9.148.0",
-    "youtube-audio-stream": "^0.3.2",
+    "youtube-audio-stream": "^0.3.5",
     "ytdl-core": "^0.29.7"
   },
   "devDependencies": {
