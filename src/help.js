@@ -52,8 +52,16 @@ module.exports.printHelp = function(message) {
 					inline: true
 				},
 				{
-					name: `__${config.prefix}play [*lien ou ID de vidéo youtube*]__`,
-					value: "Joue la vidéo du lien (ou ID) Youtube fourni en paramètre."
+					name: `__${config.prefix}play [*URL ou ID de vidéo youtube*]__`,
+					value: "Joue la musique ou ajoute à la liste d'attente l'URL (ou ID) Youtube fourni en paramètre."
+				},
+				{
+					name: `__${config.prefix}skip__`,
+					value: "Permet de passer une musique et passer à la suivante de la liste."
+				},
+				{
+					name: `__${config.prefix}stop__`,
+					value: "Permet d'arreter de jouer de la musique (même s'il reste des musiques dans la liste)."
 				},
 				{
 					name: `__${config.prefix}pin__`,

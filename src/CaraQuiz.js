@@ -1,7 +1,7 @@
 const config = require("../config.json");
 
 module.exports = {
-	inQuizz : false,
+	inQuiz : false,
 	score : 0,
 	numQuestion : 1,
 	waitResponse : false,
@@ -10,27 +10,27 @@ module.exports = {
 
 		try {
 			message.content = message.content.toLowerCase();
-			if (message.content === "stop") {
-				message.channel.send("Fin du cara-quiz !\nFélicitations, ton score est de " + this.score + "/" + (this.numQuestion - 1) + "! <:carapuce:551198314687758357>");
+			if (message.content === `${config.prefix}Qstop`) {
+				message.channel.send(`Fin du cara-quiz !\nFélicitations, ton score est de ${this.score}/${(this.numQuestion - 1)} ! <:carapuce:551198314687758357>`);
 				this.score = 0;
 				this.numQuestion = 1;
-				this.inQuizz = false;
+				this.inQuiz = false;
 				return;
-			} else if (message.content === config.prefix+"quiz" && this.inQuizz === true) {
+			} else if (message.content === `${config.prefix}quiz` && this.inQuiz === true) {
 
-				message.channel.send("Un quizz est déjà en cours <:carapuce:551198314687758357>\nMais si tu veux arrêter celui-ci dis *stop*")
-				return
+				message.channel.send(`Un quizz est déjà en cours <:carapuce:551198314687758357>\nMais si tu veux arrêter celui-ci dis *${config.prefix}Qstop*`)
+				return;
 			}
 
 			switch (this.numQuestion) {
 				case 1:
 					if (!this.waitResponse) {
-						this.inQuizz = true;
+						this.inQuiz = true;
 						message.channel.send("Nous allons jouer à un cara-quiz!\nPour répondre il te suffira de donner la lettre correspondante à la réponse que tu aura choisi <:carapuce:551198314687758357>");
 						message.channel.send({
 							embed: {
 								color: 3447003,
-								description: "__**Question n°1:**__",
+								description: "__**Question n°1 :**__",
 								fields: [{
 									name: "Zargith m'a créé",
 									value: "A: Vrai\tB: Faux"
@@ -56,11 +56,11 @@ module.exports = {
 					break;
 				case 2:
 					if (!this.waitResponse) {
-						this.inQuizz = true;
+						this.inQuiz = true;
 						message.channel.send({
 							embed: {
 								color: 3447003,
-								description: "__**Question n°2:**__",
+								description: "__**Question n°2 :**__",
 								fields: [{
 									name: "Quel est le meilleur starteur parmis ces choix ?",
 									value: "A: Bulbizarre\tB: Carapuce\tC: Salamèche"
@@ -86,11 +86,11 @@ module.exports = {
 					break;
 				case 3:
 					if (!this.waitResponse) {
-						this.inQuizz = true;
+						this.inQuiz = true;
 						message.channel.send({
 							embed: {
 								color: 3447003,
-								description: "__**Question n°3:**__",
+								description: "__**Question n°3 :**__",
 								fields: [{
 									name: "Qu'est-ce qui est jaune et qui attend ?",
 									value: "A: Jonathan\tB: Salamèche vu par un daltonien\tC: Pikachu"
@@ -115,15 +115,15 @@ module.exports = {
 					}
 					break;
 				default:
-					message.channel.send("Fin du cara-quiz!\nTu as fais un score de " + this.score + "/" + (this.numQuestion - 1) + " <:happy_carapuce:553490319103098883>");
+					message.channel.send(`Fin du cara-quiz !\nTu as fais un score de ${this.score}/${(this.numQuestion - 1)} <:happy_carapuce:553490319103098883>`);
 					this.score = 0;
 					this.numQuestion = 1;
 					this.waitResponse = false;
-					this.inQuizz = false;
+					this.inQuiz = false;
 					break;
 			}
 		} catch (exception) {
-			this.inQuizz = false;
+			this.inQuiz = false;
 			this.score = 0;
 			this.numQuestion = 1;
 			this.waitResponse = false;
