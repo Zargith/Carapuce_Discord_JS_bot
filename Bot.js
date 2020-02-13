@@ -50,10 +50,6 @@ function redirectCommands(message) {
 			return;
 		}
 	});
-
-	if (isInArrayStartsWith(message.content, [`${config.prefix}quiz`, `${config.prefix}Qstop`]) || caraquiz.inQuiz === true || caraquiz.waitResponse === true)
-		caraquiz.CaraQuiz(message);
-
 	switch (message.content) {
 		case (`${config.prefix}help`):
 			help.printHelp(message);
@@ -92,25 +88,22 @@ function redirectCommands(message) {
 			break;
 	}
 
-	if (message.content.startsWith(`${config.prefix}flip`))
+	if (isInArrayStartsWith(message.content, [`${config.prefix}quiz`, `${config.prefix}Qstop`]) || caraquiz.inQuiz === true || caraquiz.waitResponse === true) {
+		message.channel.send("Cette fonctionnalité est probablement cassée pour l'instant.");
+		caraquiz.CaraQuiz(message);
+	} else if (message.content.startsWith(`${config.prefix}flip`))
 		flipCoin(message);
-
-	if (message.content.startsWith(`${config.prefix}shifumi`))
+	else if (message.content.startsWith(`${config.prefix}shifumi`))
 		shifumi(message);
-
-	if (message.content.startsWith(`${config.prefix}poll`))
+	else if (message.content.startsWith(`${config.prefix}poll`))
 		myPoll(message);
-
-	if (message.content.includes("stan"))
+	else if (message.content.includes("stan"))
 		message.channel.send("J\'aime embêter <@127132143842361345>");
-
-	if (message.content.includes("ta maman") || message.content.includes("ta mère"))
+	else if (message.content.includes("ta maman") || message.content.includes("ta mère"))
 		message.reply(" ON AVAIT DIT PAS LES MAMANS!!! <:angry_carapuce:568356340003635200>");
-
-	if (message.content.startsWith(`${config.prefix}pin`))
+	else if (message.content.startsWith(`${config.prefix}pin`))
 		message.pin();
-
-	if (message.content.includes("carapuce") || (message.content.includes("<@550786957245153290>"))) {
+	else if (message.content.includes("carapuce") || (message.content.includes("<@550786957245153290>"))) {
 		const emojiCarapuce = bot.emojis.find(emoji => emoji.name === "carapuce");
 		message.react(emojiCarapuce);
 	}
