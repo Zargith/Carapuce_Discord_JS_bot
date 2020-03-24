@@ -106,7 +106,8 @@ async function execute(message, serverQueue) {
 		const args = message.content.split(' ');
 
 		const voiceChannel = message.member.voiceChannel;
-		if (!voiceChannel) return message.channel.send("Tu dois d\'abord rejoindre un salon vocal !");
+		if (!voiceChannel)
+			return message.channel.send("Tu dois d\'abord rejoindre un salon vocal !");
 		const permissions = voiceChannel.permissionsFor(message.client.user);
 		if (!permissions.has("CONNECT") || !permissions.has("SPEAK")) {
 			return message.channel.send("J'ai besoins des droits pour rejoindre et pour parler dans le salon vocal !");

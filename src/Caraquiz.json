@@ -1,0 +1,19 @@
+{
+	"Quiz": [
+		{
+			"Question" : "Zargith m'a créé",
+			"Responces" : "A: Vrai\tB: Faux",
+			"Answer" : "a"
+		},
+		{
+			"Question" : "Quel est le meilleur starter parmis ces choix ?",
+			"Responces" : "A: Bulbizarre\tB: Carapuce\tC: Salamèche",
+			"Answer" : "b"
+		},
+		{
+			"Question" : "Qu'est-ce qui est jaune et qui attend ?",
+			"Responces" : "A: Jonathan\tB: Salamèche vu par un daltonien\tC: Pikachu",
+			"Answer" : "a"
+		}
+	]
+}

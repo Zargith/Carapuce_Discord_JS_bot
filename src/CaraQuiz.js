@@ -123,7 +123,7 @@ module.exports = {
 					break;
 			}
 		} catch (exception) {
-			this.inQuiz = false;
+			this.inQui = false;
 			this.score = 0;
 			this.numQuestion = 1;
 			this.waitResponse = false;
@@ -131,3 +131,40 @@ module.exports = {
 		}
 	}
 }
+
+
+const queue = new Map();
+const quiz = require("./Caraquiz.json");
+
+module.exports.tmp = async function(message) {
+	const serverQueue = queue.get(message.author.id);
+
+	if (message.content.startsWith(`${config.prefix}quiz`))
+		displayQuestion(message, serverQueue);
+
+}
+
+function displayQuestion(message, serverQueue) {
+	if (!serverQueue) {
+		const queueContruct = {
+			textChannel: message.channel,
+			numQuestion: 1,
+			points: 0
+		};
+		queue.set(message.author.id, queueContruct);
+	}
+}
+
+/*
+<message>.channel.send('Please enter more input.').then(() => {
+	const filter = m => <message>.author.id === m.author.id;
+
+	<message>.channel.awaitMessages(filter, { time: 60000, maxMatches: 1, errors: ['time'] })
+		.then(messages => {
+			<message>.channel.send(`You've entered: ${messages.first().content}`);
+		})
+		.catch(() => {
+			<message>.channel.send('You did not enter any input!');
+		});
+});
+*/
