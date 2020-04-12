@@ -11,11 +11,13 @@ const shifumi = require("./src/shifumi.js");
 const flipCoin = require("./src/flipCoin.js");
 const guildMemberAdd = require("./src/guildAddMember.js");
 const DJCarapuce = require("./src/DJCarapuce.js");
-const isInArrayStartsWith = require("./src/isInArrayStartsWith");
+const isInArrayStartsWith = require("./src/isInArrayStartsWith.js");
+const emojis = require("./src/emojiCharacters.js");
+const LasVegas = require("./src/LasVegas");
 
 bot.on("ready", function () {
-	console.log("Log in as " + bot.user.tag + "!");
-	console.log("Servers:");
+	console.log(`Log in as ${bot.user.tag} !`);
+	console.log("Servers :");
 	bot.guilds.forEach((guild) => {
 		console.log(" - " + guild.name);
 	});
@@ -27,7 +29,7 @@ bot.on("ready", function () {
 		},
 		status: "online"
 	});
-	bot.users.get(config.ownerID).send({ embed: { color: 65330, description: "Started successfully" } });
+//	bot.users.get(config.ownerID).send({ embed: { color: 65330, description: "Started successfully" } });
 });
 
 bot.on("error", function (error) {
@@ -65,13 +67,13 @@ function redirectCommands(message) {
 			break;
 		case (`${config.prefix}bonjour`):
 			message.react("553490319103098883");
-			message.reply("Carabonjour à toi! <:happy_carapuce:553490319103098883>");
+			message.reply("Carabonjour à toi ! <:happy_carapuce:553490319103098883>");
 			break;
 		case (`${config.prefix}puce`):
 			message.channel.send("Cara, carapuce !\nhttps://img.fireden.net/v/image/1527/08/1527086908147.gif");
 			break;
 		case (`${config.prefix}love`):
-			message.channel.send("dab dab, I dab you some dabing love! :heart:");
+			message.channel.send("dab dab, I dab you some dabing love ! :heart:");
 			break;
 		case (`${config.prefix}listemojis`):
 			const emojiList = message.guild.emojis.map((e) => e + " => :" + e.name + ":");
@@ -86,7 +88,10 @@ function redirectCommands(message) {
 		case (`${config.prefix}invite`):
 			message.channel.send("https://discordapp.com/api/oauth2/authorize?client_id=550786957245153290&permissions=0&scope=bot");
 			break;
-	}
+		case (`${config.prefix}LasVegas`):
+			LasVegas(message);
+			break;
+		}
 
 	if (isInArrayStartsWith(message.content, [`${config.prefix}quiz`, `${config.prefix}Qstop`]) || caraquiz.inQuiz === true || caraquiz.waitResponse === true) {
 		message.channel.send("Cette fonctionnalité est probablement cassée pour l'instant.");
@@ -100,7 +105,7 @@ function redirectCommands(message) {
 	else if (message.content.includes("stan"))
 		message.channel.send("J\'aime embêter <@127132143842361345>");
 	else if (message.content.includes("ta maman") || message.content.includes("ta mère"))
-		message.reply(" ON AVAIT DIT PAS LES MAMANS!!! <:angry_carapuce:568356340003635200>");
+		message.reply(" ON AVAIT DIT PAS LES MAMANS !!! <:angry_carapuce:568356340003635200>");
 	else if (message.content.startsWith(`${config.prefix}pin`))
 		message.pin();
 	else if (message.content.includes("carapuce") || (message.content.includes("<@550786957245153290>"))) {
@@ -160,7 +165,7 @@ function ownerDMCommands(message) {
 				str += arg + " ";
 			});
 			bot.users.get(id).send(str);
-			message.channel.send("Message envoyé!");
+			message.channel.send("Message envoyé !");
 		}
 		if (message.author.id === config.ownerID || isInWhiteList(message.author.id))
 			ownerCommands(message);
@@ -237,7 +242,7 @@ bot.on("message", message => {
 	} catch (exception) {
 		message.channel.send({ embed: { color: 16711680, description: `__**ERREUR**__\nLa commande n\'a pas fonctionnée <:surprised_carapuce:568777407046221824>\n\n__L\'erreur suivante s\'est produite :__\n*${exception}*`}});
 		bot.users.get(config.ownerID).send({embed:{color: 16711680, description: `__**ERREUR**__\nL\'utilisateur ${message.author.username}, sur le serveur ${message.member.guild.name} a envoyé la commande :\n${message.content}\n\n__L\'erreur suivante s\'est produite :__\n*${exception.stack}*`}});
-		console.log(`ERREUR\nLors de l\'arrivée de l\'utilisateur ${message.author.username} sur le serveur ${message.member.guild.name}\nL\'erreur suivante s\'est produite : \n${exception.stack}`);
+		console.log(`ERREUR\nL\'utilisateur ${message.author.username}, sur le serveur ${message.member.guild.name} a envoyé la commande :\n${message.content}\n\nL\'erreur suivante s\'est produite :\n${exception.stack}`);
 	}
 });
 

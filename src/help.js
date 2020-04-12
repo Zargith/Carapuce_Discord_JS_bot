@@ -76,6 +76,10 @@ module.exports.printHelp = function(message) {
 					value: "Permet de créer un sondage de 2 à 11 propositions."
 				},
 				{
+					name: `__${config.prefix}LasVegas__`,
+					value: "Permet de vous marier à n'importe qui sur le serveur grâce aux divines lois de Las Vegas !."
+				},
+				{
 					name: `__${config.prefix}DansLaWhiteList__`,
 					value: "Permet de savoir si vous êtes dans la white list."
 				},
