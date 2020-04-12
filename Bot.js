@@ -3,7 +3,7 @@ const bot = new Discord.Client();
 const config = require("./config.json");
 
 
-//src
+//src directory
 const caraquiz = require("./src/CaraQuiz.js");
 const myPoll = require("./src/poll.js");
 const help = require("./src/help.js");

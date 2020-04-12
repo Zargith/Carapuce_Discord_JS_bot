@@ -1,4 +1,9 @@
 module.exports = function (message) {
+	if (message.guild === null) {
+		message.reply("Tu ne peux pas utiliser cette commande en privé.");
+		return;
+	}
+
 	let members = message.channel.guild.members;
 	if (!members.delete(`${message.author.id}`))
 		throw(`Impossible de supprimer l'élément ${message.author.id} car l'element est introuvable dans la Map() de la commande Las Vegas`);
