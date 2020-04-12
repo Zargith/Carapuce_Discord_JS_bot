@@ -77,7 +77,7 @@ module.exports.printHelp = function(message) {
 				},
 				{
 					name: `__${config.prefix}LasVegas__`,
-					value: "Permet de vous marier à n'importe qui sur le serveur grâce aux divines lois de Las Vegas !."
+					value: "Permet de vous marier à n'importe qui sur le serveur (ou la personne que vous souhaitez en la mentionnant) grâce aux divines lois de Las Vegas !."
 				},
 				{
 					name: `__${config.prefix}DansLaWhiteList__`,
