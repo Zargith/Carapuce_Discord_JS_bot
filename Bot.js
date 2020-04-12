@@ -88,9 +88,6 @@ function redirectCommands(message) {
 		case (`${config.prefix}invite`):
 			message.channel.send("https://discordapp.com/api/oauth2/authorize?client_id=550786957245153290&permissions=0&scope=bot");
 			break;
-		case (`${config.prefix}LasVegas`):
-			LasVegas(message);
-			break;
 		}
 
 	if (isInArrayStartsWith(message.content, [`${config.prefix}quiz`, `${config.prefix}Qstop`]) || caraquiz.inQuiz === true || caraquiz.waitResponse === true) {
@@ -102,6 +99,8 @@ function redirectCommands(message) {
 		shifumi(message);
 	else if (message.content.startsWith(`${config.prefix}poll`))
 		myPoll(message);
+	else if (message.content.startsWith(`${config.prefix}LasVegas`))
+		LasVegas(message);
 	else if (message.content.includes("stan"))
 		message.channel.send("J\'aime embêter <@127132143842361345>");
 	else if (message.content.includes("ta maman") || message.content.includes("ta mère"))
