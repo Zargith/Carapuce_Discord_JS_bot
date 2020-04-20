@@ -13,7 +13,7 @@ module.exports = function (message) {
 			return;
 		}
 	} else if (splittedMessage.length === 1) {
-		let members = message.channel.guild.members;
+		let members = message.channel.guild.members.cache;
 		if (!members.delete(`${message.author.id}`))
 			throw(`Impossible de supprimer l'élément ${message.author.id} car l'element est introuvable dans la Map() de la commande Las Vegas`);
 		let pos = Math.floor(Math.random() * members.size + 1);

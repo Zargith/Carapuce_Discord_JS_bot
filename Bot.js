@@ -18,7 +18,7 @@ const LasVegas = require("./src/LasVegas");
 bot.on("ready", function () {
 	console.log(`Log in as ${bot.user.tag} !`);
 	console.log("Servers :");
-	bot.guilds.forEach((guild) => {
+	bot.guilds.cache.array().forEach((guild) => {
 		console.log(" - " + guild.name);
 	});
 	console.log("\n");
@@ -34,7 +34,7 @@ bot.on("ready", function () {
 
 bot.on("error", function (error) {
 	console.log(`Error name : ${error.name}\nError message : ${error.message}`);
-	bot.users.get(config.ownerID).send({ embed: { color: 16711680, description: `__**ERREUR**__\n__Error name :__ *${error.name}*\n__Error message :__*${error.message}*`}});
+bot.users.cache.get(config.ownerID).send({ embed: { color: 16711680, description: `__**ERREUR**__\n__Error name :__ *${error.name}*\n__Error message :__*${error.message}*`}});
 });
 
 bot.on("guildMemberAdd", member => {guildMemberAdd(member)});
@@ -76,7 +76,11 @@ function redirectCommands(message) {
 			message.channel.send("dab dab, I dab you some dabing love ! :heart:");
 			break;
 		case (`${config.prefix}listemojis`):
-			const emojiList = message.guild.emojis.map((e) => e + " => :" + e.name + ":");
+			if (message.guild === null) {
+				message.reply("Tu ne peux pas utiliser cette commande en privé.");
+				return;
+			}
+			const emojiList = message.guild.emojis.cache.map((e) => `${e} => :${e.name}:`);
 			message.channel.send(emojiList);
 			break;
 		case (`${config.prefix}DansLaWhiteList`):
@@ -108,77 +112,75 @@ function redirectCommands(message) {
 	else if (message.content.startsWith(`${config.prefix}pin`))
 		message.pin();
 	else if (message.content.includes("carapuce") || (message.content.includes("<@550786957245153290>"))) {
-		const emojiCarapuce = bot.emojis.find(emoji => emoji.name === "carapuce");
+		const emojiCarapuce = bot.emojis.cache.find(emoji => emoji.name === "carapuce");
 		message.react(emojiCarapuce);
 	}
 }
 
 function ownerDMCommands(message) {
-	try {
-		if (message.content === `${config.prefix}listGuilds`) {
-			let str = "";
-			bot.guilds.forEach((guild) => {
-				str += (`- __Name :__ ${guild.name}\n\t\t__ID :__ ${guild.id}\n\n`);
-			});
-			message.channel.send(str);
-		}
-
-		if (message.content.startsWith(`${config.prefix}channelsOfGuild`)) {
-			let args = message.content.split(" ");
-			let listGuild = bot.guilds.array();
-			let guild = 0;
-			let str = "";
-			for (let i = 0; bot.guilds.array().length; i++)
-				if (listGuild[i].id == args[1]) {
-					str += `__Serveur :__ ${listGuild[i].name},\t__ID :__ ${listGuild[i].id}\n\n`;
-					guild = listGuild[i];
-					break;
-				}
-			if (guild === 0 || guild === null) {
-				message.channel.send("**Error**\nID not found or guild is null.");
-				return;
-			}
-			guild.channels.array().forEach((chan) => {
-				str += (`\t- __Name :__ ${chan.name }\n\t\t__Type :__ ${chan.type}\n\t\t__ID :__ ${chan.id}\n\n`);
-			});
-			message.channel.send(str);
-		}
-		if (message.content.startsWith(`${config.prefix}messageToChannel`)) {
-			let args = message.content.split(" ");
-			let str = "";
-			args.shift();
-			let id = args[0];
-			args.shift();
-			args.forEach((arg) => {
-				str += arg + " ";
-			});
-			bot.channels.get(id).send(str);
-		}
-		if (message.content.startsWith(`${config.prefix}sendMP`)) {
-			let args = message.content.split(" ");
-			let str = "";
-			args.shift();
-			let id = args[0];
-			args.shift();
-			args.forEach((arg) => {
-				str += arg + " ";
-			});
-			bot.users.get(id).send(str);
-			message.channel.send("Message envoyé !");
-		}
-		if (message.author.id === config.ownerID || isInWhiteList(message.author.id))
-			ownerCommands(message);
-		else
-			redirectCommands(message);
-	} catch (exception) {
-		bot.users.get(config.ownerID).send({ embed: { color: 16711680, description: `__**ERREUR**__\nLa commande n\'a pas fonctionnée pour cette raison :\n\n*${exception.stack}*` } });
-		console.log(`ERREUR\nLa commande n\'a pas fonctionnée pour cette raison :\n\n${exception.stack}`);
+	if (message.content === `${config.prefix}listGuilds`) {
+		let str = "";
+		bot.guilds.cache.array().forEach((guild) => {
+			str += (`- __Name :__ ${guild.name}\n\t\t__ID :__ ${guild.id}\n\n`);
+		});
+		message.channel.send(str);
 	}
+	if (message.content.startsWith(`${config.prefix}channelsOfGuild`)) {
+		let args = message.content.split(" ");
+		let listGuild = bot.guilds.cache.array();
+		let guild = 0;
+		let str = "";
+		for (let i = 0; bot.guilds.cache.array().length; i++)
+			if (listGuild[i].id == args[1]) {
+				str += `__Serveur :__ ${listGuild[i].name},\t__ID :__ ${listGuild[i].id}\n\n`;
+				guild = listGuild[i];
+				break;
+			}
+		if (guild === 0 || guild === null) {
+			message.channel.send("**Error**\nID not found or guild is null.");
+			return;
+		}
+		guild.channels.cache.array().forEach((chan) => {
+			str += (`\t- __Name :__ ${chan.name }\n\t\t__Type :__ ${chan.type}\n\t\t__ID :__ ${chan.id}\n\n`);
+		});
+		message.channel.send(str);
+	}
+	if (message.content.startsWith(`${config.prefix}messageToChannel`)) {
+		let args = message.content.split(" ");
+		let str = "";
+		args.shift();
+		let id = args[0];
+		args.shift();
+		args.forEach((arg) => {
+			str += arg + " ";
+		});
+		bot.channels.cache.get(id).send(str);
+	}
+	if (message.content.startsWith(`${config.prefix}sendMP`)) {
+		let args = message.content.split(" ");
+		let str = "";
+		args.shift();
+		let id = args[0];
+		args.shift();
+		args.forEach((arg) => {
+			str += arg + " ";
+		});
+		bot.users.cache.get(id).send(str);
+		message.channel.send("Message envoyé !");
+	}
+	if (message.author.id === config.ownerID || isInWhiteList(message.author.id))
+		ownerCommands(message);
+	else
+		redirectCommands(message);
 }
 
 function ownerCommands(message) {
 	switch (message.content) {
 		case (`${config.prefix}join`):
+			if (message.guild === null) {
+				message.reply("Tu ne peux pas utiliser cette commande en privé.");
+				return;
+			}
 			bot.emit('guildMemberAdd', message.member);
 			return;
 		case (`${config.prefix}ownerHelp`):
@@ -188,23 +190,23 @@ function ownerCommands(message) {
 			process.exit();
 		case (`${config.prefix}emote`):
 			message.delete();
-			message.channel.send("<:carapuce:551198314687758357>");
+			message.channel.send(emojis.carapuce);
 			return;
 		case (`${config.prefix}happy`):
 			message.delete();
-			message.channel.send("<:happy_carapuce:553490319103098883>");
+			message.channel.send(emojis.happy_carapuce);
 			return;
 		case (`${config.prefix}sad`):
 			message.delete();
-			message.channel.send("<:sad_carapuce:562773515745361920>");
+			message.channel.send(emojis.sad_carapuce);
 			return;
 		case (`${config.prefix}angry`):
 			message.delete();
-			message.channel.send("<:angry_carapuce:568356340003635200>");
+			message.channel.send(emojis.angry_carapuce);
 			return;
-		case (`${config.prefix}chocked`):
+		case (`${config.prefix}surprised`):
 			message.delete();
-			message.channel.send("<:surprised_carapuce:568777407046221824>");
+			message.channel.send(emojis.surprised_carapuce);
 			return;
 		default:
 			redirectCommands(message);
@@ -239,10 +241,27 @@ bot.on("message", message => {
 		else
 			redirectCommands(message);
 	} catch (exception) {
-		message.channel.send({ embed: { color: 16711680, description: `__**ERREUR**__\nLa commande n\'a pas fonctionnée <:surprised_carapuce:568777407046221824>\n\n__L\'erreur suivante s\'est produite :__\n*${exception}*`}});
-		bot.users.get(config.ownerID).send({embed:{color: 16711680, description: `__**ERREUR**__\nL\'utilisateur ${message.author.username}, sur le serveur ${message.member.guild.name} a envoyé la commande :\n${message.content}\n\n__L\'erreur suivante s\'est produite :__\n*${exception.stack}*`}});
-		console.log(`ERREUR\nL\'utilisateur ${message.author.username}, sur le serveur ${message.member.guild.name} a envoyé la commande :\n${message.content}\n\nL\'erreur suivante s\'est produite :\n${exception.stack}`);
+		sendError(message, exception);
 	}
 });
+
+function sendError(message, exception) {
+	consoleErrorMessage(message, exception);
+	channelErrorMessage(message, exception);
+	ownerErrorMessage(message, exception);
+}
+
+function consoleErrorMessage(message, exception) {
+	console.log(`ERREUR\nL\'utilisateur ${message.author.username}${ message.guild === null ? "" : `, sur le serveur ${message.member.guild.name}`} a envoyé la commande :\n${message.content}\n\nL\'erreur suivante s\'est produite :\n${exception.stack}`);
+}
+
+function channelErrorMessage(message, exception) {
+	message.channel.send({ embed: { color: 16711680, description: `__**ERREUR**__\nLa commande n\'a pas fonctionnée <:surprised_carapuce:568777407046221824>\n\n__L\'erreur suivante s\'est produite :__\n*${exception}*`}});
+}
+
+function ownerErrorMessage(message, exception) {
+	const owner = bot.users.cache.get(config.ownerID);
+	owner.send({embed:{color: 16711680, description: `__**ERREUR**__\nL\'utilisateur ${message.author.username}${ message.guild === null ? "" : `, sur le serveur ${message.member.guild.name}`} a envoyé la commande :\n${message.content}\n\n__L\'erreur suivante s\'est produite :__\n*${exception.stack}*`}});
+}
 
 bot.login(config.token);

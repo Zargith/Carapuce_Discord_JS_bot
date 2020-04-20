@@ -14,6 +14,8 @@ const applyText = (canvas, text) => {
 };
 
 module.exports = async function (member) {
+	if (member === null)
+		return;
 	const channel = member.guild.systemChannel;
 	if (!channel)
 		return;

@@ -123,7 +123,7 @@ module.exports.printOwnerHelp = function(message) {
 					value: "Pour afficher l\'emote Carapuce en colère."
 				},
 				{
-					name: `__${config.prefix}chocked__`,
+					name: `__${config.prefix}surprised__`,
 					value: "Pour afficher l\'emote Carapuce choqué."
 				},
 				{
