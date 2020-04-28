@@ -52,8 +52,8 @@ module.exports.printHelp = function(message) {
 					inline: true
 				},
 				{
-					name: `__${config.prefix}play [*URL ou ID de vidéo youtube*]__`,
-					value: "Joue la musique ou ajoute à la liste d'attente l'URL (ou ID) Youtube fourni en paramètre."
+					name: `__${config.prefix}play__`,
+					value: "Joue la musique ou ajoute à la liste d'attente. Prend en paramètre une URL (ou ID) Youtube ou des mots clé et joue la première ."
 				},
 				{
 					name: `__${config.prefix}skip__`,

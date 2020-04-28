@@ -43,7 +43,7 @@ const bannedWords = ["fuck", "pute", "fils de pute", "bite", "ta race", "connard
 
 function redirectCommands(message) {
 	if (isInArrayStartsWith(message.content, [`${config.prefix}play`, `${config.prefix}skip`, `${config.prefix}stop`]))
-		DJCarapuce(message);
+		DJCarapuce(message, bot);
 
 	bannedWords.forEach(function (bannedWord) {
 		if (!message.channel.nsfw && message.content.toLowerCase().includes(bannedWord)) {
