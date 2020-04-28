@@ -34,7 +34,7 @@ bot.on("ready", function () {
 
 bot.on("error", function (error) {
 	console.log(`Error name : ${error.name}\nError message : ${error.message}`);
-bot.users.cache.get(config.ownerID).send({ embed: { color: 16711680, description: `__**ERREUR**__\n__Error name :__ *${error.name}*\n__Error message :__*${error.message}*`}});
+	bot.users.cache.get(config.ownerID).send({ embed: { color: 16711680, description: `__**ERREUR**__\n__Error name :__ *${error.name}*\n__Error message :__*${error.message}*`}});
 });
 
 bot.on("guildMemberAdd", member => {guildMemberAdd(member)});
@@ -111,10 +111,6 @@ function redirectCommands(message) {
 		message.reply(" ON AVAIT DIT PAS LES MAMANS !!! <:angry_carapuce:568356340003635200>");
 	else if (message.content.startsWith(`${config.prefix}pin`))
 		message.pin();
-	else if (message.content.includes("carapuce") || (message.content.includes("<@550786957245153290>"))) {
-		const emojiCarapuce = bot.emojis.cache.find(emoji => emoji.name === "carapuce");
-		message.react(emojiCarapuce);
-	}
 }
 
 function ownerDMCommands(message) {
@@ -225,6 +221,15 @@ function isInWhiteList(id) {
 
 bot.on("message", message => {
 	try {
+		if (message.content.includes("carapuce") || (message.content.includes("<@!550786957245153290>"))) {
+			const emojiCarapuce = bot.emojis.cache.find(emoji => emoji.name === "carapuce");
+//			const idEmojiCarapuce = bot.emojis.cache.find(emoji => {return (emoji.id === "551198314687758357" ? emoji : undefined)});
+			if (!emojiCarapuce/* || idEmojiCarapuce*/)
+				return;
+			message.react(emojiCarapuce);
+//			message.react(idEmojiCarapuce);
+		}
+
 		if (message.author.bot || !message.content.startsWith(config.prefix))
 			return;
 
