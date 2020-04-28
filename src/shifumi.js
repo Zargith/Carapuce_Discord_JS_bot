@@ -1,7 +1,7 @@
 const isInArray = require("./isInArray.js");
 
-module.exports = function (message) {
-	let arg = message.content.split(" ");
+module.exports = function(message) {
+	const arg = message.content.split(" ");
 	if (arg.length !== 2) {
 		message.channel.send("Dis moi juste pierre, feuille ou ciseaux, je n'ai pas besoin d'autre chose ici <:carapuce:551198314687758357>");
 		return;
@@ -28,17 +28,17 @@ module.exports = function (message) {
 			return;
 	}
 
-	let flip = Math.floor(Math.random() * 3 + 1);
+	const flip = Math.floor(Math.random() * 3 + 1);
 
 	switch (flip) {
 		case 1:
-			message.channel.send({ embed: { color: 3447003, description: "Pierre!" } });
+			message.channel.send({embed: {color: 3447003, description: "Pierre!"}});
 			break;
 		case 2:
-			message.channel.send({ embed: { color: 3447003, description: "Feuille!" } });
+			message.channel.send({embed: {color: 3447003, description: "Feuille!"}});
 			break;
 		case 3:
-			message.channel.send({ embed: { color: 3447003, description: "Ciseaux!" } });
+			message.channel.send({embed: {color: 3447003, description: "Ciseaux!"}});
 			break;
 	}
 

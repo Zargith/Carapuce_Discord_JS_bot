@@ -1,43 +1,30 @@
 {
-  "name": "bot",
+  "name": "carapuce_discord_js_bot",
   "version": "1.0.0",
-  "main": "stable/Bot_stableVersion.js",
+  "description": "Need to have a config.json file like the following:",
+  "main": "Bot.js",
   "scripts": {
-    "start": "node Bot.js",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zargith/Carapuce_Discord_JS_bot.git"
   },
   "author": "",
   "license": "ISC",
-  "description": "",
+  "bugs": {
+    "url": "https://github.com/Zargith/Carapuce_Discord_JS_bot/issues"
+  },
+  "homepage": "https://github.com/Zargith/Carapuce_Discord_JS_bot#readme",
   "dependencies": {
-    "@discordjs/uws": "^11.149.1",
-    "@hapi/hoek": "^9.0.4",
-    "audit": "0.0.6",
-    "bufferutil": "^4.0.1",
+    "@discordjs/opus": "^0.2.1",
     "canvas": "^2.6.1",
     "discord.js": "^12.2.0",
-    "ffmpeg": "0.0.4",
-    "fstream": "^1.0.12",
-    "glob": "^7.1.6",
-    "help": "^3.0.2",
-    "hoek": "^6.1.3",
-    "libsodium-wrappers": "^0.7.6",
-    "lodash": "^4.17.15",
-    "nan": "^2.14.0",
     "node-fetch": "^2.6.0",
-    "node-opus": "^0.3.3",
-    "node-pre-gyp": "^0.14.0",
-    "npm": "^6.14.4",
-    "opusscript": "0.0.7",
-    "qs": "^6.9.3",
-    "rebuild": "^0.1.2",
-    "superagent": "^5.2.2",
-    "tar": "^6.0.1",
-    "uws": "^100.0.1",
-    "youtube-audio-stream": "^0.3.5",
-    "ytdl-core": "^2.1.0"
+    "ytdl-core": "^2.1.1"
   },
   "devDependencies": {
-    "eslint": "^6.8.0"
+    "eslint": "^6.8.0",
+    "eslint-config-google": "^0.14.0"
   }
 }
