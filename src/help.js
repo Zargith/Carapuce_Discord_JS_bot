@@ -64,6 +64,10 @@ module.exports.printHelp = function(message) {
 					value: "Permet d'arreter de jouer de la musique (même s'il reste des musiques dans la liste)."
 				},
 				{
+					name: `__${config.prefix}playlist__`,
+					value: "Permet de voir la playlist de musiques actuelle pour le serveur."
+				},
+				{
 					name: `__${config.prefix}pin__`,
 					value: "Epingle le message qui commence par cette commande"
 				},

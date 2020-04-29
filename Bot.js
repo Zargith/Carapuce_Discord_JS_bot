@@ -44,8 +44,13 @@ bot.on("guildMemberAdd", member => {
 const bannedWords = ["fuck", "pute", "fils de pute", "bite", "ta race", "connard", "conard", "connasse", "conasse", "conase", "conace", "connace", "salope", "enculé"];
 
 function redirectCommands(message) {
-	if (isInArrayStartsWith(message.content, [`${config.prefix}play`, `${config.prefix}skip`, `${config.prefix}stop`]))
+	if (isInArrayStartsWith(message.content, [`${config.prefix}play`, `${config.prefix}skip`, `${config.prefix}stop`, `${config.prefix}playlist`])) {
+		if (message.guild === null) {
+			message.reply("Tu ne peux pas utiliser cette commande en privé.");
+			return;
+		}
 		DJCarapuce(message, bot);
+	}
 
 	bannedWords.forEach(function(bannedWord) {
 		if (!message.channel.nsfw && message.content.toLowerCase().includes(bannedWord)) {
@@ -97,7 +102,7 @@ function redirectCommands(message) {
 	}
 
 	if (isInArrayStartsWith(message.content, [`${config.prefix}quiz`, `${config.prefix}Qstop`]) || caraquiz.inQuiz === true || caraquiz.waitResponse === true) {
-		message.channel.send("Cette fonctionnalité est probablement cassée pour l'instant.");
+		message.channel.send("Cette fonctionnalité est probablement cassée pour l'instant. Je travaille à sa réparation.");
 		caraquiz.CaraQuiz(message);
 	} else if (message.content.startsWith(`${config.prefix}flip`))
 		flipCoin(message);
