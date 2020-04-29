@@ -1,6 +1,8 @@
 # Carapuce JS Bot Discord
 
-Need to have a config.json file like the following:
+This repository is for my personnal discord bot. I've mostly did it by myself and most of string are inn French.
+
+The bot needs to have a config.json file like the following:
 
 ```json
 {
