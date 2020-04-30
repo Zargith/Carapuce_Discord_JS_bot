@@ -191,6 +191,7 @@ function ownerCommands(message) {
 			return;
 		case (`${config.prefix}restart`):
 			process.exit();
+			break;
 		case (`${config.prefix}emote`):
 			message.delete();
 			message.channel.send(emojis.carapuce);
@@ -228,14 +229,14 @@ function isInWhiteList(id) {
 
 bot.on("message", message => {
 	try {
-		if (message.content.includes("carapuce") || (message.content.includes("<@!550786957245153290>"))) {
+		if (message.content.toLowerCase().includes("carapuce") || (message.content.includes("<@!550786957245153290>"))) {
 			const emojiCarapuce = bot.emojis.cache.find(emoji => emoji.name === "carapuce");
 			// const idEmojiCarapuce = bot.emojis.cache.find(emoji => {return (emoji.id === "551198314687758357" ? emoji : undefined)});
 			// const idEmojiCarapuce = bot.emojis.cache.get("551198314687758357");
-			if (!emojiCarapuce/* || idEmojiCarapuce*/)
-				return;
-			message.react(emojiCarapuce);
+			if (emojiCarapuce/* || idEmojiCarapuce*/) {
+				message.react(emojiCarapuce);
 			// message.react(idEmojiCarapuce);
+			}
 		}
 
 		if (message.author.bot || !message.content.startsWith(config.prefix))
