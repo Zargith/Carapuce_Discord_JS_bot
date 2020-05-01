@@ -1,16 +1,17 @@
 {
   "name": "carapuce_discord_js_bot",
   "version": "1.0.0",
-  "description": "Need to have a config.json file like the following:",
+  "description": "",
   "main": "Bot.js",
   "scripts": {
+    "start": "node Bot.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Zargith/Carapuce_Discord_JS_bot.git"
   },
-  "author": "",
+  "author": "Zargith",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Zargith/Carapuce_Discord_JS_bot/issues"
