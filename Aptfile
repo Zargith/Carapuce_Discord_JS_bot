@@ -2,7 +2,6 @@ libcairo2-dev
 libpango1.0-dev
 libgif-dev
 build-essential
-g++
 automake
 pkg-config
 libtool
@@ -10,4 +9,3 @@ libjpeg-dev
 librsvg2-dev
 libpixman-1-dev
 x11-utils
-libicu-dev
