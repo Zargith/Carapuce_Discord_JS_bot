@@ -9,3 +9,6 @@ libjpeg-dev
 librsvg2-dev
 libpixman-1-dev
 x11-utils
+pciutils
+lm-sensors
+mesa-utils
