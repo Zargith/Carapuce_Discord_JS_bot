@@ -8,6 +8,6 @@ The bot needs to have a config.json file like the following:
 {
     "prefix": "your prefix (ex: !cara)",
     "token": "bot's token",
-    "ownerID": "your id : not Kevin#000 but something like 012345678901234567",
+    "ownerID": "your id : not Kevin#0000 but something like 012345678901234567",
     "whiteList": ["authorised_ID_1", "authorised_ID_2"]
 }
