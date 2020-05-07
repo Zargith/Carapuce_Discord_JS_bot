@@ -154,6 +154,10 @@ module.exports.printOwnerHelp = function(message) {
 					name: `__${config.prefix}sendMP [id d'une personne] [message]__`,
 					value: "Pour envoyer un message privé à quelqu'un."
 				},
+				{
+					name: `__${config.prefix}cleanChannel__`,
+					value: "Pour envoyer supprimer tous les messages d'un channel."
+				},
 			],
 		}
 	});

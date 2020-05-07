@@ -13,7 +13,8 @@ const guildMemberAdd = require("./src/guildAddMember.js");
 const DJCarapuce = require("./src/DJCarapuce.js");
 const isInArrayStartsWith = require("./src/isInArrayStartsWith.js");
 const emojis = require("./src/emojiCharacters.js");
-const LasVegas = require("./src/LasVegas");
+const LasVegas = require("./src/LasVegas.js");
+const cleanChannel = require("./src/cleanChannel.js");
 
 bot.on("ready", function() {
 	console.log(`Log in as ${bot.user.tag} !`);
@@ -211,6 +212,9 @@ function ownerCommands(message) {
 		case (`${config.prefix}surprised`):
 			message.delete();
 			message.channel.send(emojis.surprised_carapuce);
+			return;
+		case (`${config.prefix}cleanChannel`):
+			cleanChannel(message);
 			return;
 		default:
 			redirectCommands(message);
