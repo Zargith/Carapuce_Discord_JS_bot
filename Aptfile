@@ -1,5 +1,5 @@
-libcairo2
-libpango1.0
+libcairo2-dev
+libpango1.0-dev
 libgif-dev
 build-essential
 automake
