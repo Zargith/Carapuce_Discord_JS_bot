@@ -27,9 +27,16 @@ bot.on("ready", function() {
 //	bot.users.get(config.ownerID).send({ embed: { color: 65330, description: "Started successfully" } });
 });
 
-bot.on("error", function(error) {
+bot.on("error", function() {
 	console.log(`Error name : ${error.name}\nError message : ${error.message}`);
 	bot.users.cache.get(config.ownerID).send({embed: {color: 16711680, description: `__**ERREUR**__\n__Error name :__ *${error.name}*\n__Error message :__*${error.message}*`}});
+});
+
+bot.on("invalidated", function(error) {
+	console.log("Session has been invalidated. Restarting the bot.");
+	bot.users.cache.get(config.ownerID).send({embed: {color: 16711680, description: "Session has been invalidated. Restarting the bot."}})
+		.then(msg => bot.destroy())
+		.then(() => bot.login(config.token));
 });
 
 bot.on("guildMemberAdd", member => {
