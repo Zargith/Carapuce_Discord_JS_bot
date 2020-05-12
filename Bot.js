@@ -23,13 +23,7 @@ bot.on("ready", function() {
 		console.log(" - " + guild.name);
 	});
 	console.log("\n");
-	bot.user.setPresence({
-		game: {
-			name: `${config.prefix}help`,
-			type: "WATCHING"
-		},
-		status: "online"
-	});
+	bot.user.setActivity(`${config.prefix}help`, {type: "WATCHING"});
 //	bot.users.get(config.ownerID).send({ embed: { color: 65330, description: "Started successfully" } });
 });
 
