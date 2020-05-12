@@ -1,5 +1,6 @@
 const config = require("../config.json");
 const Discord = require("discord.js");
+const emojis = require("./emojiCharacters.js");
 
 module.exports = function(message) {
 	const args = message.content.split(";");
@@ -11,14 +12,14 @@ module.exports = function(message) {
 	const len = config.prefix.length + 5;
 	args[0] = args[0].substring(len);
 	const emotes = ["0⃣", "1⃣", "2⃣", "3⃣", "4⃣", "5⃣", "6⃣", "7⃣", "8⃣", "9⃣", "🔟"];
-	const poll = new Discord.RichEmbed()
+	const poll = new Discord.MessageEmbed()
 		.setColor(3447003)
 		.setTitle("CaraPoll")
 		.setDescription(`${args[0]}`);
 	args.splice(0, 1);
 	const startAt = ((args.length >= 10) ? 0 : 1);
 	for (let i = startAt; i < args.length + startAt; i++)
-		poll.addField(`__**Option ${emotes[i]} :**__`, args[i - startAt], true);
+		poll.addField(`__**Option ${emojis[`${i}`]} :**__`, args[i - startAt], true);
 	message.channel.send(poll)
 		.then(async m => {
 			for (let i = startAt; i < args.length + startAt; i++)

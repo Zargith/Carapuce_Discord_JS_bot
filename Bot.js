@@ -4,9 +4,9 @@ const config = require("./config.json");
 
 
 // src directory
+const help = require("./src/help.js");
 const caraquiz = require("./src/CaraQuiz.js");
 const myPoll = require("./src/poll.js");
-const help = require("./src/help.js");
 const shifumi = require("./src/shifumi.js");
 const flipCoin = require("./src/flipCoin.js");
 const guildMemberAdd = require("./src/guildAddMember.js");
