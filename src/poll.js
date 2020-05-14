@@ -11,7 +11,6 @@ module.exports = function(message) {
 	}
 	const len = config.prefix.length + 5;
 	args[0] = args[0].substring(len);
-	const emotes = ["0⃣", "1⃣", "2⃣", "3⃣", "4⃣", "5⃣", "6⃣", "7⃣", "8⃣", "9⃣", "🔟"];
 	const poll = new Discord.MessageEmbed()
 		.setColor(3447003)
 		.setTitle("CaraPoll")
@@ -23,6 +22,6 @@ module.exports = function(message) {
 	message.channel.send(poll)
 		.then(async m => {
 			for (let i = startAt; i < args.length + startAt; i++)
-				await m.react(emotes[i]);
+				await m.react(emojis[i]);
 		});
 };

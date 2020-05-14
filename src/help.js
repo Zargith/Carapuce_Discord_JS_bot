@@ -53,19 +53,19 @@ module.exports.printHelp = function(message) {
 				},
 				{
 					name: `__${config.prefix}play__`,
-					value: "Joue la musique ou ajoute à la liste d'attente. Prend en paramètre une URL (ou ID) Youtube ou des mots clé et joue la première ."
+					value: "Joue la musique ou ajoute à la liste d'attente. Prend en paramètre une URL (ou ID) Youtube ou des mots-clés et joue la première."
 				},
 				{
 					name: `__${config.prefix}skip__`,
-					value: "Permet de passer une musique et passer à la suivante de la liste."
+					value: "Permet de passer une musique suivante de la liste."
 				},
 				{
 					name: `__${config.prefix}stop__`,
-					value: "Permet d'arreter de jouer de la musique (même s'il reste des musiques dans la liste)."
+					value: "Permet d'arrêter de jouer de la musique, même s'il reste des musiques dans la liste d'attente."
 				},
 				{
 					name: `__${config.prefix}playlist__`,
-					value: "Permet de voir la playlist de musiques actuelle pour le serveur."
+					value: "Permet de voir la playlist de musiques actuelles pour le serveur."
 				},
 				{
 					name: `__${config.prefix}pin__`,
