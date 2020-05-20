@@ -3,4 +3,4 @@ module.exports = function(elem, arr) {
 		if (arr[i] === elem)
 			return (true);
 	return (false);
-}
+};

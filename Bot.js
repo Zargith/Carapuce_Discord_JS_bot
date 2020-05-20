@@ -1,5 +1,5 @@
 const Discord = require("discord.js");
-const bot = new Discord.Client();
+const bot = new Discord.Client({partials: ["MESSAGE", "CHANNEL", "REACTION"]});
 const config = require("./config.json");
 
 
@@ -43,47 +43,47 @@ bot.on("guildMemberAdd", member => {
 	guildMemberAdd(member, bot);
 });
 
-const bannedWords = ["fuck", "pute", "fils de pute", "bite", "ta race", "connard", "conard", "connasse", "conasse", "conase", "conace", "connace", "salope", "enculé"];
+const bannedWords = ["fuck", "pute", "fils de pute", "bite", "ta race", "connard", "conard", "connasse", "conasse", "conase", "conace", "connace", "salope", "enculé", "encule", "enculé", "counard", "counnasse", "counase","counasse", "salo", "salau", "salaud", "salop", "cul", "foutre", "gourgandine", "baise", "baiser", "baisai", "baisait", "baisé", "tg", "ta gueule", "pd", "pédé"];
 
 function redirectCommands(message) {
+	if (message.content.includes("ta maman") || message.content.includes("ta mère"))
+		message.reply(` ON AVAIT DIT PAS LES MAMANS !!! ${emojis.angry_carapuce}`);
+
 	if (isInArrayStartsWith(message.content, [`${config.prefix}play`, `${config.prefix}skip`, `${config.prefix}stop`, `${config.prefix}playlist`])) {
 		if (message.guild === null) {
 			message.reply("Tu ne peux pas utiliser cette commande en privé.");
 			return;
 		}
 		DJCarapuce(message, bot);
+		return;
 	}
 
 	bannedWords.forEach(function(bannedWord) {
 		if (!message.channel.nsfw && message.content.toLowerCase().includes(bannedWord)) {
 			// message.delete()
-			message.reply("je peux pas te laisser dire des cara-gros-mots... <:angry_carapuce:568356340003635200>");
-			return;
+			message.reply(` je peux pas te laisser dire des cara-gros-mots... ${emojis.angry_carapuce}`);
 		}
 	});
 	switch (message.content) {
 		case (`${config.prefix}help`):
 			help.printHelp(message);
-			break;
+			return;
 		case (`${config.prefix}ownerHelp`):
-			message.channel.send("Désolé mais tu n'as pas accès à cette commande... <:sad_carapuce:562773515745361920>");
-			break;
+			message.channel.send(`Désolé mais tu n'as pas accès à cette commande... ${emojis.sad_carapuce}`);
+			return;
 		case (`${config.prefix}ping`):
-			message.channel.send("Carapong ! <:carapuce:551198314687758357>");
-			break;
+			message.channel.send(`Carapong ! ${emojis.carapuce}`);
+			return;
 		case (`${config.prefix}vatar`):
 			message.reply(message.author.avatarURL);
-			break;
+			return;
 		case (`${config.prefix}bonjour`):
 			message.react("553490319103098883");
-			message.reply("Carabonjour à toi ! <:happy_carapuce:553490319103098883>");
-			break;
-		case (`${config.prefix}puce`):
-			message.channel.send("Cara, carapuce !\nhttps://img.fireden.net/v/image/1527/08/1527086908147.gif");
-			break;
+			message.reply(`Carabonjour à toi ! ${emojis.carapuce}`);
+			return;
 		case (`${config.prefix}love`):
 			message.channel.send("dab dab, I dab you some dabing love ! :heart:");
-			break;
+			return;
 		case (`${config.prefix}listemojis`):
 			if (message.guild === null) {
 				message.reply("Tu ne peux pas utiliser cette commande en privé.");
@@ -91,16 +91,16 @@ function redirectCommands(message) {
 			}
 			const emojiList = message.guild.emojis.cache.map(e => `${e} => :${e.name}:`);
 			message.channel.send(emojiList);
-			break;
+			return;
 		case (`${config.prefix}DansLaWhiteList`):
 			if (isInWhiteList(message.author.id) || message.author.id === config.ownerID)
 				message.reply(" oui tu y es !");
 			else
 				message.reply(" non tu n'y es pas.");
-			break;
+			return;
 		case (`${config.prefix}invite`):
 			message.channel.send("https://discordapp.com/api/oauth2/authorize?client_id=550786957245153290&permissions=0&scope=bot");
-			break;
+			return;
 	}
 
 	if (isInArrayStartsWith(message.content, [`${config.prefix}quiz`, `${config.prefix}Qstop`]) || caraquiz.inQuiz === true || caraquiz.waitResponse === true) {
@@ -116,10 +116,10 @@ function redirectCommands(message) {
 		LasVegas(message);
 	else if (message.content.includes("stan"))
 		message.channel.send("J\'aime embêter <@127132143842361345>");
-	else if (message.content.includes("ta maman") || message.content.includes("ta mère"))
-		message.reply(" ON AVAIT DIT PAS LES MAMANS !!! <:angry_carapuce:568356340003635200>");
 	else if (message.content.startsWith(`${config.prefix}pin`))
 		message.pin();
+	else
+		message.channel.send(`Commande non recconnue... ${emojis.sad_carapuce}`);
 }
 
 function ownerDMCommands(message) {
@@ -132,23 +132,22 @@ function ownerDMCommands(message) {
 	}
 	if (message.content.startsWith(`${config.prefix}channelsOfGuild`)) {
 		const args = message.content.split(" ");
-		const listGuild = bot.guilds.cache.array();
-		let guild = 0;
-		let str = "";
-		for (let i = 0; bot.guilds.cache.array().length; i++)
-			if (listGuild[i].id == args[1]) {
-				str += `__Serveur :__ ${listGuild[i].name},\t__ID :__ ${listGuild[i].id}\n\n`;
-				guild = listGuild[i];
-				break;
-			}
-		if (guild === 0 || guild === null) {
+		if (args.length !== 2) {
+			message.channel.send("J'ai uniquement besoin de l'id **du** serveur dont tu souhaites les informations.");
+			return;
+		}
+		const id = args[1];
+		const guild = bot.guilds.cache.get(id);
+		if (!guild) {
 			message.channel.send("**Error**\nID not found or guild is null.");
 			return;
 		}
+		let str = `__Serveur :__ ${guild.name},\t__ID :__ ${guild.id}\n\n`;
 		guild.channels.cache.array().forEach(chan => {
 			str += (`\t- __Name :__ ${chan.name }\n\t\t__Type :__ ${chan.type}\n\t\t__ID :__ ${chan.id}\n\n`);
 		});
 		message.channel.send(str);
+		return;
 	}
 	if (message.content.startsWith(`${config.prefix}messageToChannel`)) {
 		const args = message.content.split(" ");
@@ -214,7 +213,7 @@ function ownerCommands(message) {
 			message.delete();
 			message.channel.send(emojis.surprised_carapuce);
 			return;
-		case (`${config.prefix}cleanChannel`):
+		case (`${config.prefix}clean`):
 			cleanChannel(message);
 			return;
 		default:
@@ -253,9 +252,7 @@ bot.on("message", message => {
 			else
 				bot.users.get(config.ownerID).send({embed: {color: 3447003, description: `L\'utilisateur ${message.author.username} m\'a envoyé :\n\n${message.content}`}});
 			return;
-		}
-
-		if (message.author.id === config.ownerID || isInWhiteList(message.author.id))
+		} else if (message.author.id === config.ownerID || isInWhiteList(message.author.id))
 			ownerCommands(message);
 		else
 			redirectCommands(message);

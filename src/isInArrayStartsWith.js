@@ -3,4 +3,4 @@ module.exports = function(elem, arr) {
 		if (elem.startsWith(arr[i]))
 			return (true);
 	return (false);
-}
+};

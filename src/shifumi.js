@@ -1,13 +1,14 @@
 const isInArray = require("./isInArray.js");
+const emojis = require("./emojiCharacters.js");
 
 module.exports = function(message) {
 	const arg = message.content.split(" ");
 	if (arg.length !== 2) {
-		message.channel.send("Dis moi juste pierre, feuille ou ciseaux, je n'ai pas besoin d'autre chose ici <:carapuce:551198314687758357>");
+		message.channel.send(`Dis moi juste pierre, feuille ou ciseaux, je n'ai pas besoin d'autre chose ici ${emojis.carapuce}`);
 		return;
 	}
 	if (!isInArray(arg[1], ["pierre", "p", "feuille", "f", "ciseaux", "c"])) {
-		message.channel.send("Dis moi ce que tu veux jouer quand même! <:angry_carapuce:568356340003635200>");
+		message.channel.send(`Dis moi ce que tu veux jouer quand même! ${emojis.angry_carapuce}`);
 		return;
 	}
 
@@ -25,7 +26,7 @@ module.exports = function(message) {
 			break;
 		default:
 			message.channel.send("Il y a eu une erreur");
-			return;
+			throw new Error(`Le parsing du shifumi a échoué. Argument reçu : ${arg[1]}`);
 	}
 
 	const flip = Math.floor(Math.random() * 3 + 1);
@@ -43,7 +44,7 @@ module.exports = function(message) {
 	}
 
 	if ((flip === 1 && pChoice === 2) || (flip === 2 && pChoice === 3) || (flip === 3 && pChoice === 1))
-		message.channel.send("Bien joué, tu as été meilleur(e) ! <:happy_carapuce:553490319103098883>");
+		message.channel.send(`Bien joué, tu as été meilleur(e) ! ${emojis.happy_carapuce}`);
 	else
-		message.channel.send("Oh non tu n'as pas été meilleur(e)... <:sad_carapuce:562773515745361920>");
-}
+		message.channel.send(`Oh non tu n'as pas été meilleur(e)... ${emojis.sad_carapuce}`);
+};

@@ -6,7 +6,7 @@ module.exports = function(message) {
 	const args = message.content.split(";");
 
 	if (args.length < 3 || args.length > 12) {
-		message.channel.send("Il me faut entre 3 et 12 arguments séparés par des points-virgule\nC'est à dire : *question; arg 1; arg 2; ...* <:sad_carapuce:562773515745361920>");
+		message.channel.send(`Il me faut entre 3 et 12 arguments séparés par des points-virgule\nC'est à dire : *question; arg 1; arg 2; ...* ${emojis.sad_carapuce}`);
 		return;
 	}
 	const len = config.prefix.length + 5;

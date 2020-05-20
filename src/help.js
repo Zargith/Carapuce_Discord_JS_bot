@@ -65,19 +65,19 @@ module.exports.printHelp = function(message) {
 				},
 				{
 					name: `__${config.prefix}playlist__`,
-					value: "Permet de voir la playlist de musiques actuelles pour le serveur."
+					value: "Permet de voir la playlist en cours de musiques actuelles pour le serveur."
+				},
+				{
+					name: `__${config.prefix}shifumi *pierre (ou p)* ou *feuille (ou f)* ou *ciseaux (ou c)*__`,
+					value: "Permet de jouer à shifumi / pierre feuille ciseaux."
+				},
+				{
+					name: `__${config.prefix}poll *question; réponse 1; réponse 2; ...*__`,
+					value: "Permet de créer un sondage de 2 à 11 propositions."
 				},
 				{
 					name: `__${config.prefix}pin__`,
 					value: "Epingle le message qui commence par cette commande"
-				},
-				{
-					name: `__${config.prefix}shifumi [pierre (ou p) ou feuille (ou f) ou ciseaux (ou c)]__`,
-					value: "Permet de jouer à shifumi (ou pierre feuille ciseaux selon comment tu appelles ce jeu)."
-				},
-				{
-					name: `__${config.prefix}poll [question; réponse 1; réponse 2; ...]__`,
-					value: "Permet de créer un sondage de 2 à 11 propositions."
 				},
 				{
 					name: `__${config.prefix}LasVegas__`,
@@ -155,7 +155,7 @@ module.exports.printOwnerHelp = function(message) {
 					value: "Pour envoyer un message privé à quelqu'un."
 				},
 				{
-					name: `__${config.prefix}cleanChannel__`,
+					name: `__${config.prefix}clean__`,
 					value: "Pour envoyer supprimer tous les messages d'un channel."
 				},
 			],
