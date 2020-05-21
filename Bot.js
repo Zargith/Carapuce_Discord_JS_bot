@@ -4,15 +4,17 @@ const config = require("./config.json");
 
 
 // src directory
+const isInArrayStartsWith = require("./src/isInArrayStartsWith.js");
+const isInArray = require("./src/isInArray.js");
 const help = require("./src/help.js");
+const emojis = require("./src/emojiCharacters.js");
+const guildMemberAdd = require("./src/guildAddMember.js");
+const roleReaction = require("./src/roleReaction.js");
 const caraquiz = require("./src/CaraQuiz.js");
 const myPoll = require("./src/poll.js");
 const shifumi = require("./src/shifumi.js");
 const flipCoin = require("./src/flipCoin.js");
-const guildMemberAdd = require("./src/guildAddMember.js");
 const DJCarapuce = require("./src/DJCarapuce.js");
-const isInArrayStartsWith = require("./src/isInArrayStartsWith.js");
-const emojis = require("./src/emojiCharacters.js");
 const LasVegas = require("./src/LasVegas.js");
 const cleanChannel = require("./src/cleanChannel.js");
 
@@ -37,6 +39,30 @@ bot.on("invalidated", function(error) {
 	bot.users.cache.get(config.ownerID).send({embed: {color: 16711680, description: "Session has been invalidated. Restarting the bot."}})
 		.then(msg => bot.destroy())
 		.then(() => bot.login(config.token));
+});
+
+bot.on("messageReactionAdd", async (reaction, user) => {
+	try {
+		if (!config.guilds)
+			return;
+		roleReaction.addRole(reaction, user);
+	} catch (exception) {
+		console.log(`ERREUR\nL\'utilisateur ${user.username}${!reaction.message.guild ? "" : `, sur le serveur ${reaction.message.guild.name}`} n'a pas réussi à avoir de rôle avec l'attribution automatique.\n\nL\'erreur suivante s\'est produite :\n${exception.stack}`);
+		const owner = bot.users.cache.get(config.ownerID);
+		owner.send({embed: {color: 16711680, description: `__**ERREUR**__\nL\'utilisateur ${user.username}${!reaction.message.guild ? "" : `, sur le serveur ${reaction.message.guild.name}`} n'a pas réussi à avoir de rôle avec l'attribution automatique.\n\n__L\'erreur suivante s\'est produite :__\n*${exception.stack}*`}});
+	}
+});
+
+bot.on("messageReactionRemove", async (reaction, user) => {
+	try {
+		if (!config.guilds)
+			return;
+		roleReaction.removeRole(reaction, user);
+	} catch (exception) {
+		console.log(`ERREUR\nL\'utilisateur ${user.username}${!reaction.message.guild ? "" : `, sur le serveur ${reaction.message.guild.name}`} n'a pas réussi à avoir de rôle avec l'attribution automatique.\n\nL\'erreur suivante s\'est produite :\n${exception.stack}`);
+		const owner = bot.users.cache.get(config.ownerID);
+		owner.send({embed: {color: 16711680, description: `__**ERREUR**__\nL\'utilisateur ${user.username}${!reaction.message.guild ? "" : `, sur le serveur ${reaction.message.guild.name}`} n'a pas réussi à avoir de rôle avec l'attribution automatique.\n\n__L\'erreur suivante s\'est produite :__\n*${exception.stack}*`}});
+	}
 });
 
 bot.on("guildMemberAdd", member => {
@@ -268,7 +294,8 @@ function sendError(message, exception) {
 }
 
 function consoleErrorMessage(message, exception) {
-	console.log(`ERREUR\nL\'utilisateur ${message.author.username}${ message.guild === null ? "" : `, sur le serveur ${message.member.guild.name}`} a envoyé la commande :\n${message.content}\n\nL\'erreur suivante s\'est produite :\n${exception.stack}`);
+	console.log(message)
+	console.log(`ERREUR\nL\'utilisateur ${(message.author ? message.author.username : "**null**")}${!message.guild ? "" : `, sur le serveur ${message.guild.name}`} a envoyé la commande :\n${message.content}\n\nL\'erreur suivante s\'est produite :\n${exception.stack}`);
 }
 
 function channelErrorMessage(message, exception) {
