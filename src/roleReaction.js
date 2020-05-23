@@ -1,9 +1,10 @@
-const config = require("../config.json");
-const isInObjectArray = require("./isInObjectArray.js");
 const isServerInConfig = require("./isServerInConfig.js");
 const isMessageToListen = require("./isMessageToListen.js");
 const isEmojiToListen = require("./isEmojiToListen.js");
 const getRoleName = require("./getRoleName.js");
+const getConfiguredRolesNames = require("./getConfiguredRolesNames.js");
+const asAlreadyAConfiguredRole = require("./asAlreadyAConfiguredRole.js");
+const isCumulativeListener = require("./isCumulativeListener.js");
 
 exports.addRole = function(reaction, user) {
 	const guild = reaction.message.guild;
@@ -22,6 +23,15 @@ exports.addRole = function(reaction, user) {
 	const role = guild.roles.cache.find(role => role.name === roleName);
 	if (!role)
 		throw new Error(`Can't find role on server ${guild.name} (id: ${guild.id})for emoji ${reaction._emoji.name} for message ${reaction.message.id} to listen`);
+	if (!isCumulativeListener(guild.id, reaction.message.id)) {
+		const configuredRolesNames = getConfiguredRolesNames(guild.id, reaction.message.id);
+		if (!configuredRolesNames || configuredRolesNames === [])
+			member.roles.add(role);
+		for (let i = 0; i < configuredRolesNames.length; i++)
+			if (asAlreadyAConfiguredRole(member, configuredRolesNames[i])) {
+				member.roles.remove(guild.roles.cache.find(role => role.name === configuredRolesNames[i]));
+			}
+	}
 	member.roles.add(role);
 };
 
