@@ -30,10 +30,17 @@ exports.addRole = function(reaction, user) {
 		if (!configuredRolesNames || configuredRolesNames === [])
 			member.roles.add(role);
 		for (let i = 0; i < configuredRolesNames.length; i++)
-			if (asAlreadyAConfiguredRole(member, configuredRolesNames[i]))
+			if (asAlreadyAConfiguredRole(member, configuredRolesNames[i])) {
 				member.roles.remove(guild.roles.cache.find(role => role.name === configuredRolesNames[i]));
+			}
 	}
 	member.roles.add(role);
+	if (hasDefaultRole(guild.id, reaction.message.id)) {
+		const defaultRoleName = getDefaultRole(guild.id, reaction.message.id);
+		const defaultRole = guild.roles.cache.find(role => role.name === defaultRoleName);
+		if (defaultRole)
+			member.roles.remove(defaultRole);
+	}
 };
 
 exports.removeRole = function(reaction, user, elem) {
