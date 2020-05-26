@@ -17,6 +17,7 @@ const flipCoin = require("./src/flipCoin.js");
 const DJCarapuce = require("./src/DJCarapuce.js");
 const LasVegas = require("./src/LasVegas.js");
 const cleanChannel = require("./src/cleanChannel.js");
+const checkBannedWords = require("./src/checkBannedWords.js");
 
 bot.on("ready", function() {
 	console.log(`Log in as ${bot.user.tag} !`);
@@ -91,12 +92,7 @@ function redirectCommands(message) {
 		return;
 	}
 
-	bannedWords.forEach(function(bannedWord) {
-		if (!message.channel.nsfw && message.content.toLowerCase().includes(bannedWord)) {
-			// message.delete()
-			message.reply(` je peux pas te laisser dire des cara-gros-mots... ${emojis.angry_carapuce}`);
-		}
-	});
+	checkBannedWords(message);
 	switch (message.content) {
 		case (`${config.prefix}help`):
 			help.printHelp(message);
@@ -151,8 +147,29 @@ function redirectCommands(message) {
 		message.channel.send("J\'aime embêter <@127132143842361345>");
 	else if (message.content.startsWith(`${config.prefix}pin`))
 		message.pin();
-	else
-		message.channel.send(`Commande non recconnue... ${emojis.sad_carapuce}`);
+	else if (message.content.startsWith(`${config.prefix}unpin`)) {
+		const args = message.content.split(" ");
+		if (args.length != 2) {
+			message.channel.send(`Il faut que tu me donnes l'ID du message que tu veux unpin ${emojis.carapuce}`);
+			return;
+		}
+		message.channel.messages.fetch(args[1]).then(msg => {
+			if (!msg) {
+				message.channel.send(`Il faut que tu me donnes l'ID du message que tu veux unpin, celui-ci doit être dans le channel où tu rentres cette commande ${emojis.carapuce}`);
+				return;
+			}
+			if (!msg.pinned) {
+				message.channel.send(`Message not pinned ${emojis.carapuce}`);
+				return;
+			}
+			msg.unpin();
+			message.channel.send(`Message unpinned ${emojis.happy_carapuce}`);
+		}).catch(err => {
+			console.log(err);
+		});
+		return;
+	} else
+		message.channel.send(`Commande non reconnue... ${emojis.sad_carapuce}`);
 }
 
 function ownerDMCommands(message) {
