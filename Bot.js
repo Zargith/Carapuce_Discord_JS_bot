@@ -66,10 +66,17 @@ bot.on("messageReactionRemove", async (reaction, user) => {
 });
 
 bot.on("guildMemberAdd", member => {
-	guildMemberAdd(member, bot);
+	try {
+		guildMemberAdd.createWelcomeImage(member, bot);
+		if (!config.guilds)
+			return;
+		guildMemberAdd.addDefaultRoles(member);
+	} catch (exception) {
+		console.log(`ERREUR\nLors de l'arrivée de l'utilisateur ${member} sur le serveur ${member.guild.name}\nL'erreur suivante s'est produite:\n${exception.stack}`);
+		const owner = bot.users.cache.get(config.ownerID);
+		owner.send({embed: {color: 16711680, description: `__**ERREUR**__\nLors de l'arrivée de l'utilisateur ${member} sur le serveur ${member.guild.name}\n\n__L'erreur suivante s'est produite:__\n*${exception.stack}*`}});
+	}
 });
-
-const bannedWords = ["fuck", "pute", "fils de pute", "bite", "ta race", "connard", "conard", "connasse", "conasse", "conase", "conace", "connace", "salope", "enculé", "encule", "enculé", "counard", "counnasse", "counase","counasse", "salo", "salau", "salaud", "salop", "cul", "foutre", "gourgandine", "baise", "baiser", "baisai", "baisait", "baisé", "tg", "ta gueule", "pd", "pédé"];
 
 function redirectCommands(message) {
 	if (message.content.includes("ta maman") || message.content.includes("ta mère"))
