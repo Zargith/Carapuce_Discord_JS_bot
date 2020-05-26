@@ -92,7 +92,6 @@ function redirectCommands(message) {
 		return;
 	}
 
-	checkBannedWords(message);
 	switch (message.content) {
 		case (`${config.prefix}help`):
 			help.printHelp(message);
@@ -293,7 +292,10 @@ bot.on("message", message => {
 			}
 		}
 
-		if (message.author.bot || !message.content.startsWith(config.prefix))
+		if (message.author.bot)
+			return;
+		checkBannedWords(message);
+		if (!message.content.startsWith(config.prefix))
 			return;
 
 		if (message.guild === null) {

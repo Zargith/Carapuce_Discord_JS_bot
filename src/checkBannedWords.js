@@ -4,7 +4,7 @@ const getReportLogChannel = require("./getReportLogChannel.js");
 const getBannedWords = require("./getBannedWords.js");
 
 module.exports = function(message) {
-	if (!message.guild || message.channel.nsfw || !isServerInConfig(message.guild.id))
+	if (!message.guild || message.channel.nsfw === true || !isServerInConfig(message.guild.id))
 		return;
 
 	const reportLogChannel = message.guild.channels.cache.get(getReportLogChannel(message.guild.id));
