@@ -1,6 +1,7 @@
 const config = require("../config.json");
 const isServerInConfig = require("./isServerInConfig.js");
 const getReportLogChannel = require("./getReportLogChannel.js");
+const getBannedWords = require("./getBannedWords.js");
 
 module.exports = function(message) {
 	if (!message.guild || message.channel.nsfw || !isServerInConfig(message.guild.id))
@@ -9,10 +10,13 @@ module.exports = function(message) {
 	const reportLogChannel = message.guild.channels.cache.get(getReportLogChannel(message.guild.id));
 	if (!reportLogChannel)
 		return;
+	const bannedWords = getBannedWords(message.guild.id);
+	if (!bannedWords || bannedWords === [])
+		return;
 	let suspectsWords = "";
-	for (let i = 0; i < config.bannedWords.length; i++) {
-		if (message.content.toLowerCase().includes(config.bannedWords[i]))
-			suspectsWords += `${config.bannedWords[i]} `;
+	for (let i = 0; i < bannedWords.length; i++) {
+		if (message.content.toLowerCase().includes(bannedWords[i]))
+			suspectsWords += `${bannedWords[i]} `;
 	}
 	if (suspectsWords === "")
 		return;

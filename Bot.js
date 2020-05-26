@@ -165,7 +165,7 @@ function redirectCommands(message) {
 			msg.unpin();
 			message.channel.send(`Message unpinned ${emojis.happy_carapuce}`);
 		}).catch(err => {
-			console.log(err);
+			throw err;
 		});
 		return;
 	} else
