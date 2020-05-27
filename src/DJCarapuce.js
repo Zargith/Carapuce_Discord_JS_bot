@@ -18,17 +18,19 @@ module.exports = function(message, bot) {
 };
 
 async function getVideoFromArguments(keyWords) {
-	const encodedKeyWords = encodeURI(keyWords);
-	let url = "";
-	await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodedKeyWords}&maxResults=1&key=${config.youtubeAPIKey}`)
+	if (!config.youtubeAPIKey)
+		throw new Error("Config file missing Youtube API key.");
+	const encodedKeyWords = await encodeURIComponent(keyWords);
+	const url = await fetch(`https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodedKeyWords}&maxResults=1&type=video&key=${config.youtubeAPIKey}`)
 		.then(function(response) {
 			if (response.status == 200)
 				return response.json();
 			throw response.statusText;
 		})
 		.then(function(resjson) {
-			url = `https://www.youtube.com/watch?v=${resjson.items[0].id.videoId}`;
 			return (`https://www.youtube.com/watch?v=${resjson.items[0].id.videoId}`);
+		}).catch(error => {
+			throw error;
 		});
 	return (url);
 }
@@ -57,7 +59,7 @@ async function execute(message, serverQueue, bot) {
 		};
 
 		// -----------------------------------------------
-		// This line allow me to chech "asynchronusly" if a queue for this guild was created when I was doing something else (probably not the best way to do)
+		// This line allow me to check "asynchronusly" if a queue for this guild was created when I was doing something else (probably not the best way to do)
 		let serverQueue = queue.get(message.guild.id);
 		// -----------------------------------------------
 
@@ -122,13 +124,12 @@ function play(guild, song) {
 		queue.delete(guild.id);
 		return;
 	}
-	const dispatcher = serverQueue.connection.play(ytdl(song.url))
+	const dispatcher = serverQueue.connection.play(ytdl(song.url, {filter: "audioonly"}))
 		.on("finish", () => {
 			serverQueue.songs.shift();
 			play(guild, serverQueue.songs[0]);
 		})
 		.on("error", error => {
-			console.error(error);
 			throw error;
 		});
 	dispatcher.setVolumeLogarithmic(serverQueue.volume / 5);
@@ -146,6 +147,10 @@ function consoleErrorMessage(message, exception) {
 
 function channelErrorMessage(message, exception) {
 	message.channel.send({embed: {color: 16711680, description: `__**ERREUR**__\nLa commande n\'a pas fonctionnée <:surprised_carapuce:568777407046221824>\n\n__L\'erreur suivante s\'est produite :__\n*${exception}*`}});
+	const reportLogChannel = message.guild.channels.cache.get(config.reportLogChannel);
+	if (!reportLogChannel)
+		return;
+	reportLogChannel.send({embed: {color: 16711680, description: `__**ERREUR**__\nL\'utilisateur ${message.author.username}${ message.guild === null ? "" : `, sur le serveur ${message.member.guild.name}`} a envoyé la commande :\n${message.content}\n\n__L\'erreur suivante s\'est produite :__\n*${exception.stack}*`}});
 }
 
 function ownerErrorMessage(message, exception, bot) {

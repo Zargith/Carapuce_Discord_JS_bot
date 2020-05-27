@@ -79,11 +79,11 @@ bot.on("guildMemberAdd", member => {
 			return;
 		guildMemberAdd.addDefaultRoles(member);
 	} catch (exception) {
-		console.log(`ERREUR\nLors de l'arrivée de l'utilisateur ${member} sur le serveur ${member.guild.name}\nL'erreur suivante s'est produite:\n${exception.stack}`);
+		console.log(`ERREUR\nLors de l'arrivée de l'utilisateur ${member.user.tag} sur le serveur ${member.guild.name}\nL'erreur suivante s'est produite:\n${exception.stack}`);
 		if (config.ownerID) {
 			const owner = bot.users.cache.get(config.ownerID);
 			if (owner)
-				owner.send({embed: {color: 16711680, description: `__**ERREUR**__\nLors de l'arrivée de l'utilisateur ${member} sur le serveur ${member.guild.name}\n\n__L'erreur suivante s'est produite:__\n*${exception.stack}*`}});
+				owner.send({embed: {color: 16711680, description: `__**ERREUR**__\nLors de l'arrivée de l'utilisateur ${member.user.tag} sur le serveur ${member.guild.name}\n\n__L'erreur suivante s'est produite:__\n*${exception.stack}*`}});
 		}
 	}
 });
@@ -330,16 +330,16 @@ function sendError(message, exception) {
 
 function consoleErrorMessage(message, exception) {
 	console.log(message)
-	console.log(`ERREUR\nL\'utilisateur ${(message.author ? message.author.username : "**null**")}${!message.guild ? "" : `, sur le serveur ${message.guild.name}`} a envoyé la commande :\n${message.content}\n\nL\'erreur suivante s\'est produite :\n${exception.stack}`);
+	console.log(`ERREUR\nL\'utilisateur ${(message.author ? message.author.tag : "**null**")}${!message.guild ? "" : `, sur le serveur ${message.guild.name}`} a envoyé la commande :\n${message.content}\n\nL\'erreur suivante s\'est produite :\n${exception.stack}`);
 }
 
 function channelErrorMessage(message, exception) {
-	message.channel.send({embed: {color: 16711680, description: `__**ERREUR**__\nLa commande n\'a pas fonctionnée <:surprised_carapuce:568777407046221824>\n\n__L\'erreur suivante s\'est produite :__\n*${exception}*`}});
+	message.channel.send({embed: {color: 16711680, description: `__**ERREUR**__\nLa commande n\'a pas fonctionnée...\n\n__L\'erreur suivante s\'est produite :__\n*${exception}*`}});
 }
 
 function ownerErrorMessage(message, exception) {
 	const owner = bot.users.cache.get(config.ownerID);
-	owner.send({embed: {color: 16711680, description: `__**ERREUR**__\nL\'utilisateur ${message.author.username}${ message.guild === null ? "" : `, sur le serveur ${message.member.guild.name}`} a envoyé la commande :\n${message.content}\n\n__L\'erreur suivante s\'est produite :__\n*${exception.stack}*`}});
+	owner.send({embed: {color: 16711680, description: `__**ERREUR**__\nL\'utilisateur ${message.author.tag}${ message.guild === null ? "" : `, sur le serveur ${message.member.guild.name}`} a envoyé la commande :\n${message.content}\n\n__L\'erreur suivante s\'est produite :__\n*${exception.stack}*`}});
 }
 
 bot.login(config.token);
