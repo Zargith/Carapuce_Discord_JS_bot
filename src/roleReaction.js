@@ -32,6 +32,28 @@ exports.addRole = function(reaction, user) {
 		for (let i = 0; i < configuredRolesNames.length; i++)
 			if (asAlreadyAConfiguredRole(member, configuredRolesNames[i])) {
 				member.roles.remove(guild.roles.cache.find(role => role.name === configuredRolesNames[i]));
+
+//				console.log(reaction.message);
+/*				const reactions = reaction.message.reactions.cache.array();
+				let theReaction;
+				for (let i = 0; i < reactions.length; i++)
+					if (reactions[i]._emoji == reaction._emoji)
+						theReaction = reactions[i];
+				if (!theReaction)
+					return;
+				console.log(theReaction)
+				const users = theReaction.users.cache.array();
+				console.log("users: ", users)
+				if (!users || users === [])
+					return;
+				for (let i = 0; i < users.length; i++)
+					if (users[i] == user)
+						users.remove(user);
+*/
+/*
+				const userReactions = reaction.message.reactions.cache.filter(reaction => reaction.users.cache.has(user.id));
+				console.log(userReactions);
+*/
 			}
 	}
 	member.roles.add(role);

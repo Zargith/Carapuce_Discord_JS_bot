@@ -48,9 +48,12 @@ bot.on("messageReactionAdd", async (reaction, user) => {
 			return;
 		roleReaction.addRole(reaction, user);
 	} catch (exception) {
-		console.log(`ERREUR\nL\'utilisateur ${user.username}${!reaction.message.guild ? "" : `, sur le serveur ${reaction.message.guild.name}`} n'a pas réussi à avoir de rôle avec l'attribution automatique.\n\nL\'erreur suivante s\'est produite :\n${exception.stack}`);
-		const owner = bot.users.cache.get(config.ownerID);
-		owner.send({embed: {color: 16711680, description: `__**ERREUR**__\nL\'utilisateur ${user.username}${!reaction.message.guild ? "" : `, sur le serveur ${reaction.message.guild.name}`} n'a pas réussi à avoir de rôle avec l'attribution automatique.\n\n__L\'erreur suivante s\'est produite :__\n*${exception.stack}*`}});
+		console.log(`ERREUR\nLorsque l'utilisateur ${user.tag} sur le serveur ${(reaction.message || reaction.message.guild ? reaction.message.guild.name : null)} a ajouté une réaction, l'erreur suivante s'est produite :\n${exception.stack}`);
+		if (config.ownerID) {
+			const owner = bot.users.cache.get(config.ownerID);
+			if (owner)
+				owner.send({embed: {color: 16711680, description: `__**ERREUR**__\nLorsque l'utilisateur ${user.tag} sur le serveur ${(reaction.message || reaction.message.guild ? reaction.message.guild.name : null)} a ajouté une réaction, l'erreur suivante s'est produite :\n*${exception.stack}*`}});
+		}
 	}
 });
 
@@ -60,9 +63,12 @@ bot.on("messageReactionRemove", async (reaction, user) => {
 			return;
 		roleReaction.removeRole(reaction, user);
 	} catch (exception) {
-		console.log(`ERREUR\nL\'utilisateur ${user.username}${!reaction.message.guild ? "" : `, sur le serveur ${reaction.message.guild.name}`} n'a pas réussi à avoir de rôle avec l'attribution automatique.\n\nL\'erreur suivante s\'est produite :\n${exception.stack}`);
-		const owner = bot.users.cache.get(config.ownerID);
-		owner.send({embed: {color: 16711680, description: `__**ERREUR**__\nL\'utilisateur ${user.username}${!reaction.message.guild ? "" : `, sur le serveur ${reaction.message.guild.name}`} n'a pas réussi à avoir de rôle avec l'attribution automatique.\n\n__L\'erreur suivante s\'est produite :__\n*${exception.stack}*`}});
+		console.log(`ERREUR\nLorsque l'utilisateur ${user.tag} sur le serveur ${(reaction.message || reaction.message.guild ? reaction.message.guild.name : null)} a retité une réaction, l'erreur suivante s'est produite :\n${exception.stack}`);
+		if (config.ownerID) {
+			const owner = bot.users.cache.get(config.ownerID);
+			if (owner)
+				owner.send({embed: {color: 16711680, description: `__**ERREUR**__\nLorsque l'utilisateur ${user.tag} sur le serveur ${(reaction.message || reaction.message.guild ? reaction.message.guild.name : null)} a retiré une réaction, l'erreur suivante s'est produite :\n*${exception.stack}*`}});
+		}
 	}
 });
 
@@ -74,8 +80,11 @@ bot.on("guildMemberAdd", member => {
 		guildMemberAdd.addDefaultRoles(member);
 	} catch (exception) {
 		console.log(`ERREUR\nLors de l'arrivée de l'utilisateur ${member} sur le serveur ${member.guild.name}\nL'erreur suivante s'est produite:\n${exception.stack}`);
-		const owner = bot.users.cache.get(config.ownerID);
-		owner.send({embed: {color: 16711680, description: `__**ERREUR**__\nLors de l'arrivée de l'utilisateur ${member} sur le serveur ${member.guild.name}\n\n__L'erreur suivante s'est produite:__\n*${exception.stack}*`}});
+		if (config.ownerID) {
+			const owner = bot.users.cache.get(config.ownerID);
+			if (owner)
+				owner.send({embed: {color: 16711680, description: `__**ERREUR**__\nLors de l'arrivée de l'utilisateur ${member} sur le serveur ${member.guild.name}\n\n__L'erreur suivante s'est produite:__\n*${exception.stack}*`}});
+		}
 	}
 });
 
