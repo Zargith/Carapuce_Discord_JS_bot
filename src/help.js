@@ -7,93 +7,93 @@ module.exports.printHelp = function(message) {
 			description: "__**Les différentes commandes :**__",
 			fields: [
 				{
-					name: `__${config.prefix}help__`,
+					name: `> ${config.prefix}invite`,
+					value: "Permet d'obtenir un lien d'invitation du bot, si vous voulez l'inviter sur votre serveur."
+				},
+				{
+					name: `> ${config.prefix}help`,
 					value: "Pour afficher cette aide.",
 					inline: true
 				},
 				{
-					name: `__${config.prefix}bonjour__`,
+					name: `> ${config.prefix}bonjour`,
 					value: "Carapuce te dit bonjour.",
 					inline: true
 				},
 				{
-					name: `__${config.prefix}ping__`,
+					name: `> ${config.prefix}ping`,
 					value: "Pong !",
 					inline: true
 				},
 				{
-					name: `__${config.prefix}puce__`,
+					name: `> ${config.prefix}puce`,
 					value: "Carapuce !",
 					inline: true
 				},
 				{
-					name: `__${config.prefix}love__`,
+					name: `> ${config.prefix}love`,
 					value: "Envoie de l\'amour.",
 					inline: true
 				},
 				{
-					name: `__${config.prefix}listemojis__`,
+					name: `> ${config.prefix}listemojis`,
 					value: "Envoie la liste des emojis du serveur.",
 					inline: true
 				},
 				{
-					name: `__${config.prefix}quiz__`,
+					name: `> ${config.prefix}quiz`,
 					value: "Permet de jouer à un quiz !",
 					inline: true
 				},
 				{
-					name: `__${config.prefix}vatar__`,
+					name: `> ${config.prefix}vatar`,
 					value: "Renvoie l\'URL vers votre Avatar.",
 					inline: true
 				},
 				{
-					name: `__${config.prefix}flip [pile ou face]__`,
+					name: `> ${config.prefix}flip *<pile / face>*`,
 					value: "Permet de jouer à pile ou face.",
 					inline: true
 				},
 				{
-					name: `__${config.prefix}play__`,
+					name: `> ${config.prefix}play *<URL ou ID Youtube / mots clés>*`,
 					value: "Joue la musique ou ajoute à la liste d'attente. Prend en paramètre une URL (ou ID) Youtube ou des mots-clés et joue la première."
 				},
 				{
-					name: `__${config.prefix}skip__`,
+					name: `> ${config.prefix}skip`,
 					value: "Permet de passer une musique suivante de la liste."
 				},
 				{
-					name: `__${config.prefix}stop__`,
+					name: `> ${config.prefix}stop`,
 					value: "Permet d'arrêter de jouer de la musique, même s'il reste des musiques dans la liste d'attente."
 				},
 				{
-					name: `__${config.prefix}playlist__`,
+					name: `> ${config.prefix}playlist`,
 					value: "Permet de voir la playlist en cours de musiques actuelles pour le serveur."
 				},
 				{
-					name: `__${config.prefix}shifumi *pierre (ou p)* ou *feuille (ou f)* ou *ciseaux (ou c)*__`,
+					name: `> ${config.prefix}shifumi *<pierre (ou p) / feuille (ou f) / ciseaux (ou c)>*`,
 					value: "Permet de jouer à shifumi / pierre feuille ciseaux."
 				},
 				{
-					name: `__${config.prefix}poll *question; réponse 1; réponse 2; ...*__`,
+					name: `> ${config.prefix}poll *<question; réponse 1; réponse 2; ...>*`,
 					value: "Permet de créer un sondage de 2 à 11 propositions."
 				},
 				{
-					name: `__${config.prefix}pin__`,
-					value: "Epingle le message qui commence par cette commande"
+					name: `> ${config.prefix}pin *<message>*`,
+					value: "Épingle le message qui commence par cette commande."
 				},
 				{
-					name: `__${config.prefix}LasVegas__`,
-					value: "Permet de vous marier à n'importe qui sur le serveur (ou la personne que vous souhaitez en la mentionnant) grâce aux divines lois de Las Vegas !."
+					name: `> ${config.prefix}LasVegas *<optionnel: @quelqu\'un>*`,
+					value: "Permet de vous marier à n'importe qui sur le serveur (ou la personne que vous souhaitez en la mentionnant) grâce aux divines lois de Las Vegas !"
 				},
 				{
-					name: `__${config.prefix}DansLaWhiteList__`,
+					name: `> ${config.prefix}DansLaWhiteList`,
 					value: "Permet de savoir si vous êtes dans la white list."
 				},
 				{
-					name: `__${config.prefix}ownerHelp__`,
+					name: `> ${config.prefix}ownerHelp`,
 					value: "Permet d'afficher le help de la whitelist."
-				},
-				{
-					name: `__${config.prefix}invite__`,
-					value: "Permet d'obtenir un lien d'invitation du bot, si vous voulez l'inviter sur votre serveur."
 				}
 			],
 		}
@@ -107,55 +107,55 @@ module.exports.printOwnerHelp = function(message) {
 			description: "__**Les différentes commandes :**__",
 			fields: [
 				{
-					name: `__${config.prefix}ownerHelp__`,
+					name: `> ${config.prefix}ownerHelp`,
 					value: "Pour afficher cette aide pour les membres de la white list."
 				},
 				{
-					name: `__${config.prefix}emote__`,
+					name: `> ${config.prefix}emote`,
 					value: "Pour afficher l\'émote Carapuce débile."
 				},
 				{
-					name: `__${config.prefix}happy__`,
+					name: `> ${config.prefix}happy`,
 					value: "Pour afficher l\'émote Carapuce heureux."
 				},
 				{
-					name: `__${config.prefix}sad__`,
+					name: `> ${config.prefix}sad`,
 					value: "Pour afficher l\'emote Carapuce triste."
 				},
 				{
-					name: `__${config.prefix}angry__`,
+					name: `> ${config.prefix}angry`,
 					value: "Pour afficher l\'emote Carapuce en colère."
 				},
 				{
-					name: `__${config.prefix}surprised__`,
+					name: `> ${config.prefix}surprised`,
 					value: "Pour afficher l\'emote Carapuce choqué."
 				},
 				{
-					name: `__${config.prefix}join__`,
+					name: `> ${config.prefix}join`,
 					value: "Pour simuler notre arrivée sur le serveur."
 				},
 				{
-					name: `__${config.prefix}restart__`,
+					name: `> ${config.prefix}restart`,
 					value: "Pour redémarrer le bot."
 				},
 				{
-					name: `__${config.prefix}listGuilds__`,
+					name: `> ${config.prefix}listGuilds`,
 					value: "Pour avoir la liste des serveurs sur lequel est le bot."
 				},
 				{
-					name: `__${config.prefix}channelsOfGuild [id du serveur]__`,
+					name: `> ${config.prefix}channelsOfGuild *<id du serveur>*`,
 					value: "Pour voir les channels d'un serveur."
 				},
 				{
-					name: `__${config.prefix}messageToChannel [id du channel] [message]__`,
+					name: `> ${config.prefix}messageToChannel *<id du channel>* *<message>*`,
 					value: "Pour envoyer un message dans un channel\n/!\\ Doit être un channel textuel."
 				},
 				{
-					name: `__${config.prefix}sendMP [id d'une personne] [message]__`,
+					name: `> ${config.prefix}sendMP <*id d\'une personne>* *<message>*`,
 					value: "Pour envoyer un message privé à quelqu'un."
 				},
 				{
-					name: `__${config.prefix}clean__`,
+					name: `> ${config.prefix}clean`,
 					value: "Pour envoyer supprimer tous les messages d'un channel."
 				},
 			],
