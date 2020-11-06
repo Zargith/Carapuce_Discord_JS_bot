@@ -33,16 +33,20 @@ bot.on("ready", async function() {
 	setInterval(restartBot, 86400000); // 86,400,000ms = 24hrs
 });
 
-bot.on("error", function() {
+bot.on("error", async function() {
 	console.log(`Error name : ${error.name}\nError message : ${error.message}`);
-	bot.users.cache.get(config.ownerID).send({embed: {color: 16711680, description: `__**ERREUR**__\n__Error name :__ *${error.name}*\n__Error message :__*${error.message}*`}});
+	const owner = await bot.users.fetch(config.ownerID);
+	if (owner)
+		owner.send({embed: {color: 16711680, description: `__**ERREUR**__\n__Error name :__ *${error.name}*\n__Error message :__*${error.message}*`}});
 });
 
-bot.on("invalidated", function(error) {
+bot.on("invalidated", async function(error) {
 	console.log("Session has been invalidated. Restarting the bot.");
-	bot.users.cache.get(config.ownerID).send({embed: {color: 16711680, description: "Session has been invalidated. Restarting the bot."}})
-		.then(msg => bot.destroy())
-		.then(() => bot.login(config.token));
+	const owner = await bot.users.fetch(config.ownerID);
+	if (owner)
+		owner.send.send({embed: {color: 16711680, description: "Session has been invalidated. Restarting the bot."}})
+			.then(msg => bot.destroy())
+			.then(() => bot.login(config.token));
 });
 
 bot.on("messageReactionAdd", async (reaction, user) => {
@@ -53,9 +57,9 @@ bot.on("messageReactionAdd", async (reaction, user) => {
 	} catch (exception) {
 		console.log(`ERREUR\nLorsque l'utilisateur ${user.tag} sur le serveur ${(reaction.message || reaction.message.guild ? reaction.message.guild.name : null)} a ajouté une réaction, l'erreur suivante s'est produite :\n${exception.stack}`);
 		if (config.ownerID) {
-			const owner = bot.users.cache.get(config.ownerID);
+			const owner = await bot.users.fetch(config.ownerID);
 			if (owner)
-				owner.send({embed: {color: 16711680, description: `__**ERREUR**__\nLorsque l'utilisateur ${user.tag} sur le serveur ${(reaction.message || reaction.message.guild ? reaction.message.guild.name : null)} a ajouté une réaction, l'erreur suivante s'est produite :\n*${exception.stack}*`}});
+				owner.send.send({embed: {color: 16711680, description: `__**ERREUR**__\nLorsque l'utilisateur ${user.tag} sur le serveur ${(reaction.message || reaction.message.guild ? reaction.message.guild.name : null)} a ajouté une réaction, l'erreur suivante s'est produite :\n*${exception.stack}*`}});
 		}
 	}
 });
@@ -68,14 +72,14 @@ bot.on("messageReactionRemove", async (reaction, user) => {
 	} catch (exception) {
 		console.log(`ERREUR\nLorsque l'utilisateur ${user.tag} sur le serveur ${(reaction.message || reaction.message.guild ? reaction.message.guild.name : null)} a retité une réaction, l'erreur suivante s'est produite :\n${exception.stack}`);
 		if (config.ownerID) {
-			const owner = bot.users.cache.get(config.ownerID);
+			const owner = await bot.users.fetch(config.ownerID);
 			if (owner)
 				owner.send({embed: {color: 16711680, description: `__**ERREUR**__\nLorsque l'utilisateur ${user.tag} sur le serveur ${(reaction.message || reaction.message.guild ? reaction.message.guild.name : null)} a retiré une réaction, l'erreur suivante s'est produite :\n*${exception.stack}*`}});
 		}
 	}
 });
 
-bot.on("guildMemberAdd", member => {
+bot.on("guildMemberAdd", async member => {
 	try {
 		guildMemberAdd.createWelcomeImage(member, bot);
 		if (!config.guilds)
@@ -84,9 +88,9 @@ bot.on("guildMemberAdd", member => {
 	} catch (exception) {
 		console.log(`ERREUR\nLors de l'arrivée de l'utilisateur ${member.user.tag} sur le serveur ${member.guild.name}\nL'erreur suivante s'est produite:\n${exception.stack}`);
 		if (config.ownerID) {
-			const owner = bot.users.cache.get(config.ownerID);
+			const owner = await bot.users.fetch(config.ownerID);
 			if (owner)
-				owner.send({embed: {color: 16711680, description: `__**ERREUR**__\nLors de l'arrivée de l'utilisateur ${member.user.tag} sur le serveur ${member.guild.name}\n\n__L'erreur suivante s'est produite:__\n*${exception.stack}*`}});
+				owner.send.send({embed: {color: 16711680, description: `__**ERREUR**__\nLors de l'arrivée de l'utilisateur ${member.user.tag} sur le serveur ${member.guild.name}\n\n__L'erreur suivante s'est produite:__\n*${exception.stack}*`}});
 		}
 	}
 });
@@ -359,9 +363,10 @@ function channelErrorMessage(message, exception) {
 	message.channel.send({embed: {color: 16711680, description: `__**ERREUR**__\nLa commande n\'a pas fonctionnée...\n\n__L\'erreur suivante s\'est produite :__\n*${exception}*`}});
 }
 
-function ownerErrorMessage(message, exception) {
-	const owner = bot.users.cache.get(config.ownerID);
-	owner.send({embed: {color: 16711680, description: `__**ERREUR**__\nL\'utilisateur ${message.author.tag}${ message.guild === null ? "" : `, sur le serveur ${message.member.guild.name}`} a envoyé la commande :\n${message.content}\n\n__L\'erreur suivante s\'est produite :__\n*${exception.stack}*`}});
+async function ownerErrorMessage(message, exception) {
+	const owner = await bot.users.fetch(config.ownerID);
+	if (owner)
+		owner.send.send({embed: {color: 16711680, description: `__**ERREUR**__\nL\'utilisateur ${message.author.tag}${ message.guild === null ? "" : `, sur le serveur ${message.member.guild.name}`} a envoyé la commande :\n${message.content}\n\n__L\'erreur suivante s\'est produite :__\n*${exception.stack}*`}});
 }
 
 bot.login(config.token);

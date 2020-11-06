@@ -8,11 +8,11 @@ const isCumulativeListener = require("./isCumulativeListener.js");
 const hasDefaultRole = require("./hasDefaultRole.js");
 const getDefaultRole = require("./getDefaultRole.js");
 
-exports.addRole = function(reaction, user) {
+exports.addRole = async function(reaction, user) {
 	const guild = reaction.message.guild;
 	if (!isServerInConfig(guild.id) || !isMessageToListen(guild.id, reaction.message.id) || !isEmojiToListen(guild.id, reaction.message.id, reaction._emoji.name))
 		return;
-	const members = guild.members.cache.array();
+	const members = (await guild.members.fetch()).array();
 	let member;
 	for (let i = 0; i < members.length; i++)
 		if (members[i].id === user.id)
@@ -65,11 +65,11 @@ exports.addRole = function(reaction, user) {
 	}
 };
 
-exports.removeRole = function(reaction, user, elem) {
+exports.removeRole = async function(reaction, user, elem) {
 	const guild = reaction.message.guild;
 	if (!isServerInConfig(guild.id) || !isMessageToListen(guild.id, reaction.message.id) || !isEmojiToListen(guild.id, reaction.message.id, reaction._emoji.name))
 		return;
-	const members = guild.members.cache.array();
+	const members = (await guild.members.fetch()).array();
 	let member;
 	for (let i = 0; i < members.length; i++)
 		if (members[i].id === user.id)
