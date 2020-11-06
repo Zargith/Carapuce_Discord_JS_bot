@@ -19,7 +19,7 @@ const LasVegas = require("./src/LasVegas.js");
 const cleanChannel = require("./src/cleanChannel.js");
 const checkBannedWords = require("./src/checkBannedWords.js");
 
-bot.on("ready", function() {
+bot.on("ready", async function() {
 	console.log(`Log in as ${bot.user.tag} !`);
 	console.log("Servers :");
 	bot.guilds.cache.array().forEach(guild => {
@@ -27,7 +27,10 @@ bot.on("ready", function() {
 	});
 	console.log("\n");
 	bot.user.setActivity(`${config.prefix}help`, {type: "WATCHING"});
-//	bot.users.get(config.ownerID).send({ embed: { color: 65330, description: "Started successfully" } });
+	const owner = await bot.users.fetch(config.ownerID);
+	if (owner)
+		owner.send({embed: {color: 65330, description: "Started successfully"}});
+	setInterval(restartBot, 86400000); // 86,400,000ms = 24hrs
 });
 
 bot.on("error", function() {
@@ -236,6 +239,25 @@ function ownerDMCommands(message) {
 		redirectCommands(message);
 }
 
+async function restartBot(channel) {
+	if (channel)
+		channel.send("Restarting...")
+			.then(() => bot.destroy())
+			.then(async function() {
+				bot.login(config.token);
+				const owner = await bot.users.fetch(config.ownerID);
+				if (owner)
+					owner.send({embed: {color: 65330, description: "Started successfully"}});
+			});
+	else {
+		bot.destroy();
+		bot.login(config.token);
+		const owner = await bot.users.fetch(config.ownerID);
+		if (owner)
+			owner.send({embed: {color: 65330, description: "Started successfully"}});
+	}
+}
+
 function ownerCommands(message) {
 	switch (message.content) {
 		case (`${config.prefix}join`):
@@ -249,7 +271,7 @@ function ownerCommands(message) {
 			help.printOwnerHelp(message);
 			return;
 		case (`${config.prefix}restart`):
-			process.exit();
+			restartBot(message.channel);
 			break;
 		case (`${config.prefix}emote`):
 			message.delete();
