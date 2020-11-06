@@ -75,7 +75,7 @@ exports.removeRole = async function(reaction, user, elem) {
 		if (members[i].id === user.id)
 			member = members[i];
 	if (!member)
-		throw new Error(`Can't find user ${user.id} on sever ${guild.name} (id: ${guild.id}) to give him role by react with emoji ${reaction._emoji.name} to message ${reaction.message.id}`);
+		throw new Error(`Can't find user ${user.id} on sever ${guild.name} (id: ${guild.id}) to remove him role by react with emoji ${reaction._emoji.name} to message ${reaction.message.id}`);
 	const roleName = getRoleName(guild.id, reaction.message.id, reaction._emoji.name);
 	if (!roleName)
 		throw new Error(`Can't find role on server ${guild.name} (id: ${guild.id})for emoji ${reaction._emoji.name} for message ${reaction.message.id} to listen`);
@@ -85,7 +85,8 @@ exports.removeRole = async function(reaction, user, elem) {
 	member.roles.remove(role);
 	if (hasDefaultRole(guild.id, reaction.message.id)) {
 		const defaultRoleName = getDefaultRole(guild.id, reaction.message.id);
-		const defaultRole = guild.roles.cache.find(role => role.name === defaultRoleName);
+		let defaultRole = await guild.roles.fetch();
+		defaultRole = defaultRole.cache.find(role => role.name === defaultRoleName);
 		if (defaultRole)
 			member.roles.add(defaultRole);
 	}

@@ -30,7 +30,7 @@ bot.on("ready", async function() {
 	const owner = await bot.users.fetch(config.ownerID);
 	if (owner)
 		owner.send({embed: {color: 65330, description: "Started successfully"}});
-	setInterval(restartBot, 86400000); // 86,400,000ms = 24hrs
+//	setInterval(restartBot, 86400000); // 86,400,000ms = 24hrs
 });
 
 bot.on("error", async function() {
@@ -355,7 +355,7 @@ function sendError(message, exception) {
 }
 
 function consoleErrorMessage(message, exception) {
-	console.log(message)
+	console.log(message);
 	console.log(`ERREUR\nL\'utilisateur ${(message.author ? message.author.tag : "**null**")}${!message.guild ? "" : `, sur le serveur ${message.guild.name}`} a envoyé la commande :\n${message.content}\n\nL\'erreur suivante s\'est produite :\n${exception.stack}`);
 }
 
