@@ -2,7 +2,7 @@ const config = require("../config.json");
 const ytdl = require("ytdl-core");
 const fetch = require("node-fetch");
 const isInArray = require("./isInArray.js");
-const getReportLogChannel = require("./getReportLogChannel.js");
+const getReportLogChannel = require("../../../utils/getReportLogChannel.js");
 
 const queue = new Map();
 

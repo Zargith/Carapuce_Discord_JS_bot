@@ -88,6 +88,10 @@ module.exports.printHelp = function(message) {
 					value: "Permet de vous marier à n'importe qui sur le serveur (ou la personne que vous souhaitez en la mentionnant) grâce aux divines lois de Las Vegas !"
 				},
 				{
+					name: `__${config.prefix}*nom d'un emoji animé du serveur*__`,
+					value: "Supprime votre message et met un message avec l'emoji animé que vous avez indiqué."
+				},
+				{
 					name: `> ${config.prefix}DansLaWhiteList`,
 					value: "Permet de savoir si vous êtes dans la white list."
 				},

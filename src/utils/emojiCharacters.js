@@ -10,5 +10,5 @@ module.exports = {
 	"6": "6⃣", "7": "7⃣", "8": "8⃣", "9": "9⃣",
 	"10": "🔟", "#": "#⃣", "*": "*⃣",
 	"!": "❗", "?": "❓", "carapuce": "<:carapuce:551198314687758357>", "happy_carapuce": "<:happy_carapuce:553490319103098883>",
-	"angry_carapuce": "<:angry_carapuce:568356340003635200>", "sad_carapuce": "<:sad_carapuce:562773515745361920>", "surprised_carapuce": "<:surprised_carapuce:568777407046221824>"
+	"angry_carapuce": "<:angry_carapuce:568356340003635200>", "sad_carapuce": "<:sad_carapuce:562773515745361920>", "surprised_carapuce": "<:surprised_carapuce:568777407046221824>", "shrug": "¯\\_(ツ)_/¯"
 };
