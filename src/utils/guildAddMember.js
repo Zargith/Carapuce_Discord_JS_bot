@@ -1,8 +1,8 @@
-const config = require("../config.json");
+const config = require("../../config.json");
 const Discord = require("discord.js");
 const Canvas = require("canvas");
-const isServerInConfig = require("./isServerInConfig.js");
-const getDefaultRolesName = require("./getDefaultRolesName.js");
+const isServerInConfig = require("./role_reaction_managment/isServerInConfig.js");
+const getDefaultRolesName = require("./role_reaction_managment/getDefaultRolesName.js");
 
 const applyText = (canvas, text) => {
 	const ctx = canvas.getContext("2d");

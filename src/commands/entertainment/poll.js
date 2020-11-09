@@ -1,6 +1,6 @@
-const config = require("../config.json");
+const config = require("../../../config.json");
 const Discord = require("discord.js");
-const emojis = require("./emojiCharacters.js");
+const emojis = require("../../utils/emojiCharacters.js");
 
 module.exports = function(message) {
 	const args = message.content.split(";");

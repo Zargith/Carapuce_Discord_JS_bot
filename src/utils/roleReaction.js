@@ -1,12 +1,12 @@
-const isServerInConfig = require("./isServerInConfig.js");
-const isMessageToListen = require("./isMessageToListen.js");
-const isEmojiToListen = require("./isEmojiToListen.js");
-const getRoleName = require("./getRoleName.js");
-const getConfiguredRolesNames = require("./getConfiguredRolesNames.js");
-const asAlreadyAConfiguredRole = require("./asAlreadyAConfiguredRole.js");
-const isCumulativeListener = require("./isCumulativeListener.js");
-const hasDefaultRole = require("./hasDefaultRole.js");
-const getDefaultRole = require("./getDefaultRole.js");
+const isServerInConfig = require("./role_reaction_managment/isServerInConfig.js");
+const isMessageToListen = require("./role_reaction_managment/isMessageToListen.js");
+const isEmojiToListen = require("./role_reaction_managment/isEmojiToListen.js");
+const getRoleName = require("./role_reaction_managment/getRoleName.js");
+const getConfiguredRolesNames = require("./role_reaction_managment/getConfiguredRolesNames.js");
+const asAlreadyAConfiguredRole = require("./role_reaction_managment/asAlreadyAConfiguredRole.js");
+const isCumulativeListener = require("./role_reaction_managment/isCumulativeListener.js");
+const hasDefaultRole = require("./role_reaction_managment/hasDefaultRole.js");
+const getDefaultRole = require("./role_reaction_managment/getDefaultRole.js");
 
 exports.addRole = async function(reaction, user) {
 	const guild = reaction.message.guild;

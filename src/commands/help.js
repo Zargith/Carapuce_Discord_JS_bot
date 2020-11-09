@@ -1,4 +1,4 @@
-const config = require("../config.json");
+const config = require("../../config.json");
 
 module.exports.printHelp = function(message) {
 	message.channel.send({
@@ -7,16 +7,12 @@ module.exports.printHelp = function(message) {
 			description: "__**Les différentes commandes :**__",
 			fields: [
 				{
-					name: `> ${config.prefix}invite`,
-					value: "Permet d'obtenir un lien d'invitation du bot, si vous voulez l'inviter sur votre serveur."
-				},
-				{
 					name: `> ${config.prefix}help`,
 					value: "Pour afficher cette aide.",
 					inline: true
 				},
 				{
-					name: `> ${config.prefix}bonjour`,
+					name: `__${config.prefix}bonjour/salut/hello/hey/hi/hoï/hola/holà__`,
 					value: "Carapuce te dit bonjour.",
 					inline: true
 				},
@@ -88,8 +84,12 @@ module.exports.printHelp = function(message) {
 					value: "Permet de vous marier à n'importe qui sur le serveur (ou la personne que vous souhaitez en la mentionnant) grâce aux divines lois de Las Vegas !"
 				},
 				{
-					name: `__${config.prefix}*nom d'un emoji animé du serveur*__`,
+					name: `> ${config.prefix}*nom d'un emoji animé du serveur*`,
 					value: "Supprime votre message et met un message avec l'emoji animé que vous avez indiqué."
+				},
+				{
+					name: `> ${config.prefix}invite`,
+					value: "Permet d'obtenir un lien d'invitation du bot, si vous voulez l'inviter sur votre serveur."
 				},
 				{
 					name: `> ${config.prefix}DansLaWhiteList`,
@@ -104,7 +104,7 @@ module.exports.printHelp = function(message) {
 	});
 };
 
-module.exports.printOwnerHelp = function(message) {
+module.exports.printAdminHelp = function(message) {
 	message.channel.send({
 		embed: {
 			color: 3447003,
@@ -143,8 +143,24 @@ module.exports.printOwnerHelp = function(message) {
 					value: "Pour redémarrer le bot."
 				},
 				{
+					name: `> ${config.prefix}clean`,
+					value: "Pour supprimer tous les messages d'un channel."
+				},
+				{
+					name: `> ${config.prefix}cleanAfter *<id du message>*`,
+					value: "Pour supprimer tous les messages d'un channel **après** un message."
+				},
+				{
+					name: `> ${config.prefix}cleanNLasts *<nombre>*`,
+					value: "Pour supprimer les N (+1 qui est cette commande) derniers messages d'un channel."
+				},
+				{
 					name: `> ${config.prefix}listGuilds`,
 					value: "Pour avoir la liste des serveurs sur lequel est le bot."
+				},
+				{
+					name: `> ${config.prefix}throw *<...>*`,
+					value: "Pour provoquer un throw avec un message custom."
 				},
 				{
 					name: `> ${config.prefix}channelsOfGuild *<id du serveur>*`,
@@ -157,10 +173,6 @@ module.exports.printOwnerHelp = function(message) {
 				{
 					name: `> ${config.prefix}sendMP <*id d\'une personne>* *<message>*`,
 					value: "Pour envoyer un message privé à quelqu'un."
-				},
-				{
-					name: `> ${config.prefix}clean`,
-					value: "Pour envoyer supprimer tous les messages d'un channel."
 				},
 			],
 		}

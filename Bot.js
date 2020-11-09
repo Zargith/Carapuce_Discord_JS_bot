@@ -4,20 +4,17 @@ const config = require("./config.json");
 
 
 // src directory
-const isInArrayStartsWith = require("./src/isInArrayStartsWith.js");
-const isInArray = require("./src/isInArray.js");
-const help = require("./src/help.js");
-const emojis = require("./src/emojiCharacters.js");
-const guildMemberAdd = require("./src/guildAddMember.js");
-const roleReaction = require("./src/roleReaction.js");
-const caraquiz = require("./src/CaraQuiz.js");
-const myPoll = require("./src/poll.js");
-const shifumi = require("./src/shifumi.js");
-const flipCoin = require("./src/flipCoin.js");
-const DJCarapuce = require("./src/DJCarapuce.js");
-const LasVegas = require("./src/LasVegas.js");
-const cleanChannel = require("./src/cleanChannel.js");
-const checkBannedWords = require("./src/checkBannedWords.js");
+const isInArrayStartsWith = require("./src/utils/isInArrayStartsWith.js");
+const guildMemberAdd = require("./src/utils/guildAddMember.js");
+const emojis = require("./src/utils/emojiCharacters.js");
+const isInArray = require("./src/utils/isInArray.js");
+const roleReaction = require("./src/utils/roleReaction.js");
+const isInWhiteList = require("./src/utils/isInWhiteList.js");
+const isServerAdmin = require("./src/utils/isServerAdmin.js");
+const checkBannedWords = require("./src/utils/checkBannedWords/checkBannedWords.js");
+const sendError = require("./src/utils/sendError.js");
+const usersCommands = require("./src/commands/usersCommands.js");
+const adminCommands = require("./src/commands/adminCommands.js");
 
 bot.on("ready", async function() {
 	console.log(`Log in as ${bot.user.tag} !`);
@@ -305,16 +302,6 @@ function ownerCommands(message) {
 	}
 }
 
-function isInWhiteList(id) {
-	let res = false;
-
-	config.whiteList.forEach(whiteID => {
-		if (whiteID === id)
-			res = true;
-	});
-	return (res);
-}
-
 bot.on("message", message => {
 	try {
 		if (message.content.toLowerCase().includes("carapuce") || (message.content.includes("<@!550786957245153290>"))) {
@@ -327,7 +314,8 @@ bot.on("message", message => {
 			}
 		}
 
-		if (message.author.bot)
+		// if the message doesn't start by the prefix setted on the config file or if this variable isn't defined, the code doesn't go further
+		if (!config.prefix || !message.content.startsWith(config.prefix) || message.author.bot)
 			return;
 		checkBannedWords(message);
 		if (!message.content.startsWith(config.prefix))
@@ -340,33 +328,12 @@ bot.on("message", message => {
 				bot.users.get(config.ownerID).send({embed: {color: 3447003, description: `L\'utilisateur ${message.author.username} m\'a envoyé :\n\n${message.content}`}});
 			return;
 		} else if (message.author.id === config.ownerID || isInWhiteList(message.author.id))
-			ownerCommands(message);
+			adminCommands(message, bot);
 		else
-			redirectCommands(message);
+			usersCommands(message, bot);
 	} catch (exception) {
-		sendError(message, exception);
+		sendError(message, exception, bot);
 	}
 });
-
-function sendError(message, exception) {
-	consoleErrorMessage(message, exception);
-	channelErrorMessage(message, exception);
-	ownerErrorMessage(message, exception);
-}
-
-function consoleErrorMessage(message, exception) {
-	console.log(message);
-	console.log(`ERREUR\nL\'utilisateur ${(message.author ? message.author.tag : "**null**")}${!message.guild ? "" : `, sur le serveur ${message.guild.name}`} a envoyé la commande :\n${message.content}\n\nL\'erreur suivante s\'est produite :\n${exception.stack}`);
-}
-
-function channelErrorMessage(message, exception) {
-	message.channel.send({embed: {color: 16711680, description: `__**ERREUR**__\nLa commande n\'a pas fonctionnée...\n\n__L\'erreur suivante s\'est produite :__\n*${exception}*`}});
-}
-
-async function ownerErrorMessage(message, exception) {
-	const owner = await bot.users.fetch(config.ownerID);
-	if (owner)
-		owner.send.send({embed: {color: 16711680, description: `__**ERREUR**__\nL\'utilisateur ${message.author.tag}${ message.guild === null ? "" : `, sur le serveur ${message.member.guild.name}`} a envoyé la commande :\n${message.content}\n\n__L\'erreur suivante s\'est produite :__\n*${exception.stack}*`}});
-}
 
 bot.login(config.token);

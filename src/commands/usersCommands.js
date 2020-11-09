@@ -86,7 +86,6 @@ module.exports = function(message, bot) {
 		case (`${config.prefix}invite`):
 			message.channel.send("https://discordapp.com/api/oauth2/authorize?client_id=550786957245153290&permissions=0&scope=bot");
 			break;
-
 		default:
 			// check if the user tryed to use an animated emoji
 			// else say that the command isn't reconized

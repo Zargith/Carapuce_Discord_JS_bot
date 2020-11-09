@@ -1,5 +1,5 @@
-const isInArray = require("./isInArray.js");
-const emojis = require("./emojiCharacters.js");
+const isInArray = require("../../utils/isInArray.js");
+const emojis = require("../../utils/emojiCharacters.js");
 
 module.exports = function(message) {
 	const arg = message.content.split(" ");
