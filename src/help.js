@@ -1,15 +1,13 @@
 const config = require("../config.json");
+const emojiCharacters = require("./emojiCharacters");
 
 module.exports.printHelp = function(message) {
 	message.channel.send({
 		embed: {
 			color: 3447003,
+			title: "Panneau d'aide / Help pannel",
 			description: "__**Les différentes commandes :**__",
 			fields: [
-				{
-					name: `> ${config.prefix}invite`,
-					value: "Permet d'obtenir un lien d'invitation du bot, si vous voulez l'inviter sur votre serveur."
-				},
 				{
 					name: `> ${config.prefix}help`,
 					value: "Pour afficher cette aide.",
@@ -23,11 +21,6 @@ module.exports.printHelp = function(message) {
 				{
 					name: `> ${config.prefix}ping`,
 					value: "Pong !",
-					inline: true
-				},
-				{
-					name: `> ${config.prefix}puce`,
-					value: "Carapuce !",
 					inline: true
 				},
 				{
@@ -56,22 +49,6 @@ module.exports.printHelp = function(message) {
 					inline: true
 				},
 				{
-					name: `> ${config.prefix}play *<URL ou ID Youtube / mots clés>*`,
-					value: "Joue la musique ou ajoute à la liste d'attente. Prend en paramètre une URL (ou ID) Youtube ou des mots-clés et joue la première."
-				},
-				{
-					name: `> ${config.prefix}skip`,
-					value: "Permet de passer une musique suivante de la liste."
-				},
-				{
-					name: `> ${config.prefix}stop`,
-					value: "Permet d'arrêter de jouer de la musique, même s'il reste des musiques dans la liste d'attente."
-				},
-				{
-					name: `> ${config.prefix}playlist`,
-					value: "Permet de voir la playlist en cours de musiques actuelles pour le serveur."
-				},
-				{
 					name: `> ${config.prefix}shifumi *<pierre (ou p) / feuille (ou f) / ciseaux (ou c)>*`,
 					value: "Permet de jouer à shifumi / pierre feuille ciseaux."
 				},
@@ -88,6 +65,14 @@ module.exports.printHelp = function(message) {
 					value: "Permet de vous marier à n'importe qui sur le serveur (ou la personne que vous souhaitez en la mentionnant) grâce aux divines lois de Las Vegas !"
 				},
 				{
+					name: `> ${config.prefix}help musique`,
+					value: "Pour afficher l'aide pour les musiques."
+				},
+				{
+					name: `> ${config.prefix}invite`,
+					value: "Permet d'obtenir un lien d'invitation du bot, si vous voulez l'inviter sur votre serveur."
+				},
+				{
 					name: `> ${config.prefix}DansLaWhiteList`,
 					value: "Permet de savoir si vous êtes dans la white list."
 				},
@@ -96,6 +81,72 @@ module.exports.printHelp = function(message) {
 					value: "Permet d'afficher le help de la whitelist."
 				}
 			],
+			footer: {text: `---------------------------------------------------------------------------------------------------\n${emojiCharacters.FR} Ce bot utilise un projet Github fait par Zargith (Zargith/Carapuce_Discord_JS_bot)\n${emojiCharacters.EN} This bot uses a Github project made by Zargith (Zargith/Carapuce_Discord_JS_bot)`},
+			author: {name: "Auteur: Zargith", url: "https://github.com/Zargith/Carapuce_Discord_JS_bot"},
+			timestamp: new Date()
+		}
+	});
+};
+
+module.exports.printHelpMusic = function(message) {
+	message.channel.send({
+		embed: {
+			color: 3447003,
+			title: "Panneau d'aide des musiques / Musics help pannel",
+			description: "__**Les différentes commandes :**__",
+			fields: [
+				{
+					name: `> ${config.prefix}play *<URL Youtube/Spotify/Soundcloud ou mots clés>*`,
+					value: "Joue la musique ou ajoute à la liste d'attente. Prend en paramètre une URL (ou ID) Youtube ou des mots-clés et joue la première."
+				},
+				{
+					name: `> ${config.prefix}pause`,
+					value: "Permet de mettre en pause la musique actuellement jouée."
+				},
+				{
+					name: `> ${config.prefix}resume`,
+					value: "Permet de repprendre la musique précédement mise en pause."
+				},
+				{
+					name: `> ${config.prefix}stop`,
+					value: "Permet d'arrêter de jouer de la musique, même s'il reste des musiques dans la liste d'attente."
+				},
+				{
+					name: `> ${config.prefix}playlist`,
+					value: "Permet de voir la playlist de musiques en cours pour le serveur."
+				},
+				{
+					name: `> ${config.prefix}clearPlaylist`,
+					value: "Permet de vider la playlist actuelle du serveur."
+				},
+				{
+					name: `> ${config.prefix}progress`,
+					value: "Permet de voir la la progression de la musique en cours."
+				},
+				{
+					name: `> ${config.prefix}loop`,
+					value: "Permet d'activer et de désactiver le mode boucle pour le serveur."
+				},
+				{
+					name: `> ${config.prefix}shuffle`,
+					value: "Permet de de mélanger les musiques présentes dans la playlist du serveur."
+				},
+				{
+					name: `> ${config.prefix}filters **update**`,
+					value: "Permet de voir d'activer/désactiver un filtre pour le serveur."
+				},
+				{
+					name: `> ${config.prefix}filters`,
+					value: "Permet de voir la liste des filtres (non-)actifs sur le serveur."
+				},
+				{
+					name: "Filtres :",
+					value: "`bassboost`, `8D`, `vaporwave`, `nightcore`, `phaser`, `tremolo`, `vibrato`, `reverse`, `treble`, `normalizer`, `surrounding`, `pulsator`, `subboost`, `karaoke`, `flanger`, `gate`, `haas`, `mcompand`"
+				}
+			],
+			footer: {text: `---------------------------------------------------------------------------------------------------\n${emojiCharacters.FR} Ce bot utilise un projet Github fait par Zargith (Zargith/Carapuce_Discord_JS_bot)\n${emojiCharacters.EN} This bot uses a Github project made by Zargith (Zargith/Carapuce_Discord_JS_bot)`},
+			author: {name: "Auteur: Zargith", url: "https://github.com/Zargith/Carapuce_Discord_JS_bot"},
+			timestamp: new Date()
 		}
 	});
 };
@@ -104,6 +155,7 @@ module.exports.printOwnerHelp = function(message) {
 	message.channel.send({
 		embed: {
 			color: 3447003,
+			title: "Panneau d'aide pour les admins et l'autheur / Help pannel for admins and the owner",
 			description: "__**Les différentes commandes :**__",
 			fields: [
 				{
@@ -159,6 +211,9 @@ module.exports.printOwnerHelp = function(message) {
 					value: "Pour envoyer supprimer tous les messages d'un channel."
 				},
 			],
+			footer: {text: `---------------------------------------------------------------------------------------------------\n${emojiCharacters.FR} Ce bot utilise un projet Github fait par Zargith (Zargith/Carapuce_Discord_JS_bot)\n${emojiCharacters.EN} This bot uses a Github project made by Zargith (Zargith/Carapuce_Discord_JS_bot)`},
+			author: {name: "Auteur: Zargith", url: "https://github.com/Zargith/Carapuce_Discord_JS_bot"},
+			timestamp: new Date()
 		}
 	});
 };

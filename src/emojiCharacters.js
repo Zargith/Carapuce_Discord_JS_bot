@@ -9,6 +9,12 @@ module.exports = {
 	"2": "2⃣", "3": "3⃣", "4": "4⃣", "5": "5⃣",
 	"6": "6⃣", "7": "7⃣", "8": "8⃣", "9": "9⃣",
 	"10": "🔟", "#": "#⃣", "*": "*⃣",
-	"!": "❗", "?": "❓", "carapuce": "<:carapuce:551198314687758357>", "happy_carapuce": "<:happy_carapuce:553490319103098883>",
-	"angry_carapuce": "<:angry_carapuce:568356340003635200>", "sad_carapuce": "<:sad_carapuce:562773515745361920>", "surprised_carapuce": "<:surprised_carapuce:568777407046221824>"
+	"!": "❗", "?": "❓", "error": "❌", "success": "✔️",
+	"carapuce": "<:carapuce:551198314687758357>",
+	"happy_carapuce": "<:happy_carapuce:553490319103098883>",
+	"angry_carapuce": "<:angry_carapuce:568356340003635200>",
+	"sad_carapuce": "<:sad_carapuce:562773515745361920>",
+	"surprised_carapuce":
+	"<:surprised_carapuce:568777407046221824>",
+	"FR": "🇫🇷", "EN": "🇬🇧",
 };

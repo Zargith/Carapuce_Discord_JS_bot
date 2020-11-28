@@ -1,11 +1,13 @@
 const Discord = require("discord.js");
-const bot = new Discord.Client({partials: ["MESSAGE", "CHANNEL", "REACTION"]});
+const bot = new Discord.Client({partials: ["MESSAGE", "CHANNEL", "REACTION"], disableMentions: "everyone"});
 const config = require("./config.json");
-
+const {Player} = require("discord-player"); // Create a new Player (Youtube API key is your Youtube Data v3 key)
+const player = new Player(bot); // To easily access the player
+bot.player = player;
+bot.filters = config.filters;
 
 // src directory
 const isInArrayStartsWith = require("./src/isInArrayStartsWith.js");
-const isInArray = require("./src/isInArray.js");
 const help = require("./src/help.js");
 const emojis = require("./src/emojiCharacters.js");
 const guildMemberAdd = require("./src/guildAddMember.js");
@@ -14,10 +16,53 @@ const caraquiz = require("./src/CaraQuiz.js");
 const myPoll = require("./src/poll.js");
 const shifumi = require("./src/shifumi.js");
 const flipCoin = require("./src/flipCoin.js");
-const DJCarapuce = require("./src/DJCarapuce.js");
+const DJCarapuce = require("./src/music/newDJCarapuce.js");
 const LasVegas = require("./src/LasVegas.js");
 const cleanChannel = require("./src/cleanChannel.js");
 const checkBannedWords = require("./src/checkBannedWords.js");
+
+
+// Then add some messages that will be sent when the events will be triggered
+// Send a message when a track starts
+bot.player.on("trackStart", (message, track) => message.channel.send(`Now playing ${track.title}...`));
+
+// Send a message when something is added to the queue
+bot.player.on("trackAdd", (message, track) => message.channel.send(`${track.title} has been added to the queue!`));
+bot.player.on("playlistAdd", (message, playlist) => message.channel.send(`${playlist.title} has been added to the queue (${playlist.items.length} songs)!`));
+
+// Send messages to format search results
+bot.player.on("searchResults", (message, query, tracks) => {
+	const embed = new Discord.MessageEmbed()
+		.setAuthor(`Here are your search results for ${query}!`)
+		.setDescription(tracks.map((t, i) => `${i}. ${t.title}`))
+		.setFooter("Send the number of the song you want to play!");
+	message.channel.send(embed);
+});
+bot.player.on("searchInvalidResponse", (message, query, tracks, content, collector) => message.channel.send(`You must send a valid number between 1 and ${tracks.length}!`));
+bot.player.on("searchCancel", (message, query, tracks) => message.channel.send("You did not provide a valid response... Please send the command again!"));
+bot.player.on("noResults", (message, query) => message.channel.send(`No results found on YouTube for ${query}!`));
+
+// Send a message when the music is stopped
+bot.player.on("queueEnd", (message, queue) => message.channel.send("Music stopped as there is no more music in the queue!"));
+bot.player.on("channelEmpty", (message, queue) => message.channel.send("Music stopped as there is no more member in the voice channel!"));
+bot.player.on("botDisconnect", (message, queue) => message.channel.send("Music stopped as I have been disconnected from the channel!"));
+
+// Error handling
+bot.player.on("error", (error, message) => {
+	switch (error) {
+		case ("NotPlaying"):
+			message.channel.send("There is no music being played on this server!");
+			break;
+		case ("NotConnected"):
+			message.channel.send("You are not connected in any voice channel!");
+			break;
+		case ("UnableToJoin"):
+			message.channel.send("I am not able to join your voice channel, please check my permissions!");
+			break;
+		default:
+			message.channel.send(`Something went wrong... Error: ${error}`);
+	}
+});
 
 bot.on("ready", async function() {
 	console.log(`Log in as ${bot.user.tag} !`);
@@ -30,7 +75,7 @@ bot.on("ready", async function() {
 	const owner = await bot.users.fetch(config.ownerID);
 	if (owner)
 		owner.send({embed: {color: 65330, description: "Started successfully"}});
-//	setInterval(restartBot, 86400000); // 86,400,000ms = 24hrs
+	setInterval(restartBot, 86400000); // 86,400,000ms = 24hrs
 });
 
 bot.on("error", async function() {
@@ -99,11 +144,12 @@ function redirectCommands(message) {
 	if (message.content.includes("ta maman") || message.content.includes("ta mère"))
 		message.reply(` ON AVAIT DIT PAS LES MAMANS !!! ${emojis.angry_carapuce}`);
 
-	if (isInArrayStartsWith(message.content, [`${config.prefix}play`, `${config.prefix}skip`, `${config.prefix}stop`, `${config.prefix}playlist`])) {
+	if (isInArrayStartsWith(message.content, [`${config.prefix}play`, `${config.prefix}skip`, `${config.prefix}stop`, `${config.prefix}playlist`, `${config.prefix}pause`, `${config.prefix}resume`, `${config.prefix}filters`, `${config.prefix}shuffle`, `${config.prefix}setVolume`, `${config.prefix}loop`, `${config.prefix}clearPlaylist`, `${config.prefix}progress`])) {
 		if (message.guild === null) {
 			message.reply("Tu ne peux pas utiliser cette commande en privé.");
 			return;
 		}
+		message.channel.send("/!\\ Attention. La version actuelle de la library externe de musique n'est pas stable et peut ne pas fonctionner (sans pour autant renvoyer un message d'erreur ! /!\\.");
 		DJCarapuce(message, bot);
 		return;
 	}
@@ -117,6 +163,7 @@ function redirectCommands(message) {
 			return;
 		case (`${config.prefix}ping`):
 			message.channel.send(`Carapong ! ${emojis.carapuce}`);
+			message.channel.send(`My Ping is : **${bot.ws.ping}ms** !`);
 			return;
 		case (`${config.prefix}vatar`):
 			message.reply(message.author.avatarURL);
@@ -183,6 +230,11 @@ function redirectCommands(message) {
 			throw err;
 		});
 		return;
+	} else if (message.content.startsWith(`${config.prefix}help`)) {
+		const args = message.content.slice(config.prefix.length).trim().split(" ");
+		args.shift();
+		if (args[0] === "musique")
+			help.printHelpMusic(message);
 	} else
 		message.channel.send(`Commande non reconnue... ${emojis.sad_carapuce}`);
 }
