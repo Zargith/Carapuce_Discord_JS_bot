@@ -149,7 +149,7 @@ function redirectCommands(message) {
 			message.reply("Tu ne peux pas utiliser cette commande en privé.");
 			return;
 		}
-		message.channel.send("/!\\ Attention. La version actuelle de la library externe de musique n'est pas stable et peut ne pas fonctionner (sans pour autant renvoyer un message d'erreur ! /!\\.");
+		message.channel.send("/!\\ Attention. La version actuelle de la library externe de musique n'est pas stable et peut ne pas fonctionner (sans pour autant renvoyer un message d'erreur ! /!\\");
 		DJCarapuce(message, bot);
 		return;
 	}
