@@ -57,10 +57,8 @@ module.exports.addDefaultRoles = async function(member) {
 	const defaultRolesName = getDefaultRolesName(guild.id);
 	if (!defaultRolesName || defaultRolesName === [])
 		return;
-	for (let i = 0; i < defaultRolesName.length; i++) {
-		let role = guild.roles.cache.find(role => role.name === defaultRolesName[i]);
-		if (!role)
-			throw new Error(`Cannot find role *${defaultRolesName[i]}* and give it to <@${member.id}>`);
-		member.roles.add(role);
-	}
+	const role = guild.roles.cache.find(r => r.name === defaultRolesName[i]);
+	if (!role)
+		throw new Error(`Cannot find role *${defaultRolesName[i]}* and give it to <@${member.id}>`);
+	member.roles.add(role);
 };

@@ -32,7 +32,7 @@ bot.on("error", async function() {
 	console.log(`Error name : ${error.name}\nError message : ${error.message}`);
 	const owner = await bot.users.fetch(config.ownerID);
 	if (owner)
-		owner.send({embed: {color: 16711680, description: `__**ERREUR**__\n__Error name :__ *${error.name}*\n__Error message :__*${error.message}*`}});
+		owner.send({embed: {color: 16711680, description: `__**ERREUR**__ at ${new Date()}\n__Error name :__ *${error.name}*\n__Error message :__*${error.message}*`}});
 });
 
 bot.on("invalidated", async function(error) {
@@ -41,7 +41,8 @@ bot.on("invalidated", async function(error) {
 	if (owner)
 		owner.send.send({embed: {color: 16711680, description: "Session has been invalidated. Restarting the bot."}})
 			.then(msg => bot.destroy())
-			.then(() => bot.login(config.token));
+			.then(() => bot.login(config.token))
+			.then(() => bot.user.setActivity(`${config.prefix}help`, {type: "WATCHING"}));
 });
 
 bot.on("messageReactionAdd", async (reaction, user) => {
@@ -54,7 +55,7 @@ bot.on("messageReactionAdd", async (reaction, user) => {
 		if (config.ownerID) {
 			const owner = await bot.users.fetch(config.ownerID);
 			if (owner)
-				owner.send.send({embed: {color: 16711680, description: `__**ERREUR**__\nLorsque l'utilisateur ${user.tag} sur le serveur ${(reaction.message || reaction.message.guild ? reaction.message.guild.name : null)} a ajouté une réaction, l'erreur suivante s'est produite :\n*${exception.stack}*`}});
+				owner.send.send({embed: {color: 16711680, description: `__**ERREUR**__ at ${new Date()}\nLorsque l'utilisateur ${user.tag} sur le serveur ${(reaction.message || reaction.message.guild ? reaction.message.guild.name : null)} a ajouté une réaction, l'erreur suivante s'est produite :\n*${exception.stack}*`}});
 		}
 	}
 });
@@ -69,7 +70,7 @@ bot.on("messageReactionRemove", async (reaction, user) => {
 		if (config.ownerID) {
 			const owner = await bot.users.fetch(config.ownerID);
 			if (owner)
-				owner.send({embed: {color: 16711680, description: `__**ERREUR**__\nLorsque l'utilisateur ${user.tag} sur le serveur ${(reaction.message || reaction.message.guild ? reaction.message.guild.name : null)} a retiré une réaction, l'erreur suivante s'est produite :\n*${exception.stack}*`}});
+				owner.send({embed: {color: 16711680, description: `__**ERREUR**__ at ${new Date()}\nLorsque l'utilisateur ${user.tag} sur le serveur ${(reaction.message || reaction.message.guild ? reaction.message.guild.name : null)} a retiré une réaction, l'erreur suivante s'est produite :\n*${exception.stack}*`}});
 		}
 	}
 });
@@ -85,7 +86,7 @@ bot.on("guildMemberAdd", async member => {
 		if (config.ownerID) {
 			const owner = await bot.users.fetch(config.ownerID);
 			if (owner)
-				owner.send.send({embed: {color: 16711680, description: `__**ERREUR**__\nLors de l'arrivée de l'utilisateur ${member.user.tag} sur le serveur ${member.guild.name}\n\n__L'erreur suivante s'est produite:__\n*${exception.stack}*`}});
+				owner.send.send({embed: {color: 16711680, description: `__**ERREUR**__ at ${new Date()}\nLors de l'arrivée de l'utilisateur ${member.user.tag} sur le serveur ${member.guild.name}\n\n__L'erreur suivante s'est produite:__\n*${exception.stack}*`}});
 		}
 	}
 });
@@ -247,6 +248,7 @@ async function restartBot(channel) {
 				const owner = await bot.users.fetch(config.ownerID);
 				if (owner)
 					owner.send({embed: {color: 65330, description: "Started successfully"}});
+				bot.user.setActivity(`${config.prefix}help`, {type: "WATCHING"});
 			});
 	else {
 		bot.destroy();
@@ -254,6 +256,7 @@ async function restartBot(channel) {
 		const owner = await bot.users.fetch(config.ownerID);
 		if (owner)
 			owner.send({embed: {color: 65330, description: "Started successfully"}});
+		bot.user.setActivity(`${config.prefix}help`, {type: "WATCHING"});
 	}
 }
 
@@ -304,12 +307,8 @@ bot.on("message", message => {
 	try {
 		if (message.content.toLowerCase().includes("carapuce") || (message.content.includes("<@!550786957245153290>"))) {
 			const emojiCarapuce = bot.emojis.cache.find(emoji => emoji.name === "carapuce");
-			// const idEmojiCarapuce = bot.emojis.cache.find(emoji => {return (emoji.id === "551198314687758357" ? emoji : undefined)});
-			// const idEmojiCarapuce = bot.emojis.cache.get("551198314687758357");
-			if (emojiCarapuce/* || idEmojiCarapuce*/) {
+			if (emojiCarapuce)
 				message.react(emojiCarapuce);
-			// message.react(idEmojiCarapuce);
-			}
 		}
 
 		// if the message doesn't start by the prefix setted on the config file or if this variable isn't defined, the code doesn't go further
