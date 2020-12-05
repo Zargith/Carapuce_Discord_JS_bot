@@ -1,4 +1,4 @@
-const config = require("../../config.json");
+const config = require("../../../../config.json");
 const playlist = require("./playlist.js");
 const play = require("./play.js");
 const pause = require("./pause.js");

@@ -1,5 +1,5 @@
-const config = require("../../config.json");
-const emojiCharacters = require("../emojiCharacters.js");
+const config = require("../../../../config.json");
+const emojiCharacters = require("../../../utils/emojiCharacters.js");
 
 module.exports = async function(bot, message) {
 	if (!bot.player.getQueue(message))

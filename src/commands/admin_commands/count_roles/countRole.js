@@ -5,7 +5,7 @@ const countRoleByPing = require("./countRoleByPing.js");
 module.exports = function(message, bot) {
 	const args = message.content.split(" ");
 	if (args.length !== 2) {
-		message.channel.send("J'ai uniquement besoin d'un id, ping ou nom de rôle.");
+		message.channel.send("J'ai uniquement besoin d'une id, ping ou nom de rôle.");
 		return;
 	}
 	if (Number.isInteger(parseInt(args[1])) == true)

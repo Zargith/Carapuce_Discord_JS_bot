@@ -10,6 +10,7 @@ module.exports = async function restartBot(channel, bot) {
 				if (owner)
 					owner.send({embed: {color: 65330, description: "Started successfully"}});
 				channel.send("Redémarrage terminé !");
+				bot.user.setActivity(`${config.prefix}help`, {type: "WATCHING"});
 			});
 	else {
 		bot.destroy();
@@ -17,5 +18,6 @@ module.exports = async function restartBot(channel, bot) {
 		const owner = await bot.users.fetch(config.ownerID);
 		if (owner)
 			owner.send({embed: {color: 65330, description: "Started successfully"}});
+		bot.user.setActivity(`${config.prefix}help`, {type: "WATCHING"});
 	}
 };

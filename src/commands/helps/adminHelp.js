@@ -1,3 +1,6 @@
+const config = require("../../../config.json");
+const emojiCharacters = require("../../utils/emojiCharacters.js");
+
 module.exports = function(message) {
 	message.channel.send({
 		embed: {
@@ -5,76 +8,92 @@ module.exports = function(message) {
 			description: "__**Les différentes commandes :**__",
 			fields: [
 				{
-					name: `> ${config.prefix}ownerHelp`,
-					value: "Pour afficher cette aide pour les membres de la white list."
+					name: `${config.prefix}adminHelp`,
+					value: "```Pour afficher cette aide qui est pour les admins du serveur.```"
 				},
 				{
-					name: `> ${config.prefix}emote`,
-					value: "Pour afficher l\'émote Carapuce débile."
+					name: `${config.prefix}help *<DB / db / data base>*`,
+					value: "```Pour afficher l'aide des commandes relatives à la base de données.```"
 				},
 				{
-					name: `> ${config.prefix}happy`,
-					value: "Pour afficher l\'émote Carapuce heureux."
+					name: `${config.prefix}emote`,
+					value: "```Pour afficher l\'émote Carapuce débile.```",
+					inline: true
 				},
 				{
-					name: `> ${config.prefix}sad`,
-					value: "Pour afficher l\'emote Carapuce triste."
+					name: `${config.prefix}happy`,
+					value: "```Pour afficher l\'émote Carapuce heureux.```",
+					inline: true
 				},
 				{
-					name: `> ${config.prefix}angry`,
-					value: "Pour afficher l\'emote Carapuce en colère."
+					name: `${config.prefix}sad`,
+					value: "```Remplace le massage par l\'emote Carapuce triste.```",
+					inline: true
 				},
 				{
-					name: `> ${config.prefix}surprised`,
-					value: "Pour afficher l\'emote Carapuce choqué."
+					name: `${config.prefix}angry`,
+					value: "```Remplace le massage par l\'emote Carapuce en colère.```",
+					inline: true
 				},
 				{
-					name: `> ${config.prefix}pin *<message>*`,
-					value: "Épingle le message qui commence par cette commande."
+					name: `${config.prefix}surprised`,
+					value: "```Remplace le massage par l\'emote Carapuce choqué.```",
+					inline: true
 				},
 				{
-					name: `> ${config.prefix}unpin *<id du message>*`,
-					value: "Désépingle le message dont l'id est spécifiée."
+					name: `${config.prefix}pin *<message>*`,
+					value: "```Épingle le message qui commence par cette commande.```"
 				},
 				{
-					name: `> ${config.prefix}join`,
-					value: "Pour simuler notre arrivée sur le serveur."
+					name: `${config.prefix}unpin *<id du message>*`,
+					value: "```Désépingle le message dont l'id est spécifiée.```"
 				},
 				{
-					name: `> ${config.prefix}restart`,
-					value: "Pour redémarrer le bot."
+					name: `${config.prefix}join`,
+					value: "```Pour simuler notre arrivée sur le serveur.```",
+					inline: true
 				},
 				{
-					name: `> ${config.prefix}clean`,
-					value: "Pour supprimer tous les messages d'un channel."
+					name: `${config.prefix}restart`,
+					value: "```Pour redémarrer le bot.```",
+					inline: true
 				},
 				{
-					name: `> ${config.prefix}cleanAfter *<id du message>*`,
-					value: "Pour supprimer tous les messages d'un channel **après** un message."
+					name: `${config.prefix}clean`,
+					value: "```Pour supprimer tous les messages d'un channel.```"
 				},
 				{
-					name: `> ${config.prefix}cleanNLasts *<nombre>*`,
-					value: "Pour supprimer les N (+1 qui est cette commande) derniers messages d'un channel."
+					name: `${config.prefix}cleanAfter *<id du message>*`,
+					value: "```Pour supprimer tous les messages d'un channel **après** un message.```"
 				},
 				{
-					name: `> ${config.prefix}listGuilds`,
-					value: "Pour avoir la liste des serveurs sur lequel est le bot."
+					name: `${config.prefix}cleanNLasts *<nombre>*`,
+					value: "```Pour supprimer les N (+1 qui est cette commande) derniers messages d'un channel.```"
 				},
 				{
-					name: `> ${config.prefix}throw *<...>*`,
-					value: "Pour provoquer un throw avec un message custom."
+					name: `${config.prefix}listGuilds`,
+					value: "```Pour avoir la liste des serveurs sur lequel est le bot.```"
 				},
 				{
-					name: `> ${config.prefix}channelsOfGuild *<id du serveur>*`,
-					value: "Pour voir les channels d'un serveur."
+					name: `${config.prefix}count *<id du rôle / @leRole / leNomDuRôle >*`,
+					value: "```Pour avoir la liste des serveurs sur lequel est le bot.```"
 				},
 				{
-					name: `> ${config.prefix}messageToChannel *<id du channel>* *<message>*`,
-					value: "Pour envoyer un message dans un channel\n/!\\ Doit être un channel textuel."
+					name: `${config.prefix}throw *<...>*`,
+					value: "```Pour provoquer un throw avec un message custom.```",
+					inline: true
 				},
 				{
-					name: `> ${config.prefix}sendMP <*id d\'une personne>* *<message>*`,
-					value: "Pour envoyer un message privé à quelqu'un."
+					name: `${config.prefix}channelsOfGuild *<id du serveur>*`,
+					value: "```Pour voir les channels d'un serveur.```"
+				},
+				{
+					name: `${config.prefix}messageToChannel *<id du channel>* *<message>*`,
+					value: "```Pour envoyer un message dans un channel\n/!\\ Doit être un channel textuel.```"
+				},
+				{
+					name: `${config.prefix}sendMP <*id d\'une personne>* *<message>*`,
+					value: "```Pour envoyer un message privé à quelqu'un.```"
 				},
 			],
 			footer: {text: `---------------------------------------------------------------------------------------------------\n${emojiCharacters.FR} Ce bot utilise un projet Github fait par Zargith (Zargith/Carapuce_Discord_JS_bot)\n${emojiCharacters.EN} This bot uses a Github project made by Zargith (Zargith/Carapuce_Discord_JS_bot)`},
