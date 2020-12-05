@@ -91,7 +91,8 @@ bot.on("invalidated", async function(error) {
 	if (owner)
 		owner.send.send({embed: {color: 16711680, description: "Session has been invalidated. Restarting the bot."}})
 			.then(msg => bot.destroy())
-			.then(() => bot.login(config.token));
+			.then(() => bot.login(config.token))
+			.then(() => bot.user.setActivity(`${config.prefix}help`, {type: "WATCHING"}));
 });
 
 bot.on("messageReactionAdd", async (reaction, user) => {
@@ -304,6 +305,7 @@ async function restartBot(channel) {
 				const owner = await bot.users.fetch(config.ownerID);
 				if (owner)
 					owner.send({embed: {color: 65330, description: "Started successfully"}});
+				bot.user.setActivity(`${config.prefix}help`, {type: "WATCHING"});
 			});
 	else {
 		bot.destroy();
@@ -311,6 +313,7 @@ async function restartBot(channel) {
 		const owner = await bot.users.fetch(config.ownerID);
 		if (owner)
 			owner.send({embed: {color: 65330, description: "Started successfully"}});
+		bot.user.setActivity(`${config.prefix}help`, {type: "WATCHING"});
 	}
 }
 
@@ -371,12 +374,8 @@ bot.on("message", message => {
 	try {
 		if (message.content.toLowerCase().includes("carapuce") || (message.content.includes("<@!550786957245153290>"))) {
 			const emojiCarapuce = bot.emojis.cache.find(emoji => emoji.name === "carapuce");
-			// const idEmojiCarapuce = bot.emojis.cache.find(emoji => {return (emoji.id === "551198314687758357" ? emoji : undefined)});
-			// const idEmojiCarapuce = bot.emojis.cache.get("551198314687758357");
-			if (emojiCarapuce/* || idEmojiCarapuce*/) {
+			if (emojiCarapuce)
 				message.react(emojiCarapuce);
-			// message.react(idEmojiCarapuce);
-			}
 		}
 
 		if (message.author.bot)
@@ -408,17 +407,17 @@ function sendError(message, exception) {
 
 function consoleErrorMessage(message, exception) {
 	console.log(message);
-	console.log(`ERREUR\nL\'utilisateur ${(message.author ? message.author.tag : "**null**")}${!message.guild ? "" : `, sur le serveur ${message.guild.name}`} a envoyé la commande :\n${message.content}\n\nL\'erreur suivante s\'est produite :\n${exception.stack}`);
+	console.log(`ERREUR at ${new Date()}\nL\'utilisateur ${(message.author ? message.author.tag : "**null**")}${!message.guild ? "" : `, sur le serveur ${message.guild.name}`} a envoyé la commande :\n${message.content}\n\nL\'erreur suivante s\'est produite :\n${exception.stack}`);
 }
 
 function channelErrorMessage(message, exception) {
-	message.channel.send({embed: {color: 16711680, description: `__**ERREUR**__\nLa commande n\'a pas fonctionnée...\n\n__L\'erreur suivante s\'est produite :__\n*${exception}*`}});
+	message.channel.send({embed: {color: 16711680, description: `__**ERREUR**__ at ${new Date()}\nLa commande n\'a pas fonctionnée...\n\n__L\'erreur suivante s\'est produite :__\n*${exception}*`}});
 }
 
 async function ownerErrorMessage(message, exception) {
 	const owner = await bot.users.fetch(config.ownerID);
 	if (owner)
-		owner.send.send({embed: {color: 16711680, description: `__**ERREUR**__\nL\'utilisateur ${message.author.tag}${ message.guild === null ? "" : `, sur le serveur ${message.member.guild.name}`} a envoyé la commande :\n${message.content}\n\n__L\'erreur suivante s\'est produite :__\n*${exception.stack}*`}});
+		owner.send.send({embed: {color: 16711680, description: `__**ERREUR**__ at ${new Date()}\nL\'utilisateur ${message.author.tag}${ message.guild === null ? "" : `, sur le serveur ${message.member.guild.name}`} a envoyé la commande :\n${message.content}\n\n__L\'erreur suivante s\'est produite :__\n*${exception.stack}*`}});
 }
 
 bot.login(config.token);
