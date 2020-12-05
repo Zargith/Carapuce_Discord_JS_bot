@@ -23,8 +23,10 @@ const restartBot = require("./admin_commands/restartBot.js");
 
 
 module.exports = function(message, bot) {
-	const args = message.content.split(" ");
-	switch (args[0]) {
+	const command = message.content.slice(config.prefix.length).trim().split(" ").shift().toLowerCase();
+
+	// check if the first word of the message content is equal to one of the following ones
+	switch (command) {
 		case (`${config.prefix}adminHelp`):
 			if (args.length !== 1) {
 				message.channel.send("Cette commande ne prend pas de paramètre(s)");
@@ -84,6 +86,32 @@ module.exports = function(message, bot) {
 		case (`${config.prefix}sendMP`):
 			// send a private message to someone like if the bot said that
 			sendMP(message, bot);
+			break;
+		case (`${config.prefix}pin`):
+			// to pin a the message
+			message.pin();
+			break;
+		case (`${config.prefix}unpin`):
+			// to unpin a the message
+			const args = message.content.split(" ");
+			if (args.length != 2) {
+				message.channel.send(`Il faut que tu me donnes l'ID du message que tu veux unpin ${emojis.carapuce}`);
+				return;
+			}
+			message.channel.messages.fetch(args[1]).then(msg => {
+				if (!msg) {
+					message.channel.send(`Il faut que tu me donnes l'ID du message que tu veux unpin, celui-ci doit être dans le channel où tu rentres cette commande ${emojis.carapuce}`);
+					return;
+				}
+				if (!msg.pinned) {
+					message.channel.send(`Message not pinned ${emojis.carapuce}`);
+					return;
+				}
+				msg.unpin();
+				message.channel.send(`Message unpinned ${emojis.happy_carapuce}`);
+			}).catch(err => {
+				throw err;
+			});
 			break;
 		// case (`${config.prefix}createServerConfig`):
 		// 	createServerConfig(message, bot);

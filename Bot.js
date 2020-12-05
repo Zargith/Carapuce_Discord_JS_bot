@@ -7,10 +7,8 @@ const config = require("./config.json");
 const isInArrayStartsWith = require("./src/utils/isInArrayStartsWith.js");
 const guildMemberAdd = require("./src/utils/guildAddMember.js");
 const emojis = require("./src/utils/emojiCharacters.js");
-const isInArray = require("./src/utils/isInArray.js");
 const roleReaction = require("./src/utils/roleReaction.js");
 const isInWhiteList = require("./src/utils/isInWhiteList.js");
-const isServerAdmin = require("./src/utils/isServerAdmin.js");
 const checkBannedWords = require("./src/utils/checkBannedWords/checkBannedWords.js");
 const sendError = require("./src/utils/sendError.js");
 const usersCommands = require("./src/commands/usersCommands.js");
@@ -27,7 +25,7 @@ bot.on("ready", async function() {
 	const owner = await bot.users.fetch(config.ownerID);
 	if (owner)
 		owner.send({embed: {color: 65330, description: "Started successfully"}});
-//	setInterval(restartBot, 86400000); // 86,400,000ms = 24hrs
+	setInterval(restartBot, 86400000); // 86,400,000ms = 24hrs
 });
 
 bot.on("error", async function() {

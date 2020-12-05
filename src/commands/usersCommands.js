@@ -1,18 +1,18 @@
 const config = require("../../config.json");
-const help = require("./help.js");
+const help = require("./helps/help.js");
 const myPoll = require("./entertainment/poll.js");
 const shifumi = require("./entertainment/shifumi.js");
 const flipCoin = require("./entertainment/flipCoin.js");
-const DJCarapuce = require("./entertainment/music/DJCarapuce.js");
+const DJCarapuce = require("./entertainment/music/newDJCarapuce.js");
 const useAnimatedEmojis = require("./entertainment/useAnimatedEmojis.js");
 const isInWhiteList = require("../utils/isInWhiteList.js");
 const emojis = require("../utils/emojiCharacters.js");
 
 module.exports = function(message, bot) {
-	const args = message.content.split(" ");
+	const command = message.content.slice(config.prefix.length).trim().split(" ").shift().toLowerCase();
 
-	// check if the first word of the message content is equal to following ones
-	switch (args[0]) {
+	// check if the first word of the message content is equal to one of the following ones
+	switch (command) {
 		case (`${config.prefix}pong`):
 			message.channel.send(`Carapong ! ${emojis.carapuce}`);
 			break;
@@ -20,6 +20,14 @@ module.exports = function(message, bot) {
 		case (`${config.prefix}skip`):
 		case (`${config.prefix}stop`):
 		case (`${config.prefix}playlist`):
+		case (`${config.prefix}cleanPlaylist`):
+		case (`${config.prefix}pause`):
+		case (`${config.prefix}resume`):
+		case (`${config.prefix}loop`):
+		case (`${config.prefix}setVolume`):
+		case (`${config.prefix}shuffle`):
+		case (`${config.prefix}filters`):
+		case (`${config.prefix}progress`):
 			if (!message.guild) {
 				message.reply("Tu ne peux pas utiliser cette commande en privé.");
 				break;
@@ -28,11 +36,19 @@ module.exports = function(message, bot) {
 			break;
 		case (`${config.prefix}help`):
 			if (args.length !== 1) {
-				message.channel.send("Cette commande ne prend pas de paramètre(s)");
+				message.channel.send("Cette commande ne prend pas de paramètre");
 				break;
 			}
-			// print the help for users
-			help.printHelp(message);
+			// print the common help
+			help.printCommonHelp(message);
+			break;
+		case (`${config.prefix}musicHelp`):
+			if (args.length !== 1) {
+				message.channel.send("Cette commande ne prend pas de paramètre");
+				break;
+			}
+			// print the music help
+			help.printMusicHelp(message);
 			break;
 		case (`${config.prefix}adminHelp`):
 			// users can't use this command so send an error message
