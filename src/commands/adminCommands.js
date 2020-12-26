@@ -6,11 +6,6 @@ const usersCommands = require("./usersCommands.js");
 const cleanAfterMessage = require("./admin_commands/clean_messages/cleanAfterMessage.js");
 const cleanNLastMessages = require("./admin_commands/clean_messages/cleanNLastMessages.js");
 const testThrow = require("./admin_commands/testThrow.js");
-const channelsOfServer = require("./admin_commands/channelsOfServer.js");
-const messageToChannel = require("./admin_commands/messageToChannel.js");
-const sendMP = require("./admin_commands/sendMP.js");
-const listOfServers = require("./admin_commands/listOfServers.js");
-const restartBot = require("./admin_commands/restartBot.js");
 const countRole = require("./admin_commands/count_roles/countRole.js");
 // const createServerConfig = require("./admin_commands/createServerConfig.js");
 // const defineReportLogChannel = require("./admin_commands/defineReportLogChannel.js");
@@ -110,30 +105,6 @@ module.exports = function(message, bot) {
 		case (`${config.prefix}throw`):
 			// send a test throw to check if the repport log channel is well defined
 			testThrow(message, bot);
-			break;
-
-		case (`${config.prefix}listServers`):
-			if (args.length !== 1) {
-				message.channel.send("Cette commande ne prend pas de paramètre");
-				break;
-			}
-			// send a list of Discord servers that th ebot is connected to with thir ID
-			listOfServers(message, bot);
-			break;
-
-		case (`${config.prefix}channelsOfServer`):
-			// send the list of channels of a server given as parameter (an ID is necessary) with their name, ID and type
-			channelsOfServer(message, bot);
-			break;
-
-		case (`${config.prefix}messageToChannel`):
-			// send a message to a channel like if the bot said that
-			messageToChannel(messageToChannel, bot);
-			break;
-
-		case (`${config.prefix}sendMP`):
-			// send a private message to someone like if the bot said that
-			sendMP(message, bot);
 			break;
 
 		case (`${config.prefix}pin`):

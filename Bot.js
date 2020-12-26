@@ -16,7 +16,9 @@ const checkBannedWords = require("./src/utils/checkBannedWords/checkBannedWords.
 const sendError = require("./src/utils/sendError.js");
 const usersCommands = require("./src/commands/usersCommands.js");
 const adminCommands = require("./src/commands/adminCommands.js");
-const restartBot = require("./src/commands/admin_commands/restartBot.js");
+const restartBot = require("./src/commands/whitelist_commands/restartBot.js");
+const whitelistCommands = require("./src/commands/whitelistCommands.js");
+const isServerAdmin = require("./src/utils/isServerAdmin");
 
 // Then add some messages that will be sent when the events will be triggered
 // Send a message when a track starts
@@ -211,13 +213,12 @@ bot.on("message", message => {
 		if (!message.content.startsWith(config.prefix))
 			return;
 
-		if (!message.guild) {
-			if (message.author.id === config.ownerID)
-				adminCommands(message, bot); // TO DO add a category of commands only for owner and white listed people
-			else
-				bot.users.get(config.ownerID).send({embed: {color: 3447003, description: `L\'utilisateur ${message.author.username} m\'a envoyé :\n\n${message.content}`}});
+		if (!message.guild && message.author.id !== config.ownerID && !isInWhiteList(message.author.id)) {
+			bot.users.get(config.ownerID).send({embed: {color: 3447003, description: `L\'utilisateur ${message.author.username} m\'a envoyé :\n\n${message.content}`}});
 			return;
 		} else if (message.author.id === config.ownerID || isInWhiteList(message.author.id))
+			whitelistCommands(message, bot);
+		else if (isServerAdmin(message))
 			adminCommands(message, bot);
 		else
 			usersCommands(message, bot);

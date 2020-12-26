@@ -74,6 +74,10 @@ module.exports = function(message) {
 				{
 					name: `${config.prefix}adminHelp`,
 					value: "```Permet d'afficher le help des admins.```"
+				},
+				{
+					name: `${config.prefix}whitelistHelp`,
+					value: "```Pour afficher le help pour les personnes faisant partie de la whitelist du bot.```"
 				}
 			],
 			footer: {text: `---------------------------------------------------------------------------------------------------\n${emojiCharacters.FR} Ce bot utilise un projet Github fait par Zargith (Zargith/Carapuce_Discord_JS_bot)\n${emojiCharacters.EN} This bot uses a Github project made by Zargith (Zargith/Carapuce_Discord_JS_bot)`},
