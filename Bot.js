@@ -302,17 +302,11 @@ async function restartBot(channel) {
 			.then(() => bot.destroy())
 			.then(async function() {
 				bot.login(config.token);
-				const owner = await bot.users.fetch(config.ownerID);
-				if (owner)
-					owner.send({embed: {color: 65330, description: "Started successfully"}});
 				bot.user.setActivity(`${config.prefix}help`, {type: "WATCHING"});
 			});
 	else {
 		bot.destroy();
 		bot.login(config.token);
-		const owner = await bot.users.fetch(config.ownerID);
-		if (owner)
-			owner.send({embed: {color: 65330, description: "Started successfully"}});
 		bot.user.setActivity(`${config.prefix}help`, {type: "WATCHING"});
 	}
 }
