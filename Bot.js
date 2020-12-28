@@ -2,14 +2,13 @@ const Discord = require("discord.js");
 const bot = new Discord.Client({partials: ["MESSAGE", "CHANNEL", "REACTION"], disableMentions: "everyone"});
 const config = require("./config.json");
 const {Player} = require("discord-player"); // Create a new Player (Youtube API key is your Youtube Data v3 key)
-const player = new Player(bot); // To easily access the player
+const player = new Player(bot, {autoSelfDeaf: false}); // To easily access the player
 bot.player = player;
 bot.filters = config.filters;
 
 
-// src directory
+// in src directory
 const guildMemberAdd = require("./src/utils/guildAddMember.js");
-const emojis = require("./src/utils/emojiCharacters.js");
 const roleReaction = require("./src/utils/roleReaction.js");
 const isInWhiteList = require("./src/utils/isInWhiteList.js");
 const checkBannedWords = require("./src/utils/checkBannedWords/checkBannedWords.js");
@@ -26,14 +25,17 @@ bot.player.on("trackStart", (message, track) => message.channel.send(`Now playin
 
 // Send a message when something is added to the queue
 bot.player.on("trackAdd", (message, track) => message.channel.send(`${track.title} has been added to the queue!`));
-bot.player.on("playlistAdd", (message, playlist) => message.channel.send(`${playlist.title} has been added to the queue (${playlist.items.length} songs)!`));
+bot.player.on("playlistAdd", (message, playlist) => {
+	console.debug(message, playlist)
+	message.channel.send(`${playlist.title} has been added to the queue (${playlist.items.length} songs)!`);
+});
 
 // Send messages to format search results
 bot.player.on("searchResults", (message, query, tracks) => {
 	const embed = new Discord.MessageEmbed()
-		.setAuthor(`Here are your search results for ${query}!`)
-		.setDescription(tracks.map((t, i) => `${i}. ${t.title}`))
-		.setFooter("Send the number of the song you want to play!");
+		.setAuthor(`Voilà les résultats pour ta recherche ${query} :`)
+		.setDescription(tracks.map((t, i) => `${i + 1}. ${t.title}`))
+		.setFooter("Envoie le numéro de la musique que tu veux jouer !");
 	message.channel.send(embed);
 });
 bot.player.on("searchInvalidResponse", (message, query, tracks, content, collector) => message.channel.send(`You must send a valid number between 1 and ${tracks.length}!`));
@@ -139,63 +141,6 @@ bot.on("guildMemberAdd", async member => {
 		}
 	}
 });
-
-
-function ownerDMCommands(message) {
-	if (message.content === `${config.prefix}listGuilds`) {
-		let str = "";
-		bot.guilds.cache.array().forEach(guild => {
-			str += (`- __Name :__ ${guild.name}\n\t\t__ID :__ ${guild.id}\n\n`);
-		});
-		message.channel.send(str);
-	}
-	if (message.content.startsWith(`${config.prefix}channelsOfGuild`)) {
-		const args = message.content.split(" ");
-		if (args.length !== 2) {
-			message.channel.send("J'ai uniquement besoin de l'id **du** serveur dont tu souhaites les informations.");
-			return;
-		}
-		const id = args[1];
-		const guild = bot.guilds.cache.get(id);
-		if (!guild) {
-			message.channel.send("**Error**\nID not found or guild is null.");
-			return;
-		}
-		let str = `__Serveur :__ ${guild.name},\t__ID :__ ${guild.id}\n\n`;
-		guild.channels.cache.array().forEach(chan => {
-			str += (`\t- __Name :__ ${chan.name }\n\t\t__Type :__ ${chan.type}\n\t\t__ID :__ ${chan.id}\n\n`);
-		});
-		message.channel.send(str);
-		return;
-	}
-	if (message.content.startsWith(`${config.prefix}messageToChannel`)) {
-		const args = message.content.split(" ");
-		let str = "";
-		args.shift();
-		const id = args[0];
-		args.shift();
-		args.forEach(arg => {
-			str += arg + " ";
-		});
-		bot.channels.cache.get(id).send(str);
-	}
-	if (message.content.startsWith(`${config.prefix}sendMP`)) {
-		const args = message.content.split(" ");
-		let str = "";
-		args.shift();
-		const id = args[0];
-		args.shift();
-		args.forEach(arg => {
-			str += arg + " ";
-		});
-		bot.users.cache.get(id).send(str);
-		message.channel.send("Message envoyé !");
-	}
-	if (message.author.id === config.ownerID || isInWhiteList(message.author.id))
-		ownerCommands(message);
-	else
-		redirectCommands(message);
-}
 
 
 bot.on("message", message => {

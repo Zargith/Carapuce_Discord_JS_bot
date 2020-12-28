@@ -85,8 +85,10 @@ module.exports = function(message, bot) {
 
 		default:
 			// if the user is an admin, then go to the admin commands parsing function
-			if (message.guild && isServerAdmin(message))
+			if (message.guild && isServerAdmin(message)) {
 				adminCommands(message, bot);
+				break;
+			}
 			// if not an admin command, then go to users commands parsing function
 			usersCommands(message, bot);
 			break;
