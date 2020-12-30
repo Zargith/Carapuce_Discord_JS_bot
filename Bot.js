@@ -65,17 +65,26 @@ bot.player.on("error", (error, message) => {
 });
 
 bot.on("ready", async function() {
-	console.log(`Log in as ${bot.user.tag} !`);
-	console.log("Servers :");
-	bot.guilds.cache.array().forEach(guild => {
-		console.log(" - " + guild.name);
-	});
-	console.log("\n");
-	bot.user.setActivity(`${config.prefix}help`, {type: "WATCHING"});
-	const owner = await bot.users.fetch(config.ownerID);
-	if (owner)
-		owner.send({embed: {color: 65330, description: "Started successfully"}});
-	setInterval(restartBot, 86400000); // 86,400,000ms = 24hrs
+	try {
+		console.log(`Log in as ${bot.user.tag} !`);
+		console.log("Servers :");
+		bot.guilds.cache.array().forEach(guild => {
+			console.log(" - " + guild.name);
+		});
+		console.log("\n");
+		bot.user.setActivity(`${config.prefix}help`, {type: "WATCHING"});
+		const owner = await bot.users.fetch(config.ownerID);
+		if (owner)
+			owner.send({embed: {color: 65330, description: "Started successfully"}});
+		setInterval(() => restartBot(null, bot), 86400000); // 86,400,000ms = 24hrs
+	} catch (exception) {
+		// if a bot owner ID is defined, the bot will send him the complete error to let him know what happened
+		if (config.ownerID) {
+			const owner = await bot.users.fetch(config.ownerID);
+			if (owner)
+				owner.send({embed: {color: 16711680, description: `__**ERREUR**__ at ${new Date()}\nErreur lors du démarrage du bot.\n\n__L\'erreur suivante s\'est produite :__\n*${exception.stack}*`}});
+		}
+	}
 });
 
 bot.on("error", async function() {
@@ -298,16 +307,20 @@ function ownerDMCommands(message) {
 
 async function restartBot(channel) {
 	if (channel)
-		channel.send("Restarting...")
+		channel.send("Redémarrage en cours...")
 			.then(() => bot.destroy())
 			.then(async function() {
-				bot.login(config.token);
-				bot.user.setActivity(`${config.prefix}help`, {type: "WATCHING"});
+				bot.login(config.token)
+					.then(() => bot.user.setActivity(`${config.prefix}help`, {type: "WATCHING"}));
+				const owner = await bot.users.fetch(config.ownerID);
+				if (owner)
+					owner.send({embed: {color: 65330, description: "Bot redémarré manuellement"}});
+				channel.send("Redémarrage terminé !");
 			});
 	else {
 		bot.destroy();
-		bot.login(config.token);
-		bot.user.setActivity(`${config.prefix}help`, {type: "WATCHING"});
+		bot.login(config.token)
+			.then(() => bot.user.setActivity(`${config.prefix}help`, {type: "WATCHING"}));
 	}
 }
 
