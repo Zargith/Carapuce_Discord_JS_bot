@@ -18,16 +18,17 @@ const adminCommands = require("./src/commands/adminCommands.js");
 const restartBot = require("./src/commands/whitelist_commands/restartBot.js");
 const whitelistCommands = require("./src/commands/whitelistCommands.js");
 const isServerAdmin = require("./src/utils/isServerAdmin");
+const emojiCharacters = require("./src/utils/emojiCharacters.js");
 
 // Then add some messages that will be sent when the events will be triggered
 // Send a message when a track starts
 bot.player.on("trackStart", (message, track) => message.channel.send(`Now playing ${track.title}...`));
 
 // Send a message when something is added to the queue
-bot.player.on("trackAdd", (message, track) => message.channel.send(`${track.title} has been added to the queue!`));
+bot.player.on("trackAdd", (message, track) => message.channel.send(`${track.title} a été ajouté à la playlist !`));
 bot.player.on("playlistAdd", (message, playlist) => {
 	console.debug(message, playlist)
-	message.channel.send(`${playlist.title} has been added to the queue (${playlist.items.length} songs)!`);
+	message.channel.send(`La playlist ${playlist.title} a été ajouté avec (${playlist.items.length} éléments)!`);
 });
 
 // Send messages to format search results
@@ -38,44 +39,57 @@ bot.player.on("searchResults", (message, query, tracks) => {
 		.setFooter("Envoie le numéro de la musique que tu veux jouer !");
 	message.channel.send(embed);
 });
-bot.player.on("searchInvalidResponse", (message, query, tracks, content, collector) => message.channel.send(`You must send a valid number between 1 and ${tracks.length}!`));
-bot.player.on("searchCancel", (message, query, tracks) => message.channel.send("You did not provide a valid response... Please send the command again!"));
-bot.player.on("noResults", (message, query) => message.channel.send(`No results found on YouTube for ${query}!`));
+bot.player.on("searchInvalidResponse", (message, query, tracks, content, collector) => message.channel.send(`Envoies un nombre entre 1 et ${tracks.length}!`));
+bot.player.on("searchCancel", (message, query, tracks) => message.channel.send("Tu n'as pas fournéis de réponce valide. Rélance la commande si tu souhaites réessayer !"));
+bot.player.on("noResults", (message, query) => message.channel.send(`Aucun résultat trouvé sur Youtube pour ${query}!`));
 
 // Send a message when the music is stopped
-bot.player.on("queueEnd", (message, queue) => message.channel.send("Music stopped as there is no more music in the queue!"));
-bot.player.on("channelEmpty", (message, queue) => message.channel.send("Music stopped as there is no more member in the voice channel!"));
-bot.player.on("botDisconnect", (message, queue) => message.channel.send("Music stopped as I have been disconnected from the channel!"));
+bot.player.on("queueEnd", (message, queue) => message.channel.send(`Il n'y a plus de musiques à jouer, penses à en remettre si tu vux que je continue de les jouer ! ${emojiCharacters.happy_carapuce}`));
+bot.player.on("channelEmpty", (message, queue) => message.channel.send(`Je me suis arrétés puisqu'il n'y a plus personne pour m'écouter jouer... ${emojiCharacters.sad_carapuce}`));
+bot.player.on("botDisconnect", (message, queue) => message.channel.send(`La musique s'est arréter puisque j'ai été déconencté du salon ! ${emojiCharacters.surprised_carapuce}`));
 
 // Error handling
-bot.player.on("error", (error, message) => {
+bot.player.on("error", async (error, message) => {
 	switch (error) {
 		case ("NotPlaying"):
-			message.channel.send("There is no music being played on this server!");
+			message.channel.send("Il n'y a pas de pusique jouable sur le serveur.");
 			break;
 		case ("NotConnected"):
-			message.channel.send("You are not connected in any voice channel!");
+			message.channel.send("Tu dois être connecté à un salon vocal si tu veux que je te rejoigne !");
 			break;
 		case ("UnableToJoin"):
-			message.channel.send("I am not able to join your voice channel, please check my permissions!");
+			message.channel.send("Je ne peux pas te rejoindre, vérifies mes droits stp...");
 			break;
 		default:
-			message.channel.send(`Something went wrong... Error: ${error}`);
+			if (config.ownerID) {
+				const owner = await bot.users.fetch(config.ownerID);
+				if (owner)
+					owner.send({embed: {color: 16711680, description: `__**ERREUR**__ at ${new Date()}\nL\'utilisateur ${message.author.tag}${!message.guild ? "" : `, sur le serveur ${message.member.guild.name}`} a envoyé la commande :\n${message.content}\n\n__L\'erreur suivante s\'est produite :__\n*${error}*`}});
+			}
 	}
 });
 
 bot.on("ready", async function() {
-	console.log(`Log in as ${bot.user.tag} !`);
-	console.log("Servers :");
-	bot.guilds.cache.array().forEach(guild => {
-		console.log(" - " + guild.name);
-	});
-	console.log("\n");
-	bot.user.setActivity(`${config.prefix}help`, {type: "WATCHING"});
-	const owner = await bot.users.fetch(config.ownerID);
-	if (owner)
-		owner.send({embed: {color: 65330, description: "Started successfully"}});
-	setInterval(() => restartBot(null, bot), 86400000); // 86,400,000ms = 24hrs
+	try {
+		console.log(`Log in as ${bot.user.tag} !`);
+		console.log("Servers :");
+		bot.guilds.cache.array().forEach(guild => {
+			console.log(" - " + guild.name);
+		});
+		console.log("\n");
+		bot.user.setActivity(`${config.prefix}help`, {type: "WATCHING"});
+		const owner = await bot.users.fetch(config.ownerID);
+		if (owner)
+			owner.send({embed: {color: 65330, description: "Started successfully"}});
+		setInterval(() => restartBot(null, bot), 86400000); // 86,400,000ms = 24hrs
+	} catch (exception) {
+		// if a bot owner ID is defined, the bot will send him the complete error to let him know what happened
+		if (config.ownerID) {
+			const owner = await bot.users.fetch(config.ownerID);
+			if (owner)
+				owner.send({embed: {color: 16711680, description: `__**ERREUR**__ at ${new Date()}\nErreur lors du démarrage du bot.\n\n__L\'erreur suivante s\'est produite :__\n*${exception.stack}*`}});
+		}
+	}
 });
 
 bot.on("error", async function() {
@@ -91,8 +105,10 @@ bot.on("invalidated", async function(error) {
 	if (owner)
 		owner.send.send({embed: {color: 16711680, description: "Session has been invalidated. Restarting the bot."}})
 			.then(msg => bot.destroy())
-			.then(() => bot.login(config.token))
-			.then(() => bot.user.setActivity(`${config.prefix}help`, {type: "WATCHING"}));
+			.then(() => {
+				bot.login(config.token);
+				bot.user.setActivity(`${config.prefix}help`, {type: "WATCHING"});
+			});
 });
 
 bot.on("messageReactionAdd", async (reaction, user) => {
