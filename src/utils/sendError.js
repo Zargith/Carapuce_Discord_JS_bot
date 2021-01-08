@@ -1,18 +1,17 @@
-const config = require("../../config.json");
-const getReportLogChannel = require("./getReportLogChannel.js");
+const getReportLogChannel = require("./oldUtils/getReportLogChannel.js"); // TODO utiliser DB
 
-module.exports = function sendError(message, exception, bot) {
+module.exports = function sendError(message, exception) {
 	consoleErrorMessage(message, exception);
-	channelErrorMessage(message, exception, bot);
-	ownerErrorMessage(message, exception, bot);
+	channelErrorMessage(message, exception);
+	ownerErrorMessage(message, exception);
 };
 
-module.exports = function consoleErrorMessage(message, exception) {
+const consoleErrorMessage = function(message, exception) {
 	// to send the error into the host console
-	console.log(`ERREUR at ${new Date()}\nL\'utilisateur ${(message.author ? message.author.tag : "null")}${!message.guild ? "" : `, sur le serveur ${message.guild.name}`} a envoyé la commande :\n${message.content}\n\nL\'erreur suivante s\'est produite :\n${exception.stack}`);
+	console.error(`ERREUR at ${new Date()}\nL\'utilisateur ${(message.author ? `*${message.author.tag}*` : "null")}${!message.guild ? "" : `, sur le serveur ${message.guild.name}`} a envoyé la commande :\n${message.content}\n\nL\'erreur suivante s\'est produite :\n${exception.stack}`);
 };
 
-module.exports = function channelErrorMessage(message, exception, bot) {
+const channelErrorMessage = function(message, exception) {
 	try {
 		// first send an error message into the channel were the operations were wrong
 		message.channel.send(`__**ERREUR**__\n${exception.message}`);
@@ -22,17 +21,18 @@ module.exports = function channelErrorMessage(message, exception, bot) {
 		// else check if a report log channel is defined and send a error report to if it succeed to get it
 		const reportLogChannel = message.guild.channels.cache.get(getReportLogChannel(message.guild.id));
 		if (reportLogChannel)
-			reportLogChannel.send({embed: {color: 16711680, description: `__**ERREUR**__ at ${new Date()}\nL\'utilisateur ${message.author.username} sur ce serveur a envoyé la commande :\n${message.content}\n\n__L\'erreur suivante s\'est produite :__\n*${exception.stack}*`}});
-	} catch (exception) {
-		ownerErrorMessage(message, exception, bot);
+			reportLogChannel.send({embed: {color: 16711680, description: `__**ERREUR**__ at ${new Date()}\nL\'utilisateur *${message.author.username}* sur ce serveur a envoyé la commande :\n${message.content}\n\n__L\'erreur suivante s\'est produite :__\n*${exception.stack}*`}});
+	} catch (excep) {
+		ownerErrorMessage(message, excep);
 	}
 };
 
-module.exports = async function ownerErrorMessage(message, exception, bot) {
-	// if a bot owner ID is defined, the bot will send him the complete error to let him know what happened
-	if (config.ownerID) {
-		const owner = await bot.users.fetch(config.ownerID);
-		if (owner)
-			owner.send({embed: {color: 16711680, description: `__**ERREUR**__ at ${new Date()}\nL\'utilisateur ${message.author.tag}${!message.guild ? "" : `, sur le serveur ${message.member.guild.name}`} a envoyé la commande :\n${message.content}\n\n__L\'erreur suivante s\'est produite :__\n*${exception.stack}*`}});
-	}
+const ownerErrorMessage = async function(message, exception) {
+	// if a bot owner is defined, the bot will send him/her the complete error to let him/her know what happened
+	if (bot.owner)
+		bot.owner.send({embed: {color: 16711680, description: `__**ERREUR**__ at ${new Date()}\nL\'utilisateur *${message.author.tag}*${!message.guild ? "" : `, sur le serveur ${message.member.guild.name}`} a envoyé la commande :\n${message.content}\n\n__L\'erreur suivante s\'est produite :__\n*${exception.stack}*`}});
 };
+
+module.exports.consoleErrorMessage = consoleErrorMessage;
+module.exports.channelErrorMessage = channelErrorMessage;
+module.exports.ownerErrorMessage = ownerErrorMessage;

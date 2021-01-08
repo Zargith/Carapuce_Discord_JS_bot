@@ -1,4 +1,4 @@
-module.exports = async function(bot, message) {
+module.exports = async function(message) {
 	if (!bot.player.getQueue(message))
 		return message.channel.send("Aucune musique actuellement jouée.");
 

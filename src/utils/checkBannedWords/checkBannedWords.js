@@ -2,7 +2,7 @@ const removeArrayDuplicateValues = require("../removeArrayDuplicateValues.js");
 const createRegExFromConfig = require("./createRegExFromConfig.js");
 const removeDiacritics = require("./removeDiacritics.js");
 const removeEscapeCharRegEx = require("./removeEscapeCharRegEx.js");
-const getReportLogChannel = require("../getReportLogChannel.js");
+const getReportLogChannel = require("../oldUtils/getReportLogChannel.js");
 
 module.exports = async function(message, updatedMessage, bot) {
 	const reportLogChannelID = await getReportLogChannel(message.guild.id);

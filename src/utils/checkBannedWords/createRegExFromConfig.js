@@ -1,4 +1,4 @@
-const getBannedWords = require("../getBannedWords.js");
+const getBannedWords = require("../oldUtils/getBannedWords.js");
 
 // function to create a regex (regular expression) to get words defined as banned
 module.exports = async function(message, bot) {

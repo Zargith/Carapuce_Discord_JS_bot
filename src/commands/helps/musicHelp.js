@@ -1,4 +1,3 @@
-const config = require("../../../config.json");
 const emojiCharacters = require("../../utils/emojiCharacters.js");
 
 
@@ -10,47 +9,51 @@ module.exports = function(message) {
 			description: "__**Les différentes commandes :**__",
 			fields: [
 				{
-					name: `${config.prefix}play *<URL Youtube/Spotify/Soundcloud ou mots clés>*`,
+					name: `${bot.prefix}play *<URL Youtube/Spotify/Soundcloud ou mots clés>*`,
 					value: "```Joue la musique ou ajoute à la liste d'attente. Prend en paramètre une URL (ou ID) Youtube ou des mots-clés et joue la première.```"
 				},
 				{
-					name: `${config.prefix}pause`,
+					name: `${bot.prefix}pause`,
 					value: "```Permet de mettre en pause la musique actuellement jouée.```"
 				},
 				{
-					name: `${config.prefix}resume`,
+					name: `${bot.prefix}resume`,
 					value: "```Permet de repprendre la musique précédement mise en pause.```"
 				},
 				{
-					name: `${config.prefix}stop`,
+					name: `${bot.prefix}stop`,
 					value: "```Permet d'arrêter de jouer de la musique, même s'il reste des musiques dans la liste d'attente.```"
 				},
 				{
-					name: `${config.prefix}playlist`,
+					name: `${bot.prefix}playlist`,
 					value: "```Permet de voir la playlist de musiques en cours pour le serveur.```"
 				},
 				{
-					name: `${config.prefix}clearPlaylist`,
+					name: `${bot.prefix}clearPlaylist`,
 					value: "```Permet de vider la playlist actuelle du serveur.```"
 				},
 				{
-					name: `${config.prefix}progress`,
+					name: `${bot.prefix}progress`,
 					value: "```Permet de voir la la progression de la musique en cours.```"
 				},
 				{
-					name: `${config.prefix}loop`,
+					name: `${bot.prefix}loop`,
 					value: "```Permet d'activer et de désactiver le mode boucle pour le serveur.```"
 				},
 				{
-					name: `${config.prefix}shuffle`,
-					value: "```Permet de de mélanger les musiques présentes dans la playlist du serveur.```"
+					name: `${bot.prefix}shuffle`,
+					value: "```Permet de mélanger les musiques présentes dans la playlist du serveur.```"
 				},
 				{
-					name: `${config.prefix}filters **update**`,
+					name: `${bot.prefix}setVolume`,
+					value: "```Permet de définir le volume pour les musiques.```"
+				},
+				{
+					name: `${bot.prefix}filters **update**`,
 					value: "```Permet de voir d'activer/désactiver un filtre pour le serveur.```"
 				},
 				{
-					name: `${config.prefix}filters`,
+					name: `${bot.prefix}filters`,
 					value: "```Permet de voir la liste des filtres (non-)actifs sur le serveur.```"
 				},
 				{

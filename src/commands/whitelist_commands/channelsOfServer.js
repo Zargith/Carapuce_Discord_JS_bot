@@ -1,4 +1,4 @@
-module.exports = function(message, bot) {
+module.exports = function(message) {
 	// check of we only get one argument (normally it's an ID)
 	const args = message.content.split(" ");
 	if (args.length !== 2) {

@@ -1,4 +1,4 @@
-module.exports = function(message, bot) {
+module.exports = function(message) {
 	// split content of the message by space characters (after removing extra spaces) to get the ID and the content stored in a array
 	const args = message.content.replace(/\s+/g, " ").trim().split(" ");
 

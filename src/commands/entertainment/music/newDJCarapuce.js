@@ -1,4 +1,3 @@
-const config = require("../../../../config.json");
 const playlist = require("./playlist.js");
 const play = require("./play.js");
 const pause = require("./pause.js");
@@ -13,55 +12,55 @@ const filtersManagment = require("./filtersManagment.js");
 const progress = require("./progress.js");
 const clearPlaylist = require("./clearPlaylist.js");
 
-module.exports = function(message, bot) {
+module.exports = function(message) {
 	if (!message.member.voice.channel)
 		return message.channel.send("Vous devez être connecté à un salon vocal avant d'utiliser cette commande !");
 
 	// split the message content to exactly get the command and its arguments
-	const args = message.content.slice(config.prefix.length).trim().split(" ");
-	const command = args.shift().toLowerCase();
+	const args = message.content.slice(bot.prefix.length).trim().split(" ");
+	const command = args.shift();
 
 	switch (command) {
 		case ("playlist"):
-			playlist(bot, message);
+			playlist(message);
 			return;
 		case ("play"):
-			play(bot, message, args);
+			play(message, args);
 			return;
 		case ("pause"):
-			pause(bot, message);
+			pause(message);
 			return;
 		case ("resume"):
-			resume(bot, message);
+			resume(message);
 			return;
 		case ("skip"):
-			skip(bot, message);
+			skip(message);
 			return;
 		case ("stop"):
-			stop(bot, message);
+			stop(message);
 			return;
 		case ("loop"):
-			loop(bot, message);
+			loop(message);
 			return;
 		case ("shuffle"):
-			shuffle(bot, message);
+			shuffle(message);
 			return;
 		case ("setVolume"):
-			setVolume(bot, message, args);
+			setVolume(message, args);
 			return;
 		case ("filters"):
 			if (!args[0]) {
-				filters(bot, message);
+				filters(message);
 				return;
 			} else if (args[0] !== "update")
 				return message.channel.send("Merci de préciser si tu veux ajouter ou supprimer un filtre en précisant **update** au début de la commande.");
-			filtersManagment(bot, message, args);
+			filtersManagment(message, args);
 			return;
 		case ("progress"):
-			progress(bot, message);
+			progress(message);
 			return;
 		case ("clearPlaylist"):
-			clearPlaylist(bot, message);
+			clearPlaylist(message);
 			return;
 	}
 };

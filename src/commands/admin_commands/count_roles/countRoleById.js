@@ -1,11 +1,13 @@
-module.exports = async function(message, bot) {
-	const args = message.content.split(" ");
+const emojiCharacters = require("../../../utils/emojiCharacters.js");
 
+module.exports = async function(message) {
+	const args = message.content.split(" ");
+	const id = args[1];
 	try {
-		const number = message.guild.roles.cache.get(args[1]).members.size;
-		number === 1 ? message.channel.send(`Il y a ${number} personne avec le rôle <@&${args[1]}>`) : message.channel.send(`Il y a ${number} personnes avec le rôle <@&${args[1]}>`);
-	} catch (error) {
-		message.channel.send("Il y a un problème avec l'id du rôle.");
-		console.error(error);
+		const number = message.guild.roles.cache.get(id).members.size;
+		if (number)
+			message.channel.send(`Il y a ${number} personne(s) avec le rôle <@&${id}>`);
+	} catch (exception) {
+		message.channel.send(`Je ne trouve pas le rôle avec l'id ${id}... Tu es sûr que tu m'as envoyé quelque chose de valide ? ${emojiCharacters["',:/"]}`);
 	}
 };

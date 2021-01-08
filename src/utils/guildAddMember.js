@@ -1,8 +1,8 @@
-const config = require("../../config.json");
 const Discord = require("discord.js");
 const Canvas = require("canvas");
 const isServerInConfig = require("./role_reaction_managment/isServerInConfig.js");
 const getDefaultRolesName = require("./role_reaction_managment/getDefaultRolesName.js");
+const emojiCharacters = require("./emojiCharacters.js");
 
 const applyText = (canvas, text) => {
 	const ctx = canvas.getContext("2d");
@@ -15,7 +15,7 @@ const applyText = (canvas, text) => {
 	return ctx.font;
 };
 
-module.exports.createWelcomeImage = async function(member, bot) {
+module.exports.createWelcomeImage = async function(member) {
 	if (!member)
 		return;
 	const channel = member.guild.systemChannel;
@@ -43,7 +43,7 @@ module.exports.createWelcomeImage = async function(member, bot) {
 		const attachment = new Discord.MessageAttachment(canvas.toBuffer(), "welcome-image.png");
 		channel.send(`Bienvenue sur ce CaraServeur, <@${member.id}> ! <:happy_carapuce:553490319103098883>`, attachment);
 	} catch (exception) {
-		channel.send({embed: {color: 16711680, description: `__**ERREUR**__\nLa commande n'a pas fonctionnée <:surprised_carapuce:568777407046221824>\n\n__L'erreur suivante s'est produite:__\n*${exception}*`}});
+		channel.send({embed: {color: 16711680, description: `__**ERREUR**__\nLa commande n'a pas fonctionnée ${emojiCharacters.surprised_carapuce}\n\n__L'erreur suivante s'est produite:__\n*${exception}*`}});
 		throw exception;
 	}
 };

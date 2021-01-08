@@ -1,4 +1,4 @@
-module.exports = async function(bot, message) {
+module.exports = async function(message) {
 	const queue = bot.player.getQueue(message);
 
 	if (!queue)

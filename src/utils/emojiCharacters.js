@@ -16,5 +16,5 @@ module.exports = {
 	"sad_carapuce": "<:sad_carapuce:562773515745361920>",
 	"surprised_carapuce":
 	"<:surprised_carapuce:568777407046221824>",
-	"FR": "🇫🇷", "EN": "🇬🇧",
+	"FR": "🇫🇷", "EN": "🇬🇧", "',:/": "🤨"
 };

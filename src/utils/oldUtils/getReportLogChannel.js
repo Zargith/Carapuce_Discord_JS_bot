@@ -1,4 +1,4 @@
-const config = require("../../config.json");
+const config = require("../../../config.json");
 
 module.exports = function(idServer) {
 	for (let i = 0; i < config.guilds.length; i++)

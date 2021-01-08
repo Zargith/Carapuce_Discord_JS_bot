@@ -1,4 +1,3 @@
-const config = require("../../../config.json");
 const emojiCharacters = require("../../utils/emojiCharacters.js");
 
 module.exports = function(message) {
@@ -8,53 +7,53 @@ module.exports = function(message) {
 			description: "__**Les différentes commandes :**__",
 			fields: [
 				{
-					name: `${config.prefix}whitelistHelp`,
+					name: `${bot.prefix}whitelistHelp`,
 					value: "```Pour afficher cette aide qui est pour les personnes faisant partie de la whitelist du bot.```"
 				},
 				{
-					name: `${config.prefix}emote`,
+					name: `${bot.prefix}emote`,
 					value: "```Pour afficher l\'émote Carapuce débile.```",
 					inline: true
 				},
 				{
-					name: `${config.prefix}happy`,
+					name: `${bot.prefix}happy`,
 					value: "```Pour afficher l\'émote Carapuce heureux.```",
 					inline: true
 				},
 				{
-					name: `${config.prefix}sad`,
+					name: `${bot.prefix}sad`,
 					value: "```Remplace le massage par l\'emote Carapuce triste.```",
 					inline: true
 				},
 				{
-					name: `${config.prefix}angry`,
+					name: `${bot.prefix}angry`,
 					value: "```Remplace le massage par l\'emote Carapuce en colère.```",
 					inline: true
 				},
 				{
-					name: `${config.prefix}surprised`,
+					name: `${bot.prefix}surprised`,
 					value: "```Remplace le massage par l\'emote Carapuce choqué.```",
 					inline: true
 				},
 				{
-					name: `${config.prefix}restart`,
+					name: `${bot.prefix}restart`,
 					value: "```Pour redémarrer le bot.```",
 					inline: true
 				},
 				{
-					name: `${config.prefix}listServers`,
+					name: `${bot.prefix}listServers`,
 					value: "```Pour avoir la liste des serveurs sur lequel est le bot.```"
 				},
 				{
-					name: `${config.prefix}channelsOfServer *<id du serveur>*`,
+					name: `${bot.prefix}channelsOfServer *<id du serveur>*`,
 					value: "```Pour voir les channels d'un serveur.```"
 				},
 				{
-					name: `${config.prefix}messageToChannel *<id du channel>* *<message>*`,
+					name: `${bot.prefix}messageToChannel *<id du channel>* *<message>*`,
 					value: "```Pour envoyer un message dans un channel\n/!\\ **Doit être un channel textuel.**```"
 				},
 				{
-					name: `${config.prefix}sendMP <*id d\'une personne>* *<message>*`,
+					name: `${bot.prefix}sendMP <*id d\'une personne>* *<message>*`,
 					value: "```Pour envoyer un message privé à quelqu'un.```"
 				}
 			],

@@ -1,4 +1,3 @@
-const config = require("../../../config.json");
 const emojiCharacters = require("../../utils/emojiCharacters.js");
 
 module.exports = function(message) {
@@ -9,74 +8,74 @@ module.exports = function(message) {
 			description: "__**Les différentes commandes :**__",
 			fields: [
 				{
-					name: `${config.prefix}help`,
+					name: `${bot.prefix}help`,
 					value: "```Pour afficher cette aide.```",
 					inline: true
 				},
 				{
-					name: `${config.prefix}help musique`,
+					name: `${bot.prefix}help musique`,
 					value: "```Pour afficher l'aide pour les musiques.```",
 					inline: true
 				},
 				{
-					name: `${config.prefix}*<bonjour / salut / hello / hey / hi / hoï / hola / holà*>`,
+					name: `${bot.prefix}*<bonjour / salut / hello / hey / hi / hoï / hola / holà*>`,
 					value: "```Carapuce vous dit bonjour.```",
 				},
 				{
-					name: `${config.prefix}ping`,
+					name: `${bot.prefix}ping`,
 					value: "```Pour afficher le ping du bot.```",
 					inline: true
 				},
 				{
-					name: `${config.prefix}quiz`,
+					name: `${bot.prefix}quiz`,
 					value: "```Permet de jouer à un quiz !```",
 					inline: true
 				},
 				{
-					name: `${config.prefix}avatar`,
+					name: `${bot.prefix}avatar`,
 					value: "```Renvoie l\'URL vers votre Avatar.```",
 					inline: true
 				},
 				{
-					name: ` ${config.prefix}flip *<pile / face>*`,
+					name: ` ${bot.prefix}flip *<pile / face>*`,
 					value: "```Permet de jouer à pile ou face.```",
 					inline: true
 				},
 				{
-					name: `${config.prefix}listEmojis`,
+					name: `${bot.prefix}listEmojis`,
 					value: "```Envoie la liste des emojis du serveur.```",
 					inline: true
 				},
 				{
-					name: `${config.prefix}*<nom d'un emoji animé du serveur>*`,
+					name: `${bot.prefix}*<nom d'un emoji animé du serveur>*`,
 					value: "```Supprime votre message et met un message avec l'emoji animé que vous avez indiqué.```"
 				},
 				{
-					name: `${config.prefix}shifumi *<pierre (ou p) / feuille (ou f) / ciseaux (ou c)>*`,
+					name: `${bot.prefix}shifumi *<pierre (ou p) / feuille (ou f) / ciseaux (ou c)>*`,
 					value: "```Permet de jouer à shifumi / pierre feuille ciseaux.```"
 				},
 				{
-					name: `${config.prefix}poll *<question; réponse 1; réponse 2; ...>*`,
+					name: `${bot.prefix}poll *<question; réponse 1; réponse 2; ...>*`,
 					value: "```Permet de créer un sondage de 2 à 11 propositions.```"
 				},
 				{
-					name: `${config.prefix}LasVegas *<optionnel: @quelqu\'un>*`,
+					name: `${bot.prefix}LasVegas *<optionnel: @quelqu\'un>*`,
 					value: "```Permet de vous marier à n'importe qui sur le serveur (ou la personne que vous souhaitez en la mentionnant) grâce aux divines lois de Las Vegas !```"
 				},
 				{
-					name: `${config.prefix}invite`,
+					name: `${bot.prefix}invite`,
 					value: "```Permet d'obtenir un lien d'invitation du bot, si vous voulez l'inviter sur votre serveur.```"
 				},
 				{
-					name: `${config.prefix}DansLaWhiteList`,
+					name: `${bot.prefix}DansLaWhiteList`,
 					value: "```Permet de savoir si vous êtes dans la white list.```"
 				},
 				{
-					name: `${config.prefix}adminHelp`,
+					name: `${bot.prefix}adminHelp`,
 					value: "```Permet d'afficher le help des admins.```"
 				},
 				{
-					name: `${config.prefix}whitelistHelp`,
+					name: `${bot.prefix}whitelistHelp`,
 					value: "```Pour afficher le help pour les personnes faisant partie de la whitelist du bot.```"
 				}
 			],

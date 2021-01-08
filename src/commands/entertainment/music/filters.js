@@ -1,7 +1,6 @@
-const config = require("../../../../config.json");
 const emojiCharacters = require("../../../utils/emojiCharacters.js");
 
-module.exports = async function(bot, message) {
+module.exports = async function(message) {
 	if (!bot.player.getQueue(message))
 		return message.channel.send("Aucune musique actuellement jouée.");
 
@@ -17,7 +16,7 @@ module.exports = async function(bot, message) {
 	message.channel.send({
 		embed: {
 			color: 3447003,
-			description: `Liste des filtres (dés)activés.\nUtilisez \`${config.prefix}filters update\` pour ajouter/retirer un filtre à une musique.`,
+			description: `Liste des filtres (dés)activés.\nUtilisez \`${bot.prefix}filters update\` pour ajouter/retirer un filtre à une musique.`,
 			fields: [
 				{name: "Filtres", value: filtersStatuses[0].join("\n"), inline: true},
 				{name: "** **", value: filtersStatuses[1].join("\n"), inline: true},
