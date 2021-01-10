@@ -10,14 +10,18 @@ module.exports = async function(message) {
 			throw response.statusText;
 		})
 		.then(function(svgTxt) {
-			const joke = getJokeFromSVGTxt(svgTxt);
+			// Extract the joke from the svg text
+			const joke = getJokeFromSVGText(svgTxt);
+			// Send the joke as an Embed with a meme
 			const husky = new Discord.MessageAttachment("./src/husky_happy_meme.jpeg");
-			message.channel.send(husky, {
+			message.channel.send({
+				files: [husky],
 				embed: {
 					color: 3447003,
 					title: "Dev joke",
+					thumbnail: "attachment://husky_happy_meme.jpeg",
 					description: joke,
-					author: {url: "https://github.com/ABSphreak/readme-jokes", icon_url: "attachment://husky_happy_meme.jpeg"},
+					url: "https://github.com/ABSphreak/readme-jokes"
 				}
 			});
 		}).catch(error => {
@@ -25,17 +29,20 @@ module.exports = async function(message) {
 		});
 };
 
-function getJokeFromSVGTxt(svgTxt) {
+function getJokeFromSVGText(svgTxt) {
 	let res = "";
 	const arr = svgTxt.split("\n");
 
 	for (let i = 0; i < arr.length; i++) {
+		arr[i] = arr[i].trim();
 		if (arr[i].includes("<p class=\"quote\">"))
 			res = arr[i].substring("<p class=\"quote\">".length, arr[i].length - 5);
 		else if (arr[i].includes("<p class=\"question\">"))
-			res += `**Q:** ${arr[i].substring(("<p class=\"question\">".length), (arr[i].length - 5))}\n`;
+			res += `**Q:** ${arr[i].substring(("<p class=\"question\"><b>Q.</b>".length), (arr[i].length - 5))}\n`;
 		else if (arr[i].includes("<p class=\"answer\">"))
-			res += `**A:** ${arr[i].substring(("<p class=\"answer\">".length), (arr[i].length - 5))}\n`;
+			res += `**A:** ${arr[i].substring(("<p class=\"answer\"><b>A.</b>".length), (arr[i].length - 5))}\n`;
+		else if (arr[i].includes("<p class=\"answer\"> "))
+			res += `${arr[i].substring(("<p class=\"answer\"> ".length), (arr[i].length - 5))}\n`;
 	}
 
 	return (res);
