@@ -13,7 +13,7 @@ module.exports = async function(message) {
 			// Extract the joke from the svg text
 			const joke = getJokeFromSVGText(svgTxt);
 			// Send the joke as an Embed with a meme
-			const husky = new Discord.MessageAttachment("./src/husky_happy_meme.jpeg");
+			const husky = new Discord.MessageAttachment("./src/devJokes/husky_happy_meme.jpeg");
 			message.channel.send({
 				files: [husky],
 				embed: {
