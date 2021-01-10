@@ -65,7 +65,7 @@ module.exports.printHelp = function(message) {
 					value: "Permet de vous marier à n'importe qui sur le serveur (ou la personne que vous souhaitez en la mentionnant) grâce aux divines lois de Las Vegas !"
 				},
 				{
-					name: `${bot.prefix}devJoke`,
+					name: `${config.prefix}devJoke`,
 					value: "```Envoie une blague de dev (en anglais) style jokes de papa```"
 				},
 				{
