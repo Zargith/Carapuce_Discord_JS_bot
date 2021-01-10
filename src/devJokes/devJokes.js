@@ -19,7 +19,7 @@ module.exports = async function(message) {
 				embed: {
 					color: 3447003,
 					title: "Dev joke",
-					thumbnail: "attachment://husky_happy_meme.jpeg",
+					thumbnail: {url: "attachment://husky_happy_meme.jpeg"},
 					description: joke,
 					url: "https://github.com/ABSphreak/readme-jokes"
 				}
@@ -34,7 +34,7 @@ function getJokeFromSVGText(svgTxt) {
 	const arr = svgTxt.split("\n");
 
 	for (let i = 0; i < arr.length; i++) {
-		arr[i] = arr[i].trim();
+		arr[i] = arr[i].trim().replace("<br>", "\n");
 		if (arr[i].includes("<p class=\"quote\">"))
 			res = arr[i].substring("<p class=\"quote\">".length, arr[i].length - 5);
 		else if (arr[i].includes("<p class=\"question\">"))
