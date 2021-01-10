@@ -1,7 +1,11 @@
+const Discord = require("discord.js");
 const emojiCharacters = require("../../utils/emojiCharacters.js");
 
 module.exports = function(message) {
+	const devUnicorn = new Discord.MessageAttachment("./src/commands/helps/coding_unicorn.png");
+
 	message.channel.send({
+		files: [devUnicorn],
 		embed: {
 			color: 3447003,
 			title: "Panneau d'aide principal / Main help pannel",
@@ -71,6 +75,10 @@ module.exports = function(message) {
 					value: "```Permet d'obtenir un lien d'invitation du bot, si vous voulez l'inviter sur votre serveur.```"
 				},
 				{
+					name: `${bot.prefix}github`,
+					value: "```Permet d'obtenir un lien ddu Github du bot, si vous voulez voir comment il est fait.```"
+				},
+				{
 					name: `${bot.prefix}DansLaWhiteList`,
 					value: "```Permet de savoir si vous êtes dans la white list.```"
 				},
@@ -83,8 +91,7 @@ module.exports = function(message) {
 					value: "```Pour afficher le help pour les personnes faisant partie de la whitelist du bot.```"
 				}
 			],
-			footer: {text: `---------------------------------------------------------------------------------------------------\n${emojiCharacters.FR} Ce bot utilise un projet Github fait par Zargith (Zargith/Carapuce_Discord_JS_bot)\n${emojiCharacters.EN} This bot uses a Github project made by Zargith (Zargith/Carapuce_Discord_JS_bot)`},
-			author: {name: "Auteur: Zargith", url: "https://github.com/Zargith/Carapuce_Discord_JS_bot"},
+			footer: {text: `-----------------------------------------------------------------------------------------------\n${emojiCharacters.FR} Ce bot utilise un projet Github fait par Zargith (Zargith/Carapuce_Discord_JS_bot)\n${emojiCharacters.EN} This bot uses a Github project made by Zargith (Zargith/Carapuce_Discord_JS_bot)`, icon_url: "attachment://coding_unicorn.png", url: "https://github.com/Zargith/Carapuce_Discord_JS_bot"},
 			timestamp: new Date()
 		}
 	});

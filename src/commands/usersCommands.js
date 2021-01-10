@@ -116,6 +116,10 @@ module.exports = function(message) {
 			devJokes(message);
 			break;
 
+		case (`${bot.prefix}github`):
+			message.channel.send("https://github.com/Zargith/Carapuce_Discord_JS_bot");
+			break;
+
 		default:
 			// check if the user tryed to use an animated emoji
 			// else say that the command isn't reconized
