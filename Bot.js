@@ -20,7 +20,7 @@ const DJCarapuce = require("./src/music/newDJCarapuce.js");
 const LasVegas = require("./src/LasVegas.js");
 const cleanChannel = require("./src/cleanChannel.js");
 const checkBannedWords = require("./src/checkBannedWords.js");
-
+const devJokes = require("./src/devJokes/devJokes.js");
 
 // Then add some messages that will be sent when the events will be triggered
 // Send a message when a track starts
@@ -184,6 +184,10 @@ function redirectCommands(message) {
 			return;
 		case (`${config.prefix}love`):
 			message.channel.send("dab dab, I dab you some dabing love ! :heart:");
+			return;
+		case (`${config.prefix}devJoke`):
+		case (`${config.prefix}devjoke`):
+			devJokes(message);
 			return;
 		case (`${config.prefix}listemojis`):
 			if (message.guild === null) {
