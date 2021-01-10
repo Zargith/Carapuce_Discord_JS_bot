@@ -4,6 +4,7 @@ const shifumi = require("./entertainment/shifumi.js");
 const flipCoin = require("./entertainment/flipCoin.js");
 const DJCarapuce = require("./entertainment/music/newDJCarapuce.js");
 const useAnimatedEmojis = require("./entertainment/useAnimatedEmojis.js");
+const devJokes = require("./entertainment/devJokes.js");
 const isInWhiteList = require("../utils/isInWhiteList.js");
 const emojis = require("../utils/emojiCharacters.js");
 
@@ -108,6 +109,11 @@ module.exports = function(message) {
 
 		case (`${bot.prefix}invite`):
 			message.channel.send("https://discordapp.com/api/oauth2/authorize?client_id=550786957245153290&permissions=0&scope=bot");
+			break;
+
+		case (`${bot.prefix}devJoke`):
+		case (`${bot.prefix}devjoke`):
+			devJokes(message);
 			break;
 
 		default:

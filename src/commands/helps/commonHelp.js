@@ -63,6 +63,10 @@ module.exports = function(message) {
 					value: "```Permet de vous marier à n'importe qui sur le serveur (ou la personne que vous souhaitez en la mentionnant) grâce aux divines lois de Las Vegas !```"
 				},
 				{
+					name: `${bot.prefix}devJoke`,
+					value: "```Envoie une blague de dev (en anglais) style jokes de papa```"
+				},
+				{
 					name: `${bot.prefix}invite`,
 					value: "```Permet d'obtenir un lien d'invitation du bot, si vous voulez l'inviter sur votre serveur.```"
 				},

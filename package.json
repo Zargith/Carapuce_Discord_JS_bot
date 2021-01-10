@@ -19,6 +19,7 @@
   "homepage": "https://github.com/Zargith/Carapuce_Discord_JS_bot#readme",
   "dependencies": {
     "@discordjs/opus": "^0.2.1",
+    "axios": "^0.21.1",
     "canvas": "^2.6.1",
     "discord-player": "^3.2.1",
     "discord.js": "^12.5.1",
