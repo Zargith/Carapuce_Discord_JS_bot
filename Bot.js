@@ -21,6 +21,7 @@ const LasVegas = require("./src/LasVegas.js");
 const cleanChannel = require("./src/cleanChannel.js");
 const checkBannedWords = require("./src/checkBannedWords.js");
 const devJokes = require("./src/devJokes/devJokes.js");
+const getReportLogChannel = require("./src/getReportLogChannel.js");
 
 // Then add some messages that will be sent when the events will be triggered
 // Send a message when a track starts
@@ -98,7 +99,7 @@ bot.on("invalidated", async function(error) {
 	console.log("Session has been invalidated. Restarting the bot.");
 	const owner = await bot.users.fetch(config.ownerID);
 	if (owner)
-		owner.send.send({embed: {color: 16711680, description: "Session has been invalidated. Restarting the bot."}})
+		owner.send({embed: {color: 16711680, description: "Session has been invalidated. Restarting the bot."}})
 			.then(msg => bot.destroy())
 			.then(() => bot.login(config.token))
 			.then(() => bot.user.setActivity(`${config.prefix}help`, {type: "WATCHING"}));
@@ -114,7 +115,7 @@ bot.on("messageReactionAdd", async (reaction, user) => {
 		if (config.ownerID) {
 			const owner = await bot.users.fetch(config.ownerID);
 			if (owner)
-				owner.send.send({embed: {color: 16711680, description: `__**ERREUR**__\nLorsque l'utilisateur ${user.tag} sur le serveur ${(reaction.message || reaction.message.guild ? reaction.message.guild.name : null)} a ajouté une réaction, l'erreur suivante s'est produite :\n*${exception.stack}*`}});
+				owner.send({embed: {color: 16711680, description: `__**ERREUR**__\nLorsque l'utilisateur ${user.tag} sur le serveur ${(reaction.message || reaction.message.guild ? reaction.message.guild.name : null)} a ajouté une réaction, l'erreur suivante s'est produite :\n*${exception.stack}*`}});
 		}
 	}
 });
@@ -145,7 +146,7 @@ bot.on("guildMemberAdd", async member => {
 		if (config.ownerID) {
 			const owner = await bot.users.fetch(config.ownerID);
 			if (owner)
-				owner.send.send({embed: {color: 16711680, description: `__**ERREUR**__\nLors de l'arrivée de l'utilisateur ${member.user.tag} sur le serveur ${member.guild.name}\n\n__L'erreur suivante s'est produite:__\n*${exception.stack}*`}});
+				owner.send({embed: {color: 16711680, description: `__**ERREUR**__\nLors de l'arrivée de l'utilisateur ${member.user.tag} sur le serveur ${member.guild.name}\n\n__L'erreur suivante s'est produite:__\n*${exception.stack}*`}});
 		}
 	}
 });
@@ -422,13 +423,26 @@ function consoleErrorMessage(message, exception) {
 }
 
 function channelErrorMessage(message, exception) {
-	message.channel.send({embed: {color: 16711680, description: `__**ERREUR**__ at ${new Date()}\nLa commande n\'a pas fonctionnée...\n\n__L\'erreur suivante s\'est produite :__\n*${exception}*`}});
+	try {
+		// first send an error message into the channel were the operations were wrong
+		message.channel.send(`__**ERREUR**__\n${exception.message}`);
+		// then if the message was sent in MP, the function returns
+		if (!message.guild)
+			return;
+		// else check if a report log channel is defined and send a error report to if it succeed to get it
+		const reportLogChannel = message.guild.channels.cache.get(getReportLogChannel(message.guild.id));
+		if (reportLogChannel)
+			reportLogChannel.send({embed: {color: 16711680, description: `__**ERREUR**__ at ${new Date()}\nL\'utilisateur *${message.author.username}* sur ce serveur a envoyé la commande :\n${message.content}\n\n__L\'erreur suivante s\'est produite :__\n*${exception.stack}*`}});
+		message.channel.send({embed: {color: 16711680, description: `__**ERREUR**__ at ${new Date()}\nLa commande n\'a pas fonctionnée...\n\n__L\'erreur suivante s\'est produite :__\n*${exception}*`}});
+	} catch (excep) {
+		ownerErrorMessage(message, excep);
+	}
 }
 
 async function ownerErrorMessage(message, exception) {
 	const owner = await bot.users.fetch(config.ownerID);
 	if (owner)
-		owner.send.send({embed: {color: 16711680, description: `__**ERREUR**__ at ${new Date()}\nL\'utilisateur ${message.author.tag}${ message.guild === null ? "" : `, sur le serveur ${message.member.guild.name}`} a envoyé la commande :\n${message.content}\n\n__L\'erreur suivante s\'est produite :__\n*${exception.stack}*`}});
+		owner.send({embed: {color: 16711680, description: `__**ERREUR**__ at ${new Date()}\nL\'utilisateur ${message.author.tag}${ message.guild === null ? "" : `, sur le serveur ${message.member.guild.name}`} a envoyé la commande :\n${message.content}\n\n__L\'erreur suivante s\'est produite :__\n*${exception.stack}*`}});
 }
 
 bot.login(config.token);
