@@ -29,14 +29,32 @@ else
 	bot.prefix = "";
 
 
-bot.login(config.token).then(async () => {
-	if (config.ownerID) {
-		const owner = await bot.users.fetch(config.ownerID);
-		if (owner)
-			bot.owner = owner;
+bot.login(config.token);
+
+bot.on("ready", async function() {
+	try {
+		console.log(`Log in as ${bot.user.tag} !`);
+		console.log("Servers :");
+		bot.guilds.cache.array().forEach(guild => {
+			console.log(" - " + guild.name);
+		});
+		console.log("\n");
+		bot.user.setActivity(`${bot.prefix}help`, {type: "WATCHING"});
+		if (config.ownerID) {
+			const owner = await bot.users.fetch(config.ownerID);
+			if (owner) {
+				bot.owner = owner;
+				bot.owner.send({embed: {color: 65330, description: "Started successfully"}});
+			}
+		}
+		setInterval(() => restartBot(null, bot), 86400000); // 86,400,000ms = 24hrs
+	} catch (exception) {
+		console.log(`ERREUR at ${new Date()}\nErreur lors du démarrage du bot.\n\nL\'erreur suivante s\'est produite :\n${exception.stack}`);
+		// if a bot owner is defined, the bot will send him/her the complete error to let him/her know what happened
+		if (bot.owner)
+			bot.owner.send({embed: {color: 16711680, description: `__**ERREUR**__ at ${new Date()}\nErreur lors du démarrage du bot.\n\n__L\'erreur suivante s\'est produite :__\n*${exception.stack}*`}});
 	}
 });
-
 
 bot.on("message", message => {
 	try {
@@ -67,25 +85,6 @@ bot.on("message", message => {
 	}
 });
 
-
-bot.on("ready", async function() {
-	try {
-		console.log(`Log in as ${bot.user.tag} !`);
-		console.log("Servers :");
-		bot.guilds.cache.array().forEach(guild => {
-			console.log(" - " + guild.name);
-		});
-		console.log("\n");
-		bot.user.setActivity(`${bot.prefix}help`, {type: "WATCHING"});
-		if (bot.owner)
-			bot.owner.send({embed: {color: 65330, description: "Started successfully"}});
-		setInterval(() => restartBot(null, bot), 86400000); // 86,400,000ms = 24hrs
-	} catch (exception) {
-		// if a bot owner is defined, the bot will send him/her the complete error to let him/her know what happened
-		if (bot.owner)
-			bot.owner.send({embed: {color: 16711680, description: `__**ERREUR**__ at ${new Date()}\nErreur lors du démarrage du bot.\n\n__L\'erreur suivante s\'est produite :__\n*${exception.stack}*`}});
-	}
-});
 
 process.on("unhandledRejection", err => {
 	console.error(err);
@@ -142,6 +141,7 @@ bot.on("guildMemberAdd", async member => {
 	}
 });
 
+
 // Add some messages that will be sent when the events will be triggered
 // Send a message when a track starts
 bot.player.on("trackStart", (message, track) => message.channel.send(`Now playing ${track.title}...`));
@@ -158,7 +158,13 @@ bot.player.on("searchResults", (message, query, tracks) => {
 		.setFooter("Envoie le numéro de la musique que tu veux jouer !");
 	message.channel.send(embed);
 });
-bot.player.on("searchInvalidResponse", (message, query, tracks, content, collector) => message.channel.send(`Envoies un nombre entre 1 et ${tracks.length}!`));
+bot.player.on("searchInvalidResponse", (message, query, tracks, content, collector) => {
+	if (content === "cancel") {
+		collector.stop();
+		return message.channel.send("Search cancelled!");
+	}
+	message.channel.send(`Envoies un nombre entre 1 et ${tracks.length}!`);
+});
 bot.player.on("searchCancel", (message, query, tracks) => message.channel.send("Tu n'as pas fournéis de réponce valide. Rélance la commande si tu souhaites réessayer !"));
 bot.player.on("noResults", (message, query) => message.channel.send(`Aucun résultat trouvé sur Youtube pour ${query}!`));
 
@@ -179,8 +185,14 @@ bot.player.on("error", async (error, message) => {
 		case ("UnableToJoin"):
 			message.channel.send("Je ne peux pas te rejoindre, vérifies mes droits stp...");
 			break;
+		case "LiveVideo":
+			message.channel.send("Les directs YouTube ne sont pas supportés!");
+			break;
+		case "VideoUnavailable":
+			message.channel.send("Cette vidéo YouTube n'est pas disponible!");
+			break;
 		default:
 			if (bot.owner)
-				bot.owner.send({embed: {color: 16711680, description: `__**ERREUR**__ at ${new Date()}\nL\'utilisateur ${message.author.tag}${!message.guild ? "" : `, sur le serveur ${message.member.guild.name}`} a envoyé la commande :\n${message.content}\n\n__L\'erreur suivante s\'est produite :__\n*${error}*`}});
+				bot.owner.send({embed: {color: 16711680, description: `__**ERREUR**__ at ${new Date()}\nL\'utilisateur ${message.author.tag}${!message.guild ? "" : `, sur le serveur ${message.member.guild.name}`} a envoyé la commande :\n${message.content}\n\n__L\'erreur suivante s\'est produite :__\n*${error.stack}*`}});
 	}
 });
