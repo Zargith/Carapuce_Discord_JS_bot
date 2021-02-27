@@ -1,0 +1,22 @@
+version: "3.3"
+services:
+    carapuce:
+        build:
+            context: .
+            dockerfile: ./Dockerfile
+        command: npm start
+        container_name: Carapuce_Discord_bot
+        restart: always
+        # depends_on:
+        #    - db
+        # links:
+        #    - db:db
+
+    # For later if I want to use mongo as a database
+    # db:
+    #     image: mongo
+    #     ports:
+    #         - "27017:27017"
+
+volumes:
+    server:
