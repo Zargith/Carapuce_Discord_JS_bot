@@ -58,7 +58,7 @@ bot.on("ready", async function() {
 
 bot.on("message", message => {
 	try {
-		if (message.content.toLowerCase().includes("carapuce") || (message.content.includes("<@!550786957245153290>"))) {
+		if (message.content.toLowerCase().includes("carapuce")) {
 			const emojiCarapuce = bot.emojis.cache.find(emoji => emoji.name === "carapuce");
 			if (emojiCarapuce)
 				message.react(emojiCarapuce);
