@@ -55,3 +55,17 @@ The bot needs to have a config.json file like the following as the root of the r
     ]
 }
 ```
+---
+The bot can be set up by docker!
+
+For that, please follow these steps:
+
+```bash
+$ docker-compose build
+```
+
+```bash
+$ docker-compose start
+```
+
+If it get an error and crash, it will restart thanks to the docker-compose.yml file configuration.
