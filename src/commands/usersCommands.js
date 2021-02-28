@@ -124,6 +124,6 @@ module.exports = function(message) {
 			// check if the user tryed to use an animated emoji
 			// else say that the command isn't reconized
 			if (!useAnimatedEmojis(message))
-				message.channel.send(`Commande \`${message.content}\` non-reconnue...`);
+				message.channel.send(`Commande \`${message.content}\` non-reconnue ou tu n'en dispose pas du droit d'utilisation ici`);
 	}
 };

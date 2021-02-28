@@ -58,6 +58,10 @@ bot.on("ready", async function() {
 
 bot.on("message", message => {
 	try {
+		if (message.guild)
+			checkBannedWords(message);
+
+		// if the message includes in anyway "carapuce" it will react with an emoji named carapuce
 		if (message.content.toLowerCase().includes("carapuce")) {
 			const emojiCarapuce = bot.emojis.cache.find(emoji => emoji.name === "carapuce");
 			if (emojiCarapuce)
@@ -67,7 +71,6 @@ bot.on("message", message => {
 		// if the message doesn't start by the prefix setted on the config file or if this variable isn't defined, the code doesn't go further
 		if (!bot.prefix || !message.content.startsWith(bot.prefix) || message.author.bot)
 			return;
-		checkBannedWords(message);
 		if (!message.content.startsWith(bot.prefix))
 			return;
 

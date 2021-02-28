@@ -6,7 +6,7 @@ const getReportLogChannel = require("../oldUtils/getReportLogChannel.js");
 
 module.exports = async function(message, updatedMessage, bot) {
 	const reportLogChannelID = await getReportLogChannel(message.guild.id);
-	if (!message.guild || !reportLogChannelID)
+	if (!reportLogChannelID)
 		return;
 	const reportLogChannel = message.guild.channels.cache.get(reportLogChannelID);
 	if (!reportLogChannel)

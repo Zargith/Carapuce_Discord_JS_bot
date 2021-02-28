@@ -68,15 +68,6 @@ module.exports = function(message) {
 			}
 			break;
 
-		case (`${bot.prefix}restart`):
-			if (args.length !== 0) {
-				message.channel.send("Cette commande ne prend pas de paramètre.");
-				break;
-			}
-			// restart the bot except if it doesn't run with pm2 or anything that allow it to restart when the program is shutdowned
-			restartBot(message.channel);
-			break;
-
 		case (`${bot.prefix}count`):
 			if (args.length !== 1) {
 				message.channel.send("Cette commande a besoin d'un paramètre (ex: `ID du rôle`, `@leRole` ou `leNomDuRôle`).");
