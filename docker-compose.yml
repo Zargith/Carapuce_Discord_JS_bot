@@ -7,16 +7,13 @@ services:
         command: npm start
         container_name: Carapuce_Discord_bot
         restart: always
-        # depends_on:
-        #    - db
-        # links:
-        #    - db:db
+        depends_on:
+           - cara_db
+        links:
+           - cara_db:cara_db
 
-    # For later if I want to use mongo as a database
-    # db:
-    #     image: mongo
-    #     ports:
-    #         - "27017:27017"
-
-volumes:
-    server:
+    cara_db:
+        image: mongo
+        container_name: cara_db
+        ports:
+            - "27017:27017"

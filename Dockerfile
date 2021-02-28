@@ -7,7 +7,6 @@ RUN apt-get update && apt upgrade -y && apt-get install -y apt-utils build-essen
 RUN curl -fsSL https://deb.nodesource.com/setup_15.x | bash -
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 RUN apt-get update && apt upgrade -y && apt-get install -y nodejs
-#RUN apt-get install -y npm
 RUN apt-get update && apt upgrade -y
 RUN npm i npm@latest node-gyp @mapbox/node-pre-gyp -g
 
