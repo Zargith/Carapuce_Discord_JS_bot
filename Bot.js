@@ -2,6 +2,7 @@ const Discord = require("discord.js");
 const config = require("./config.json");
 
 // in src directory
+const botStartup = require("./src/utils/onBotStartup.js");
 const guildMemberAdd = require("./src/utils/guildAddMember.js");
 const roleReaction = require("./src/utils/oldUtils/roleReaction.js");
 const isInWhiteList = require("./src/utils/isInWhiteList.js");
@@ -14,26 +15,14 @@ const whitelistCommands = require("./src/commands/whitelistCommands.js");
 const isServerAdmin = require("./src/utils/isServerAdmin");
 const emojiCharacters = require("./src/utils/emojiCharacters.js");
 
-
 // Define bot as global variable
 bot = new Discord.Client({partials: ["MESSAGE", "CHANNEL", "REACTION"], disableMentions: "everyone"});
 
-// Define (and set) some other variables
-const {Player} = require("discord-player"); // Create a new Player (Youtube API key is your Youtube Data v3 key)
-const player = new Player(bot, {autoSelfDeaf: false, leaveOnEmptyCooldown: 15000}); // To easily access the player
-bot.player = player;
-bot.filters = config.filters;
-if (config.prefix)
-	bot.prefix = config.prefix;
-else
-	bot.prefix = "";
-
-
-bot.login(config.token);
+botStartup();
 
 bot.on("ready", async function() {
 	try {
-		console.log(`Log in as ${bot.user.tag} !`);
+		console.log(`Logged in as ${bot.user.tag} !`);
 		console.log("Servers :");
 		bot.guilds.cache.array().forEach(guild => {
 			console.log(" - " + guild.name);
