@@ -22,6 +22,7 @@
 		"no-trailing-spaces": "error",
 		"no-lonely-if" : "error",
 		"no-tabs": "off",
+		"no-multi-str": "off",
 		"space-before-function-paren": ["error", {"anonymous": "never", "named": "never", "asyncArrow": "always"}],
 		"comma-dangle": "off",
 		"arrow-parens": ["error", "as-needed"],

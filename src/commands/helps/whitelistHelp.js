@@ -11,53 +11,53 @@ module.exports = function(message) {
 			description: "__**Les différentes commandes :**__",
 			fields: [
 				{
-					name: `${bot.prefix}whitelistHelp`,
+					name: `${bot.config.prefix}whitelistHelp`,
 					value: "```Pour afficher cette aide qui est pour les personnes faisant partie de la whitelist du bot.```"
 				},
 				{
-					name: `${bot.prefix}emote`,
+					name: `${bot.config.prefix}emote`,
 					value: "```Pour afficher l\'émote Carapuce débile.```",
 					inline: true
 				},
 				{
-					name: `${bot.prefix}happy`,
+					name: `${bot.config.prefix}happy`,
 					value: "```Pour afficher l\'émote Carapuce heureux.```",
 					inline: true
 				},
 				{
-					name: `${bot.prefix}sad`,
+					name: `${bot.config.prefix}sad`,
 					value: "```Remplace le massage par l\'emote Carapuce triste.```",
 					inline: true
 				},
 				{
-					name: `${bot.prefix}angry`,
+					name: `${bot.config.prefix}angry`,
 					value: "```Remplace le massage par l\'emote Carapuce en colère.```",
 					inline: true
 				},
 				{
-					name: `${bot.prefix}surprised`,
+					name: `${bot.config.prefix}surprised`,
 					value: "```Remplace le massage par l\'emote Carapuce choqué.```",
 					inline: true
 				},
 				{
-					name: `${bot.prefix}restart`,
+					name: `${bot.config.prefix}restart`,
 					value: "```Pour redémarrer le bot.```",
 					inline: true
 				},
 				{
-					name: `${bot.prefix}listServers`,
+					name: `${bot.config.prefix}listServers`,
 					value: "```Pour avoir la liste des serveurs sur lequel est le bot.```"
 				},
 				{
-					name: `${bot.prefix}channelsOfServer *<id du serveur>*`,
+					name: `${bot.config.prefix}channelsOfServer *<id du serveur>*`,
 					value: "```Pour voir les channels d'un serveur.```"
 				},
 				{
-					name: `${bot.prefix}messageToChannel *<id du channel>* *<message>*`,
+					name: `${bot.config.prefix}messageToChannel *<id du channel>* *<message>*`,
 					value: "```Pour envoyer un message dans un channel\n/!\\ **Doit être un channel textuel.**```"
 				},
 				{
-					name: `${bot.prefix}sendMP <*id d\'une personne>* *<message>*`,
+					name: `${bot.config.prefix}sendMP <*id d\'une personne>* *<message>*`,
 					value: "```Pour envoyer un message privé à quelqu'un.```"
 				}
 			],

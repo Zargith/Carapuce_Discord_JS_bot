@@ -1,8 +1,6 @@
-const config = require("../../../config.json");
-
 module.exports = function(idServer) {
-	for (let i = 0; i < config.guilds.length; i++)
-		if (config.guilds[i]["guildID"] === idServer && config.guilds[i]["defaultRolesName"])
-			return (config.guilds[i]["defaultRolesName"]);
+	for (let i = 0; i < bot.config.guilds.length; i++)
+		if (bot.config.guilds[i]["guildID"] === idServer && bot.config.guilds[i]["defaultRolesName"])
+			return (bot.config.guilds[i]["defaultRolesName"]);
 	return;
 };

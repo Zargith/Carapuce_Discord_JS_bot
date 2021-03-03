@@ -12,39 +12,39 @@ module.exports = function(message) {
 			description: "__**Les différentes commandes :**__",
 			fields: [
 				{
-					name: `${bot.prefix}createServerConfig *roleID: <id du role par défaut>; channelID: <id du channel de log>; commands: <nom de la commande 1>, <nom de la commande 2>, ...*`,
+					name: `${bot.config.prefix}createServerConfig *roleID: <id du role par défaut>; channelID: <id du channel de log>; commands: <nom de la commande 1>, <nom de la commande 2>, ...*`,
 					value: "```Permet de créer un configuration pour le serveur dans la base de données. Chaque paramètre est optionnel et toit être séparé par un point-virgule.```"
 				},
 				{
-					name: `${bot.prefix}defineLogChannel *<id du channel de log>*`,
+					name: `${bot.config.prefix}defineLogChannel *<id du channel de log>*`,
 					value: "```Permet de définir un channel de report des logs dans la configuration du serveur, dans la base de données.```"
 				},
 				{
-					name: `${bot.prefix}defineRole *<id du rôle>*`,
+					name: `${bot.config.prefix}defineRole *<id du rôle>*`,
 					value: "```Permet de définir un rôle par défaut dans la configuration du serveur, dans la base de données.```"
 				},
 				{
-					name: `${bot.prefix}defineCommands *<nom de la commande 1>, <nom de la commande 2>, ...*`,
+					name: `${bot.config.prefix}defineCommands *<nom de la commande 1>, <nom de la commande 2>, ...*`,
 					value: "```Permet de définir la liste de commandes non-utilisable dans la configuration du serveur, dans la base de données.```"
 				},
 				{
-					name: `${bot.prefix}redefineCommands *<type : set/add/remove>* *<nom de la commande 1>, <nom de la commande 2>, ...*`,
+					name: `${bot.config.prefix}redefineCommands *<type : set/add/remove>* *<nom de la commande 1>, <nom de la commande 2>, ...*`,
 					value: "```Permet de redéfinir la liste de commandes non-utilisable dans la configuration du serveur, dans la base de données.\n__set :__ pour redéfinir entièrement la liste\n__add :__ pour ajouter une liste de commandes\n__remove :__ pour retirer une liste de commandes```"
 				},
 				{
-					name: `${bot.prefix}defineBannedWords *<mot 1>; <mot 2>, ...*`,
+					name: `${bot.config.prefix}defineBannedWords *<mot 1>; <mot 2>, ...*`,
 					value: "```Permet de définir la liste de mots interdits, dans la base de données.```"
 				},
 				{
-					name: `${bot.prefix}redefineBannedWords *<type : set/add/remove>* *<mot 1>, <mot 2>, ...*`,
+					name: `${bot.config.prefix}redefineBannedWords *<type : set/add/remove>* *<mot 1>, <mot 2>, ...*`,
 					value: "```Permet de redéfinir la liste de de mots interdits, dans la base de données.\n__set :__ pour redéfinir entièrement la liste\n__add :__ pour ajouter une liste mots à celle déjà existante\n__remove :__ pour retirer une liste de mots à celle déjà existante```"
 				},
 				{
-					name: `${bot.prefix}showTable *<nom de la table>*`,
+					name: `${bot.config.prefix}showTable *<nom de la table>*`,
 					value: "```Pour afficher tous les élément de la table précisée en argument.```"
 				},
 				{
-					name: `${bot.prefix}dropTable *<nom de la table>*`,
+					name: `${bot.config.prefix}dropTable *<nom de la table>*`,
 					value: "```Pour supprimer la table dont le nom est celui précisé en argument.```"
 				}
 			],

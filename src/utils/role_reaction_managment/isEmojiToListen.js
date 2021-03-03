@@ -1,10 +1,8 @@
-const config = require("../../../config.json");
-
 module.exports = function(idServer, idMessage, emoji) {
 	let guild;
-	for (let i = 0; i < config.guilds.length; i++)
-		if (config.guilds[i]["guildID"] === idServer)
-			guild = config.guilds[i];
+	for (let i = 0; i < bot.config.guilds.length; i++)
+		if (bot.config.guilds[i]["guildID"] === idServer)
+			guild = bot.config.guilds[i];
 	if (!guild)
 		return (false);
 	let listener;

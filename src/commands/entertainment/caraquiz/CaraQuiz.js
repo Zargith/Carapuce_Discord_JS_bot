@@ -1,5 +1,3 @@
-const config = require("../config.json");
-
 module.exports = {
 	inQuiz : false,
 	score : 0,
@@ -10,15 +8,15 @@ module.exports = {
 
 		try {
 			message.content = message.content.toLowerCase();
-			if (message.content === `${bot.prefix}Qstop`) {
+			if (message.content === `${bot.config.prefix}Qstop`) {
 				message.channel.send(`Fin du cara-quiz !\nFélicitations, ton score est de ${this.score}/${(this.numQuestion - 1)} ! <:carapuce:551198314687758357>`);
 				this.score = 0;
 				this.numQuestion = 1;
 				this.inQuiz = false;
 				return;
-			} else if (message.content === `${bot.prefix}quiz` && this.inQuiz === true) {
+			} else if (message.content === `${bot.config.prefix}quiz` && this.inQuiz === true) {
 
-				message.channel.send(`Un quizz est déjà en cours <:carapuce:551198314687758357>\nMais si tu veux arrêter celui-ci dis *${bot.prefix}Qstop*`)
+				message.channel.send(`Un quizz est déjà en cours <:carapuce:551198314687758357>\nMais si tu veux arrêter celui-ci dis *${bot.config.prefix}Qstop*`)
 				return;
 			}
 
@@ -139,7 +137,7 @@ const quiz = require("./Caraquiz.json");
 module.exports.tmp = async function(message) {
 	const serverQueue = queue.get(message.author.id);
 
-	if (message.content.startsWith(`${bot.prefix}quiz`))
+	if (message.content.startsWith(`${bot.config.prefix}quiz`))
 		displayQuestion(message, serverQueue);
 
 }

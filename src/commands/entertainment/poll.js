@@ -8,7 +8,7 @@ module.exports = function(message) {
 		message.channel.send(`Il me faut entre 3 et 12 arguments séparés par des points-virgule\nC'est à dire : *question; arg 1; arg 2; ...* ${emojis.sad_carapuce}`);
 		return;
 	}
-	const len = bot.prefix.length + 5;
+	const len = bot.config.prefix.length + 5;
 	args[0] = args[0].substring(len);
 	const poll = new Discord.MessageEmbed()
 		.setColor(3447003)

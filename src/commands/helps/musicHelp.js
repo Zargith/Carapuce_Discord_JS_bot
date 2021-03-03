@@ -12,51 +12,51 @@ module.exports = function(message) {
 			description: "__**Les différentes commandes :**__",
 			fields: [
 				{
-					name: `${bot.prefix}play *<URL Youtube/Spotify/Soundcloud ou mots clés>*`,
+					name: `${bot.config.prefix}play *<URL Youtube/Spotify/Soundcloud ou mots clés>*`,
 					value: "```Joue la musique ou ajoute à la liste d'attente. Prend en paramètre une URL (ou ID) Youtube ou des mots-clés et joue la première.```"
 				},
 				{
-					name: `${bot.prefix}pause`,
+					name: `${bot.config.prefix}pause`,
 					value: "```Permet de mettre en pause la musique actuellement jouée.```"
 				},
 				{
-					name: `${bot.prefix}resume`,
+					name: `${bot.config.prefix}resume`,
 					value: "```Permet de repprendre la musique précédement mise en pause.```"
 				},
 				{
-					name: `${bot.prefix}stop`,
+					name: `${bot.config.prefix}stop`,
 					value: "```Permet d'arrêter de jouer de la musique, même s'il reste des musiques dans la liste d'attente.```"
 				},
 				{
-					name: `${bot.prefix}playlist`,
+					name: `${bot.config.prefix}playlist`,
 					value: "```Permet de voir la playlist de musiques en cours pour le serveur.```"
 				},
 				{
-					name: `${bot.prefix}clearPlaylist`,
+					name: `${bot.config.prefix}clearPlaylist`,
 					value: "```Permet de vider la playlist actuelle du serveur.```"
 				},
 				{
-					name: `${bot.prefix}progress`,
+					name: `${bot.config.prefix}progress`,
 					value: "```Permet de voir la la progression de la musique en cours.```"
 				},
 				{
-					name: `${bot.prefix}loop`,
+					name: `${bot.config.prefix}loop`,
 					value: "```Permet d'activer et de désactiver le mode boucle pour le serveur.```"
 				},
 				{
-					name: `${bot.prefix}shuffle`,
+					name: `${bot.config.prefix}shuffle`,
 					value: "```Permet de mélanger les musiques présentes dans la playlist du serveur.```"
 				},
 				{
-					name: `${bot.prefix}setVolume`,
+					name: `${bot.config.prefix}setVolume`,
 					value: "```Permet de définir le volume pour les musiques.```"
 				},
 				{
-					name: `${bot.prefix}filters **update**`,
+					name: `${bot.config.prefix}filters **update**`,
 					value: "```Permet de voir d'activer/désactiver un filtre pour le serveur.```"
 				},
 				{
-					name: `${bot.prefix}filters`,
+					name: `${bot.config.prefix}filters`,
 					value: "```Permet de voir la liste des filtres (non-)actifs sur le serveur.```"
 				},
 				{

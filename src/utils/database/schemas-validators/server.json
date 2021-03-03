@@ -1,0 +1,60 @@
+{
+	"validator": {
+		"$jsonSchema": {
+			"bsonType": "object",
+			"required": [ "serverdId" ],
+			"properties": {
+				"serverdId": {
+					"bsonType": "number",
+					"description": "must be a number and is required"
+				},
+				"reportLogChannel": {
+					"bsonType": "number",
+					"description": "must be a number"
+				},
+				"defaultRolesIds": {
+					"bsonType": "array",
+					"description": "must be an array of numbers"
+				},
+				"listeners": {
+					"bsonType": "array",
+					"description": "must be an array of objects",
+					"required": ["messageId", "cumulativeRoles", "defaultRoleId", "reactionRole"],
+					"properties": {
+						"messageId": {
+							"bsonType": "number",
+							"description": "must be a number and is required"
+						},
+						"cumulativeRoles": {
+							"bsonType": "boolean",
+							"description": "must be a boolean and is required"
+						},
+						"defaultRoleId": {
+							"bsonType": "number",
+							"description": "must be a number and is required"
+						},
+						"reactionRole": {
+							"bsonType": "object",
+							"description": "must be a object and is required",
+							"required": ["emoji", "roleId"],
+							"properties": {
+								"emoji": {
+									"bsonType": "string",
+									"description": "must be a string and is required"
+								},
+								"roleId": {
+									"bsonType": "number",
+									"description": "must be a number and is required"
+								}
+							}
+						}
+					}
+				},
+				"bannedWords": {
+					"bsonType": "array",
+					"description": "must be an array of strings"
+				}
+			}
+		}
+	}
+}

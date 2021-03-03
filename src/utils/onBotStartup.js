@@ -8,11 +8,14 @@ module.exports = function() {
 	bot.player = player;
 	bot.filters = config.filters;
 
-	if (config.prefix)
-		bot.prefix = config.prefix;
-	else
-		bot.prefix = "";
+	// The bot needs his config file to work properly with the database.
+	if (!config || !config.username || !config.password || !config.dbName)
+		throw new Error("Missing information in config file.");
+
+	bot.config = config;
+	if (!bot.config.prefix)
+		bot.config.prefix = "";
 
 	bot.login(config.token);
-
+//	bot.db = require("./database/database.js");
 };

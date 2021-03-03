@@ -17,7 +17,7 @@ module.exports = function(message) {
 		return message.channel.send("Vous devez être connecté à un salon vocal avant d'utiliser cette commande !");
 
 	// split the message content to exactly get the command and its arguments
-	const args = message.content.slice(bot.prefix.length).trim().split(" ");
+	const args = message.content.slice(bot.config.prefix.length).trim().split(" ");
 	const command = args.shift();
 
 	switch (command) {

@@ -6,7 +6,7 @@ module.exports = async function(message) {
 	try {
 		// command to do a throw test and check if a report log channel is defined
 		// it's possible to set a personalized message as argument
-		throw Error(message.content.substring(bot.prefix.length + 5));
+		throw Error(message.content.substring(bot.config.prefix.length + 5));
 	} catch (exception) {
 		try {
 			const reportLogChannel = message.guild.channels.cache.get(getRepportLogChannel(message.guild.id));

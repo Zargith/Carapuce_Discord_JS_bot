@@ -38,9 +38,9 @@ function getJokeFromSVGText(svgTxt) {
 		if (arr[i].includes("<p class=\"quote\">"))
 			res = arr[i].substring("<p class=\"quote\">".length, arr[i].length - 5);
 		else if (arr[i].includes("<p class=\"question\">"))
-			res += `**Q:** ${arr[i].substring(("<p class=\"question\"><b>Q.</b>".length), (arr[i].length - 5))}\n`;
+			res += `**Q: ** ${arr[i].substring(("<p class=\"question\"><b>Q.</b> ".length), (arr[i].length - 5))}\n`;
 		else if (arr[i].includes("<p class=\"answer\">"))
-			res += `**A:** ${arr[i].substring(("<p class=\"answer\"><b>A.</b>".length), (arr[i].length - 5))}\n`;
+			res += `**A: ** ${arr[i].substring(("<p class=\"answer\"><b>A.</b> ".length), (arr[i].length - 5))}\n`;
 		else if (arr[i].includes("<p class=\"answer\"> "))
 			res += `${arr[i].substring(("<p class=\"answer\"> ".length), (arr[i].length - 5))}\n`;
 	}

@@ -15,32 +15,32 @@ module.exports = function(message) {
 
 	// check if the first word of the message content is equal to one of the following ones
 	switch (command) {
-		case (`${bot.prefix}emote`):
+		case (`${bot.config.prefix}emote`):
 			message.delete();
 			message.channel.send(emojis.carapuce);
 			return;
 
-		case (`${bot.prefix}happy`):
+		case (`${bot.config.prefix}happy`):
 			message.delete();
 			message.channel.send(emojis.happy_carapuce);
 			return;
 
-		case (`${bot.prefix}sad`):
+		case (`${bot.config.prefix}sad`):
 			message.delete();
 			message.channel.send(emojis.sad_carapuce);
 			return;
 
-		case (`${bot.prefix}angry`):
+		case (`${bot.config.prefix}angry`):
 			message.delete();
 			message.channel.send(emojis.angry_carapuce);
 			return;
 
-		case (`${bot.prefix}surprised`):
+		case (`${bot.config.prefix}surprised`):
 			message.delete();
 			message.channel.send(emojis.surprised_carapuce);
 			return;
 
-		case (`${bot.prefix}whitelistHelp`):
+		case (`${bot.config.prefix}whitelistHelp`):
 			if (args.length !== 1) {
 				message.channel.send("Cette commande ne prend pas de paramètre(s)");
 				break;
@@ -49,7 +49,7 @@ module.exports = function(message) {
 			help.printWhitelistHelp(message);
 			break;
 
-		case (`${bot.prefix}restart`):
+		case (`${bot.config.prefix}restart`):
 			if (args.length !== 1) {
 				message.channel.send("Cette commande ne prend pas de paramètre(s)");
 				break;
@@ -58,7 +58,7 @@ module.exports = function(message) {
 			restartBot(message.channel);
 			break;
 
-		case (`${bot.prefix}listServers`):
+		case (`${bot.config.prefix}listServers`):
 			if (args.length !== 1) {
 				message.channel.send("Cette commande ne prend pas de paramètre");
 				break;
@@ -67,17 +67,17 @@ module.exports = function(message) {
 			listOfServers(message);
 			break;
 
-		case (`${bot.prefix}channelsOfServer`):
+		case (`${bot.config.prefix}channelsOfServer`):
 			// send the list of channels of a server given as parameter (an ID is necessary) with their name, ID and type
 			channelsOfServer(message);
 			break;
 
-		case (`${bot.prefix}messageToChannel`):
+		case (`${bot.config.prefix}messageToChannel`):
 			// send a message to a channel like if the bot said that
 			messageToChannel(message);
 			break;
 
-		case (`${bot.prefix}sendMP`):
+		case (`${bot.config.prefix}sendMP`):
 			// send a private message to someone like if the bot said that
 			sendMP(message);
 			break;

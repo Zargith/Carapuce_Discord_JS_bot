@@ -24,32 +24,32 @@ module.exports = function(message) {
 
 	// check if the first word of the message content is equal to one of the following ones
 	switch (command) {
-		case (`${bot.prefix}emote`):
+		case (`${bot.config.prefix}emote`):
 			message.delete();
 			message.channel.send(emojis.carapuce);
 			return;
 
-		case (`${bot.prefix}happy`):
+		case (`${bot.config.prefix}happy`):
 			message.delete();
 			message.channel.send(emojis.happy_carapuce);
 			return;
 
-		case (`${bot.prefix}sad`):
+		case (`${bot.config.prefix}sad`):
 			message.delete();
 			message.channel.send(emojis.sad_carapuce);
 			return;
 
-		case (`${bot.prefix}angry`):
+		case (`${bot.config.prefix}angry`):
 			message.delete();
 			message.channel.send(emojis.angry_carapuce);
 			return;
 
-		case (`${bot.prefix}surprised`):
+		case (`${bot.config.prefix}surprised`):
 			message.delete();
 			message.channel.send(emojis.surprised_carapuce);
 			return;
 
-		case (`${bot.prefix}adminHelp`):
+		case (`${bot.config.prefix}adminHelp`):
 			if (args.length !== 0) {
 				message.channel.send("Cette commande ne prend pas de paramètre.");
 				break;
@@ -58,7 +58,7 @@ module.exports = function(message) {
 			help.printAdminHelp(message);
 			break;
 
-		case (`${bot.prefix}help`):
+		case (`${bot.config.prefix}help`):
 			if ((args.length === 1 && args[0].toLowerCase() === "db") || (args.length === 2 && args[0].toLowerCase() === "data" && args[1].toLowerCase() === "base")) {
 				help.printDataBaseHelp(message);
 				break;
@@ -68,7 +68,7 @@ module.exports = function(message) {
 			}
 			break;
 
-		case (`${bot.prefix}count`):
+		case (`${bot.config.prefix}count`):
 			if (args.length !== 1) {
 				message.channel.send("Cette commande a besoin d'un paramètre (ex: `ID du rôle`, `@leRole` ou `leNomDuRôle`).");
 				break;
@@ -77,7 +77,7 @@ module.exports = function(message) {
 			countRole(message);
 			break;
 
-		case (`${bot.prefix}clean`):
+		case (`${bot.config.prefix}clean`):
 			if (args.length !== 0) {
 				message.channel.send("Cette commande ne prend pas de paramètre.");
 				break;
@@ -86,27 +86,27 @@ module.exports = function(message) {
 			cleanChannel(message);
 			break;
 
-		case (`${bot.prefix}cleanAfter`):
+		case (`${bot.config.prefix}cleanAfter`):
 			// clean all messages in a channel after a message given as parameter (an ID is necessary)
 			cleanAfterMessage(message);
 			break;
 
-		case (`${bot.prefix}cleanNLasts`):
+		case (`${bot.config.prefix}cleanNLasts`):
 			// clean the N last messages of the channel (+1 that is th command)
 			cleanNLastMessages(message);
 			break;
 
-		case (`${bot.prefix}throw`):
+		case (`${bot.config.prefix}throw`):
 			// send a test throw to check if the repport log channel is well defined
 			testThrow(message);
 			break;
 
-		case (`${bot.prefix}pin`):
+		case (`${bot.config.prefix}pin`):
 			// to pin a the message
 			message.pin();
 			break;
 
-		case (`${bot.prefix}unpin`):
+		case (`${bot.config.prefix}unpin`):
 			// to unpin a the message
 			if (args.length != 1) {
 				message.channel.send(`Il faut que tu me donnes l'ID du message que tu veux unpin ${emojis.carapuce}`);
@@ -128,7 +128,7 @@ module.exports = function(message) {
 			});
 			break;
 
-		case (`${bot.prefix}join`):
+		case (`${bot.config.prefix}join`):
 			if (message.guild === null) {
 				message.reply("Tu ne peux pas utiliser cette commande en privé.");
 				return;
@@ -136,31 +136,31 @@ module.exports = function(message) {
 			bot.emit("guildMemberAdd", message.member);
 			break;
 
-		// case (`${bot.prefix}createServerConfig`):
+		// case (`${bot.config.prefix}createServerConfig`):
 		// 	createServerConfig(message);
 		// 	break;
-		// case (`${bot.prefix}defineLogChannel`):
+		// case (`${bot.config.prefix}defineLogChannel`):
 		// 	defineReportLogChannel(message);
 		// 	break;
-		// case (`${bot.prefix}defineRole`):
+		// case (`${bot.config.prefix}defineRole`):
 		// 	defineDefaultRole(message);
 		// 	break;
-		// case (`${bot.prefix}defineCommands`):
+		// case (`${bot.config.prefix}defineCommands`):
 		// 	defineUnauthorizedCommands(message);
 		// 	break;
-		// case (`${bot.prefix}redefineCommands`):
+		// case (`${bot.config.prefix}redefineCommands`):
 		// 	redefineUnauthorizedCommands(message);
 		// 	break;
-		// case (`${bot.prefix}defineBannedWords`):
+		// case (`${bot.config.prefix}defineBannedWords`):
 		// 	defineBannedWords(message);
 		// 	break;
-		// case (`${bot.prefix}redefineBannedWords`):
+		// case (`${bot.config.prefix}redefineBannedWords`):
 		// 	redefineBannedWords(message);
 		// 	break;
-		// case (`${bot.prefix}showTable`):
+		// case (`${bot.config.prefix}showTable`):
 		// 	showTableInDB(message);
 		// 	break;
-		// case (`${bot.prefix}dropTable`):
+		// case (`${bot.config.prefix}dropTable`):
 		// 	dropTable(message);
 		// 	break;
 		default:

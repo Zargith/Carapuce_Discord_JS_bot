@@ -23,7 +23,7 @@ module.exports = function(message) {
 		return;
 	// else loop on each animated emoji and compare their name with the content of the message
 	for (let i = 0; i < animatedEmojis.length; i++)
-		if (message.content === `${bot.prefix}${animatedEmojis[i].name}`) {
+		if (message.content === `${bot.config.prefix}${animatedEmojis[i].name}`) {
 			// if there is a match, delete user's message and send a new one that tell that the user X said E animatd emoji
 			message.delete();
 			message.channel.send(`${message.author} a dit :\n${animatedEmojis[i].toString()}`);

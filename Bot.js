@@ -1,5 +1,4 @@
 const Discord = require("discord.js");
-const config = require("./config.json");
 
 // in src directory
 const botStartup = require("./src/utils/onBotStartup.js");
@@ -28,9 +27,9 @@ bot.on("ready", async function() {
 			console.log(" - " + guild.name);
 		});
 		console.log("\n");
-		bot.user.setActivity(`${bot.prefix}help`, {type: "WATCHING"});
-		if (config.ownerID) {
-			const owner = await bot.users.fetch(config.ownerID);
+		bot.user.setActivity(`${bot.config.prefix}help`, {type: "WATCHING"});
+		if (bot.config.ownerID) {
+			const owner = await bot.users.fetch(bot.config.ownerID);
 			if (owner) {
 				bot.owner = owner;
 				bot.owner.send({embed: {color: 65330, description: "Started successfully"}});
@@ -63,10 +62,10 @@ bot.on("message", message => {
 		if (!message.content.startsWith(bot.prefix))
 			return;
 
-		if (!message.guild && message.author.id !== config.ownerID && !isInWhiteList(message.author.id)) {
-			bot.users.get(config.ownerID).send({embed: {color: 3447003, description: `L\'utilisateur ${message.author.username} m\'a envoyé :\n\n${message.content}`}});
+		if (!message.guild && message.author.id !== bot.config.ownerID && !isInWhiteList(message.author.id)) {
+			bot.users.get(bot.config.ownerID).send({embed: {color: 3447003, description: `L\'utilisateur ${message.author.username} m\'a envoyé :\n\n${message.content}`}});
 			return;
-		} else if (message.author.id === config.ownerID || isInWhiteList(message.author.id))
+		} else if (message.author.id === bot.config.ownerID || isInWhiteList(message.author.id))
 			whitelistCommands(message);
 		else if (isServerAdmin(message))
 			adminCommands(message);
@@ -95,12 +94,12 @@ bot.on("invalidated", async function(error) {
 	if (bot.owner)
 		bot.owner.send.send({embed: {color: 16711680, description: "Session has been invalidated. Restarting the bot."}})
 			.then(msg => bot.destroy())
-			.then(() => bot.login(config.token).then(() => bot.user.setActivity(`${bot.prefix}help`, {type: "WATCHING"})));
+			.then(() => bot.login(bot.config.token).then(() => bot.user.setActivity(`${bot.prefix}help`, {type: "WATCHING"})));
 });
 
 bot.on("messageReactionAdd", async (reaction, user) => {
 	try {
-		if (config.guilds)
+		if (bot.config.guilds)
 			roleReaction.addRole(reaction, user); // TODO utiliser DB
 	} catch (exception) {
 		console.log(`ERREUR\nLorsque l'utilisateur ${user.tag} sur le serveur ${(reaction.message || reaction.message.guild ? reaction.message.guild.name : null)} a ajouté une réaction, l'erreur suivante s'est produite :\n${exception.stack}`);
@@ -111,7 +110,7 @@ bot.on("messageReactionAdd", async (reaction, user) => {
 
 bot.on("messageReactionRemove", async (reaction, user) => {
 	try {
-		if (config.guilds)
+		if (bot.config.guilds)
 			roleReaction.removeRole(reaction, user); // TODO utiliser DB
 	} catch (exception) {
 		console.log(`ERREUR\nLorsque l'utilisateur ${user.tag} sur le serveur ${(reaction.message || reaction.message.guild ? reaction.message.guild.name : null)} a retité une réaction, l'erreur suivante s'est produite :\n${exception.stack}`);
@@ -124,7 +123,7 @@ bot.on("messageReactionRemove", async (reaction, user) => {
 bot.on("guildMemberAdd", async member => {
 	try {
 		guildMemberAdd.createWelcomeImage(member);
-		if (config.guilds)
+		if (bot.config.guilds)
 			guildMemberAdd.addDefaultRoles(member); // TODO utiliser DB
 	} catch (exception) {
 		console.log(`ERREUR\nLors de l'arrivée de l'utilisateur ${member.user.tag} sur le serveur ${member.guild.name}\nL'erreur suivante s'est produite:\n${exception.stack}`);
