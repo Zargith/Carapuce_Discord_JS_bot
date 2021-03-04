@@ -71,6 +71,10 @@ module.exports = function(message) {
 					value: "```Envoie une blague de dev (en anglais) style jokes de papa```"
 				},
 				{
+					name: `${bot.config.prefix}météo *<Ville>* / ${bot.config.prefix}weather *<City>*`,
+					value: "```Donne la météo pour la ville précisée. **Attention !** Les 'petit(e)s' villes/villages ne seront probablement pas trouvés.```"
+				},
+				{
 					name: `${bot.config.prefix}invite`,
 					value: "```Permet d'obtenir un lien d'invitation du bot, si vous voulez l'inviter sur votre serveur.```"
 				},

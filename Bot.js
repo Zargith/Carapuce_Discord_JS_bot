@@ -57,9 +57,9 @@ bot.on("message", message => {
 		}
 
 		// if the message doesn't start by the prefix setted on the config file or if this variable isn't defined, the code doesn't go further
-		if (!bot.prefix || !message.content.startsWith(bot.prefix) || message.author.bot)
+		if (!bot.config.prefix || !message.content.startsWith(bot.config.prefix) || message.author.bot)
 			return;
-		if (!message.content.startsWith(bot.prefix))
+		if (!message.content.startsWith(bot.config.prefix))
 			return;
 
 		if (!message.guild && message.author.id !== bot.config.ownerID && !isInWhiteList(message.author.id)) {
@@ -94,7 +94,7 @@ bot.on("invalidated", async function(error) {
 	if (bot.owner)
 		bot.owner.send.send({embed: {color: 16711680, description: "Session has been invalidated. Restarting the bot."}})
 			.then(msg => bot.destroy())
-			.then(() => bot.login(bot.config.token).then(() => bot.user.setActivity(`${bot.prefix}help`, {type: "WATCHING"})));
+			.then(() => bot.login(bot.config.token).then(() => bot.user.setActivity(`${bot.config.prefix}help`, {type: "WATCHING"})));
 });
 
 bot.on("messageReactionAdd", async (reaction, user) => {

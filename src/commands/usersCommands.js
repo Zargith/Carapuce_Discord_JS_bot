@@ -10,7 +10,8 @@ const emojis = require("../utils/emojiCharacters.js");
 const weather = require("./entertainment/weather.js");
 
 module.exports = function(message) {
-	const command = message.content.trim().split(" ").shift();
+	const args = message.content.split(" ");
+	const command = args.shift();
 
 
 	// check if the first word of the message content is equal to one of the following ones
@@ -40,13 +41,11 @@ module.exports = function(message) {
 			break;
 
 		case (`${bot.config.prefix}help`):
-			const args = message.content.split(" ");
-
-			if (args.length === 1) {
+			if (args.length === 0) {
 				// print the common help
 				help.printCommonHelp(message);
 				break;
-			} else if (args[1] == "musique") {
+			} else if (args[1] === "musique") {
 				// print the music help
 				help.printMusicHelp(message);
 				break;
@@ -115,11 +114,19 @@ module.exports = function(message) {
 
 		case (`${bot.config.prefix}devJoke`):
 		case (`${bot.config.prefix}devjoke`):
+			if (args.length !== 0) {
+				message.channel.send("Cette commande ne prend pas de paramètre.");
+				break;
+			}
 			devJokes(message);
 			break;
 
 		case (`${bot.config.prefix}météo`):
 		case (`${bot.config.prefix}weather`):
+			if (args.length < 1) {
+				message.channel.send("Cette commande nécessite de préciser un lieu");
+				break;
+			}
 			weather(message);
 			break;
 

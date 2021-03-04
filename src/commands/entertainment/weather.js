@@ -5,20 +5,23 @@ module.exports = async function(message) {
 		throw Error("Missing openweathermap API Key");
 
 	let city = "";
-	if (message.content.startsWith(`${bot.prefix}météo`))
-		city = message.content.trim().substring(`${bot.prefix}météo`.length, arr[i].length - 5);
+	if (message.content.startsWith(`${bot.config.prefix}météo`))
+		city = encodeURI(message.content.trim().substring(`${bot.config.prefix}météo `.length));
 	else
-		city = message.content.trim().substring(`${bot.prefix}weather`.length, arr[i].length - 5);
+		city = encodeURI(message.content.trim().substring(`${bot.config.prefix}weather `.length));
 
-	await fetch(`api.openweathermap.org/data/2.5/weather?q=${city}&lang=fr&appid=${bot.config.openweathermapAPIKey}`)
+	await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&lang=fr&appid=${bot.config.openweathermapAPIKey}`)
 		.then(function(response) {
 			// if good answer from the API call, then go to the next function. Else throw an error
 			if (response.status == 200)
 				return response.json();
+			if (response.status === 404 || response.statusText === "Not Found")
+				return (message.channel.send("Lieu non trouvé"));
 			throw response.statusText;
 		})
 		.then(function(json) {
-			message.channel.send(`Actuellement à ${json.name}, il fait ${json.weather.description}`);
+			if (json.weather[0])
+				message.channel.send(`Actuellement à ${json.name}, il fait ${json.weather[0].description}`);
 		}).catch(error => {
 			throw error;
 		});
