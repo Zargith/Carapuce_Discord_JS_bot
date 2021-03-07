@@ -16,8 +16,8 @@ const AUTHSOURCE = bot.config.authSource ? bot.config.authSource : "admin";
 
 // Global that stores the URI needed by MongoDB to connect to a database with a username, password, host, port, database's name and auth.
 // It should look like that **mongodb://\<username\>:\<password\>@\<host\>:\<port\>/\<database's name\>?authSource=\<auth source\>**
-// const DBURI = `mongodb://${encodeURIComponent(bot.config.username)}:${encodeURIComponent(bot.config.password)}@${encodeURIComponent(HOST)}:${encodeURIComponent(PORT)}/${encodeURIComponent(DBNAME)}?authSource=${encodeURIComponent(AUTHSOURCE)}`;
-const DBURI = "mongodb://cara_db:27017/CaraDatabase";
+const DBURI = `mongodb://${encodeURIComponent(HOST)}:${encodeURIComponent(PORT)}/${encodeURIComponent(DBNAME)}?authSource=${encodeURIComponent(AUTHSOURCE)}`;
+// const DBURI = "mongodb://localhost:27017/CaraDatabase";
 
 // const Logger = require("mongodb").Logger;
 const mongoClient = require("mongodb").MongoClient;
@@ -51,9 +51,14 @@ function _createCollection(db, collectionName, schemaValidator = null) {
 
 // Function to connect to the database
 function connect() {
+	console.debug("Trying to connect")
 	client.connect(async err => {
-		if (err)
+		console.debug("Conencted")
+
+		if (err) {
+			console.debug("BUG")
 			return console.log(err);
+		}
 		mongodb = client.db(DBNAME);
 		console.log(`Connected to database ${DBNAME}`);
 		const collections = await mongodb.listCollections({}, {nameOnly: true}).toArray();

@@ -9,7 +9,7 @@ module.exports = function() {
 	bot.filters = config.filters;
 
 	// The bot needs his config file to work properly with the database.
-	if (!config || !config.username || !config.password || !config.dbName)
+	if (!config || !config.dbName)
 		throw new Error("Missing information in config file.");
 
 	bot.config = config;
@@ -17,5 +17,6 @@ module.exports = function() {
 		bot.config.prefix = "";
 
 	bot.login(config.token);
-//	bot.db = require("./database/database.js");
+	bot.db = require("./database/database.js");
+	bot.db.connect();
 };
