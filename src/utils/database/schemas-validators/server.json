@@ -26,7 +26,7 @@
 							"description": "must be a number and is required"
 						},
 						"cumulativeRoles": {
-							"bsonType": "boolean",
+							"bsonType": "bool",
 							"description": "must be a boolean and is required"
 						},
 						"defaultRoleId": {

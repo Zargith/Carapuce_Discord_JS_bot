@@ -21,7 +21,7 @@ module.exports = async function(message) {
 		})
 		.then(function(json) {
 			if (json.weather[0])
-				message.channel.send(`Actuellement à ${json.name}, il fait ${json.weather[0].description}`);
+				message.channel.send(`Actuellement à *${json.name}*, il fait *${json.weather[0].description}*`);
 		}).catch(error => {
 			throw error;
 		});

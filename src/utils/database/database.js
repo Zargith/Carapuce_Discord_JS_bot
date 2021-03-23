@@ -51,14 +51,9 @@ function _createCollection(db, collectionName, schemaValidator = null) {
 
 // Function to connect to the database
 function connect() {
-	console.debug("Trying to connect")
 	client.connect(async err => {
-		console.debug("Conencted")
-
-		if (err) {
-			console.debug("BUG")
+		if (err)
 			return console.log(err);
-		}
 		mongodb = client.db(DBNAME);
 		console.log(`Connected to database ${DBNAME}`);
 		const collections = await mongodb.listCollections({}, {nameOnly: true}).toArray();
@@ -68,7 +63,7 @@ function connect() {
 				collectionsIsPresent.Servers = true;
 		}
 
-		if (!collectionsIsPresent.users)
+		if (!collectionsIsPresent.Servers)
 			_createCollection(mongodb, "Servers", serverValidator);
 	});
 }
