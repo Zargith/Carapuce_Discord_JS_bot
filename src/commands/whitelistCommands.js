@@ -8,10 +8,11 @@ const sendMP = require("./whitelist_commands/sendMP.js");
 const listOfServers = require("./whitelist_commands/listOfServers.js");
 const restartBot = require("./whitelist_commands/restartBot.js");
 const isServerAdmin = require("../utils/isServerAdmin.js");
+const serverConfigInDB = require("../utils/database/serverConfigInDB.js");
 
 module.exports = function(message) {
-	const command = message.content.trim().split(" ").shift();
-	const args = message.content.split(" ");
+	const args = message.content.trim().split(" ");
+	const command = args.shift();
 
 	// check if the first word of the message content is equal to one of the following ones
 	switch (command) {
@@ -80,6 +81,14 @@ module.exports = function(message) {
 		case (`${bot.config.prefix}sendMP`):
 			// send a private message to someone like if the bot said that
 			sendMP(message);
+			break;
+
+		case (`${bot.config.prefix}serverConfig`):
+			if (message.guild === null) {
+				message.reply("Tu ne peux pas utiliser cette commande en privé.");
+				break;
+			}
+			serverConfigInDB(message);
 			break;
 
 		default:

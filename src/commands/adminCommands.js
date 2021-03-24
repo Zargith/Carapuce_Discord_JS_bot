@@ -6,16 +6,11 @@ const cleanAfterMessage = require("./admin_commands/clean_messages/cleanAfterMes
 const cleanNLastMessages = require("./admin_commands/clean_messages/cleanNLastMessages.js");
 const testThrow = require("./admin_commands/testThrow.js");
 const countRole = require("./admin_commands/count_roles/countRole.js");
+const defineCommands = require("./admin_commands/deal_with_database/defineCommands.js");
+const redefineCommands = require("./admin_commands/deal_with_database/redefineCommands.js");
 // const createServerConfig = require("./admin_commands/createServerConfig.js");
-// const defineReportLogChannel = require("./admin_commands/defineReportLogChannel.js");
-// const defineDefaultRole = require("./admin_commands/defineDefaultRole.js");
-// const defineUnauthorizedCommands = require("./admin_commands/defineUnauthorizedCommands.js");
-// const redefineUnauthorizedCommands = require("./admin_commands/redefineUnauthorizedCommands.js");
 // const showTableInDB = require("./admin_commands/showTableInDB.js");
 // const dropTable = require("./admin_commands/dropTable.js");
-// const defineBannedWords = require("./admin_commands/defineBannedWords.js");
-// const redefineBannedWords = require("./admin_commands/redefineBannedWords.js");
-// const manageRole = require("./count_roles/manageRole.js");
 
 
 module.exports = function(message) {
@@ -139,30 +134,12 @@ module.exports = function(message) {
 		// case (`${bot.config.prefix}createServerConfig`):
 		// 	createServerConfig(message);
 		// 	break;
-		// case (`${bot.config.prefix}defineLogChannel`):
-		// 	defineReportLogChannel(message);
-		// 	break;
-		// case (`${bot.config.prefix}defineRole`):
-		// 	defineDefaultRole(message);
-		// 	break;
-		// case (`${bot.config.prefix}defineCommands`):
-		// 	defineUnauthorizedCommands(message);
-		// 	break;
-		// case (`${bot.config.prefix}redefineCommands`):
-		// 	redefineUnauthorizedCommands(message);
-		// 	break;
-		// case (`${bot.config.prefix}defineBannedWords`):
-		// 	defineBannedWords(message);
-		// 	break;
-		// case (`${bot.config.prefix}redefineBannedWords`):
-		// 	redefineBannedWords(message);
-		// 	break;
-		// case (`${bot.config.prefix}showTable`):
-		// 	showTableInDB(message);
-		// 	break;
-		// case (`${bot.config.prefix}dropTable`):
-		// 	dropTable(message);
-		// 	break;
+		case (`${bot.config.prefix}define`):
+			defineCommands(message);
+			break;
+		case (`${bot.config.prefix}redefine`):
+			redefineCommands(message);
+			break;
 		default:
 			// if not an admin command, go to users commands parsing function
 			usersCommands(message);

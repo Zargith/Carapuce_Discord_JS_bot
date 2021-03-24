@@ -2,9 +2,9 @@
 	"validator": {
 		"$jsonSchema": {
 			"bsonType": "object",
-			"required": [ "serverdId" ],
+			"required": [ "serverId" ],
 			"properties": {
-				"serverdId": {
+				"serverId": {
 					"bsonType": "number",
 					"description": "must be a number and is required"
 				},

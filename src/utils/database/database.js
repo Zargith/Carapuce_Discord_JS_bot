@@ -84,14 +84,14 @@ function get() {
 
 // Function to update a model instance field in the database
 async function updateField(modelInstance, collectionName, fieldName, newValue) {
-	const updatePair = {};
+	let updatePair = {};
 	updatePair[fieldName] = newValue;
 	const dbOutput = await mongodb.collection(collectionName).updateOne(
 		modelInstance,
 		{$set: updatePair}
 	);
 	if (!dbOutput.result || !dbOutput.result.ok || dbOutput.result.ok != 1)
-		throw Error(`Error when updating the ${fieldName} of an instance of the ${collectionName} collection.`);
+		throw Error(`Echec lors de la mise à jour de l'entrée ${fieldName} d'une instance de la collection ${collectionName}`);
 }
 
 module.exports = {

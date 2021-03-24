@@ -1,6 +1,5 @@
-const getRepportLogChannel = require("../../utils/oldUtils/getReportLogChannel.js"); // TODO utiliser DB
-const sendError = require("../../utils/sendError");
-
+const getRepportLogChannel = require("../../utils/database/getReportLogChannel.js");
+const sendError = require("../../utils/sendError.js");
 
 module.exports = async function(message) {
 	try {
@@ -9,14 +8,13 @@ module.exports = async function(message) {
 		throw Error(message.content.substring(bot.config.prefix.length + 5));
 	} catch (exception) {
 		try {
-			const reportLogChannel = message.guild.channels.cache.get(getRepportLogChannel(message.guild.id));
+			const reportLogChannel = message.guild.channels.cache.get(await getRepportLogChannel(message.guild.id));
 
 			// if it exist get the report log channel and send it a message with the error log
-			if (reportLogChannel) {
+			if (reportLogChannel)
 				reportLogChannel.send({embed: {color: 16711680, description: `__**ERREUR**__\nL\'utilisateur ${message.author.tag}${(!message.guild ? "" : `, sur le serveur ${message.member.guild.name}`)} a envoyé la commande :\n${message.content}\n\n__L\'erreur suivante s\'est produite :__\n*${exception.stack}*`}});
-				message.channel.send("Report log channel properly set");
-			} else
-				message.channel.send("Report log channel not properly set. Please contact an admin if you want to correct this");
+			else
+				message.channel.send("Le channel de rapport des logs n'est pas défini. Merci de concter un admin (du serveur) si vous souhaitez que ce soit fait");
 		} catch (exp) {
 			sendError(message, exp);
 		}
