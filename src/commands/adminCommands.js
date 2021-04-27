@@ -45,7 +45,7 @@ module.exports = function(message) {
 			return;
 
 		case (`${bot.config.prefix}adminHelp`):
-			if (args.length !== 0) {
+			if (args.length > 0) {
 				message.channel.send("Cette commande ne prend pas de paramètre.");
 				break;
 			}

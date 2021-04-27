@@ -1,6 +1,7 @@
 const DBURI = "mongodb://localhost:27017/CaraDatabase";
+const config = require("./config.json");
 
-
+const DBNAME = config.dbName;
 //const Logger = require("mongodb").Logger;
 const mongoClient = require("mongodb").MongoClient;
 let client;

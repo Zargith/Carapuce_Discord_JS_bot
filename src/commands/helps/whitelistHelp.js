@@ -57,8 +57,12 @@ module.exports = function(message) {
 					value: "```Pour envoyer un message dans un channel\n/!\\ **Doit être un channel textuel.**```"
 				},
 				{
-					name: `${bot.config.prefix}sendMP <*id d\'une personne>* *<message>*`,
+					name: `${bot.config.prefix}sendMP *<id d\'une personne>* *<message>*`,
 					value: "```Pour envoyer un message privé à quelqu'un.```"
+				},
+				{
+					name: `${bot.config.prefix}serverConfig *<id d\'un server / all>*`,
+					value: "```- Si aucun argument ou id: Pour afficher la configuration du serveur (sur lequel on est ou celui précisé).\n\n- Si argument all: Pour afficher toutes les configurations de serveur stockées dans la base de données.```"
 				}
 			],
 			footer: {text: `-----------------------------------------------------------------------------------------------\n${emojiCharacters.FR} Ce bot utilise un projet Github fait par Zargith (Zargith/Carapuce_Discord_JS_bot)\n${emojiCharacters.EN} This bot uses a Github project made by Zargith (Zargith/Carapuce_Discord_JS_bot)`, icon_url: "attachment://coding_unicorn.png", url: "https://github.com/Zargith/Carapuce_Discord_JS_bot"},

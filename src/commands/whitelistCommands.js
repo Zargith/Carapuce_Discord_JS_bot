@@ -42,7 +42,7 @@ module.exports = function(message) {
 			return;
 
 		case (`${bot.config.prefix}whitelistHelp`):
-			if (args.length !== 1) {
+			if (args.length > 0) {
 				message.channel.send("Cette commande ne prend pas de paramètre(s)");
 				break;
 			}
@@ -84,10 +84,6 @@ module.exports = function(message) {
 			break;
 
 		case (`${bot.config.prefix}serverConfig`):
-			if (message.guild === null) {
-				message.reply("Tu ne peux pas utiliser cette commande en privé.");
-				break;
-			}
 			serverConfigInDB(message);
 			break;
 

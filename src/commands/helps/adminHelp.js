@@ -76,6 +76,14 @@ module.exports = function(message) {
 					name: `${bot.config.prefix}throw *<...>*`,
 					value: "```Pour provoquer un throw avec un message custom.```",
 					inline: true
+				},
+				{
+					name: `${bot.config.prefix}define *<id du channel de log>*`,
+					value: "```Pour définir la channel de rapport des logs pour ce serveur.```",
+				},
+				{
+					name: `${bot.config.prefix}redefine *<id du channel de log>*`,
+					value: "```Pour redéfinir la channel de rapport des logs pour ce serveur.```",
 				}
 			],
 			footer: {text: `-----------------------------------------------------------------------------------------------\n${emojiCharacters.FR} Ce bot utilise un projet Github fait par Zargith (Zargith/Carapuce_Discord_JS_bot)\n${emojiCharacters.EN} This bot uses a Github project made by Zargith (Zargith/Carapuce_Discord_JS_bot)`, icon_url: "attachment://coding_unicorn.png", url: "https://github.com/Zargith/Carapuce_Discord_JS_bot"},
