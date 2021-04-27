@@ -21,10 +21,10 @@ exports.addRole = async function(reaction, user) {
 		throw new Error(`Can't find user ${user.id} on sever ${guild.name} (id: ${guild.id}) to give him role by react with emoji ${reaction._emoji.name} to message ${reaction.message.id}`);
 	const roleName = getRoleName(guild.id, reaction.message.id, reaction._emoji.name);
 	if (!roleName)
-		throw new Error(`Can't find role on server ${guild.name} (id: ${guild.id})for emoji ${reaction._emoji.name} for message ${reaction.message.id} to listen`);
+		throw new Error(`Can't find role on server ${guild.name} (id: ${guild.id}) for emoji ${reaction._emoji.name} for message ${reaction.message.id} to listen`);
 	const role = guild.roles.cache.find(role => role.name === roleName);
 	if (!role)
-		throw new Error(`Can't find role on server ${guild.name} (id: ${guild.id})for emoji ${reaction._emoji.name} for message ${reaction.message.id} to listen`);
+		throw new Error(`Can't find role on server ${guild.name} (id: ${guild.id}) for emoji ${reaction._emoji.name} for message ${reaction.message.id} to listen`);
 	if (!isCumulativeListener(guild.id, reaction.message.id)) {
 		const configuredRolesNames = getConfiguredRolesNames(guild.id, reaction.message.id);
 		if (!configuredRolesNames || configuredRolesNames === [])
