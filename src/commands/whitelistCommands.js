@@ -41,13 +41,37 @@ module.exports = function(message) {
 			message.channel.send(emojis.surprised_carapuce);
 			return;
 
-		case (`${bot.config.prefix}whitelistHelp`):
-			if (args.length > 0) {
-				message.channel.send("Cette commande ne prend pas de paramètre(s)");
+		case (`${bot.config.prefix}help`):
+			if (args.length === 0) {
+				// print the common help
+				help.printCommonHelp(message);
 				break;
+			} else {
+				switch (args[0]) {
+					case ("musique"):
+						// print the music help
+						help.printMusicHelp(message);
+						break;
+					case ("admin"):
+						// print the help for admins
+						help.printAdminHelp(message);
+						break;
+					case ("whitelist"):
+					case ("wl"):
+						// print the help for people in bot's whitelist
+						help.printWhitelistHelp(message);
+						break;
+					default:
+						// if the user is an admin, then go to the admin commands parsing function
+						if (message.guild && isServerAdmin(message)) {
+							adminCommands(message);
+							break;
+						}
+						// if not an admin command, then go to users commands parsing function
+						usersCommands(message);
+						break;
+				}
 			}
-			// print the help for people in bot's whitelist
-			help.printWhitelistHelp(message);
 			break;
 
 		case (`${bot.config.prefix}restart`):

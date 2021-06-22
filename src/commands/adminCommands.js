@@ -44,22 +44,40 @@ module.exports = function(message) {
 			message.channel.send(emojis.surprised_carapuce);
 			return;
 
-		case (`${bot.config.prefix}adminHelp`):
-			if (args.length > 0) {
-				message.channel.send("Cette commande ne prend pas de paramètre.");
-				break;
-			}
-			// print the help for admins
-			help.printAdminHelp(message);
-			break;
-
 		case (`${bot.config.prefix}help`):
-			if ((args.length === 1 && args[0].toLowerCase() === "db") || (args.length === 2 && args[0].toLowerCase() === "data" && args[1].toLowerCase() === "base")) {
+			if (args.length === 0) {
+				// print the common help
+				help.printCommonHelp(message);
+				break;
+			} else if (args.length === 2 && args[0].toLowerCase() === "data" && args[1].toLowerCase() === "base") {
+				// print the help for database related commands
 				help.printDataBaseHelp(message);
 				break;
 			} else {
-				// maybe another help so redirect to users commands function
-				usersCommands(message);
+				switch (args[0]) {
+					case ("musique"):
+						// print the music help
+						help.printMusicHelp(message);
+						break;
+					case ("admin"):
+						// print the help for admins
+						help.printAdminHelp(message);
+						break;
+					case ("db"):
+					case ("database"):
+						// print the help for database related commands
+						help.printDataBaseHelp(message);
+						break;
+					case ("whitelist"):
+					case ("wl"):
+						// admin (if not in whitelist) can't use this command so send an error message
+						message.channel.send("Désolé mais tu n'as pas accès à cette commande...");
+						break;
+					default:
+						// if not an admin command, then go to users commands parsing function
+						usersCommands(message);
+						break;
+				}
 			}
 			break;
 

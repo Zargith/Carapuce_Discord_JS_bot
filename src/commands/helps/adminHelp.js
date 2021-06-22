@@ -7,15 +7,15 @@ module.exports = function(message) {
 	message.channel.send({
 		files: [devUnicorn],
 		embed: {
-			color: 3447003,
+			color: 0xace4ff,
 			description: "__**Les différentes commandes :**__",
 			fields: [
 				{
-					name: `${bot.config.prefix}adminHelp`,
+					name: `${bot.config.prefix}help admin`,
 					value: "```Pour afficher cette aide qui est pour les admins du serveur.```"
 				},
 				{
-					name: `${bot.config.prefix}help *<DB / db / data base>*`,
+					name: `${bot.config.prefix}help *<DB / db / database / data base>*`,
 					value: "```Pour afficher l'aide des commandes relatives à la base de données.```"
 				},
 				{
@@ -86,7 +86,7 @@ module.exports = function(message) {
 					value: "```Pour redéfinir la channel de rapport des logs pour ce serveur.```",
 				}
 			],
-			footer: {text: `-----------------------------------------------------------------------------------------------\n${emojiCharacters.FR} Ce bot utilise un projet Github fait par Zargith (Zargith/Carapuce_Discord_JS_bot)\n${emojiCharacters.EN} This bot uses a Github project made by Zargith (Zargith/Carapuce_Discord_JS_bot)`, icon_url: "attachment://coding_unicorn.png", url: "https://github.com/Zargith/Carapuce_Discord_JS_bot"},
+			footer: {text: `-----------------------------------------------------------------------------------------------\n${emojiCharacters.FR} Ce bot utilise un projet Github fait par Zargith (Zargith/Carapuce_Discord_JS_bot)\n${emojiCharacters.EN} This bot uses a Github project made by Zargith (Zargith/Carapuce_Discord_JS_bot)`, icon_url: "attachment://coding_unicorn.png"},
 			timestamp: new Date()
 		}
 	});

@@ -12,12 +12,10 @@ module.exports = function(message) {
 	const args = message.content.split(" ");
 	const command = args.shift();
 
-
 	// check if the first word of the message content is equal to one of the following ones
 	switch (command) {
 		case (`${bot.config.prefix}ping`):
-			message.channel.send(`Carapong ! ${emojis.carapuce}`);
-			message.channel.send(`Mon ping est de : **${bot.ws.ping}ms** ! ${emojis.happy_carapuce}`);
+			message.reply(`carapong ! ${emojis.carapuce}\nSinon, mon ping est de : **${bot.ws.ping}ms** ! ${emojis.happy_carapuce}`);
 			break;
 
 		case (`${bot.config.prefix}play`):
@@ -44,17 +42,23 @@ module.exports = function(message) {
 				// print the common help
 				help.printCommonHelp(message);
 				break;
-			} else if (args[1] === "musique") {
-				// print the music help
-				help.printMusicHelp(message);
-				break;
-			} else
-				message.channel.send("Je ne connais pas cette page d'aide.");
-			break;
-
-		case (`${bot.config.prefix}adminHelp`):
-			// users can't use this command so send an error message
-			message.channel.send("Désolé mais tu n'as pas accès à cette commande...");
+			} else {
+				switch (args[0]) {
+					case ("musique"):
+						// print the music help
+						help.printMusicHelp(message);
+						break;
+					case ("admin"):
+					case ("whitelist"):
+					case ("wl"):
+						// simple users can't use this command so send an error message
+						message.channel.send("Désolé mais tu n'as pas accès à cette commande...");
+						break;
+					default:
+						message.channel.send("Je ne connais pas cette page d'aide.");
+						break;
+				}
+			}
 			break;
 
 		case (`${bot.config.prefix}avatar`):
@@ -72,7 +76,7 @@ module.exports = function(message) {
 		case (`${bot.config.prefix}holà`):
 			// catch many cases of commands to say hello
 			message.react("553490319103098883");
-			message.reply(`Carabonjour à toi ! ${emojis.carapuce}`);
+			message.reply(`carabonjour à toi ! ${emojis.carapuce}`);
 			break;
 
 		case (`${bot.config.prefix}flip`):

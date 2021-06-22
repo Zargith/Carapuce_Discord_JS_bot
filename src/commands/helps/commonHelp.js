@@ -7,7 +7,7 @@ module.exports = function(message) {
 	message.channel.send({
 		files: [devUnicorn],
 		embed: {
-			color: 3447003,
+			color: 0xace4ff,
 			title: "Panneau d'aide principal / Main help pannel",
 			description: "__**Les différentes commandes :**__",
 			fields: [
@@ -87,15 +87,15 @@ module.exports = function(message) {
 					value: "```Permet de savoir si vous êtes dans la white list.```"
 				},
 				{
-					name: `${bot.config.prefix}adminHelp`,
+					name: `${bot.config.prefix}help admin`,
 					value: "```Permet d'afficher le help des admins.```"
 				},
 				{
-					name: `${bot.config.prefix}whitelistHelp`,
+					name: `${bot.config.prefix}help <*whitelist / wl*>`,
 					value: "```Pour afficher le help pour les personnes faisant partie de la whitelist du bot.```"
 				}
 			],
-			footer: {text: `-----------------------------------------------------------------------------------------------\n${emojiCharacters.FR} Ce bot utilise un projet Github fait par Zargith (Zargith/Carapuce_Discord_JS_bot)\n${emojiCharacters.EN} This bot uses a Github project made by Zargith (Zargith/Carapuce_Discord_JS_bot)`, icon_url: "attachment://coding_unicorn.png", url: "https://github.com/Zargith/Carapuce_Discord_JS_bot"},
+			footer: {text: `-----------------------------------------------------------------------------------------------\n${emojiCharacters.FR} Ce bot utilise un projet Github fait par Zargith (Zargith/Carapuce_Discord_JS_bot)\n${emojiCharacters.EN} This bot uses a Github project made by Zargith (Zargith/Carapuce_Discord_JS_bot)`, icon_url: "attachment://coding_unicorn.png"},
 			timestamp: new Date()
 		}
 	});

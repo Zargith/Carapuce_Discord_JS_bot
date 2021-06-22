@@ -11,7 +11,7 @@ module.exports = function(message) {
 			description: "__**Les différentes commandes :**__",
 			fields: [
 				{
-					name: `${bot.config.prefix}whitelistHelp`,
+					name: `${bot.config.prefix}help <*whitelist / wl*>`,
 					value: "```Pour afficher cette aide qui est pour les personnes faisant partie de la whitelist du bot.```"
 				},
 				{
@@ -62,7 +62,7 @@ module.exports = function(message) {
 				},
 				{
 					name: `${bot.config.prefix}serverConfig *<id d\'un server / all>*`,
-					value: "```- Si aucun argument ou id: Pour afficher la configuration du serveur (sur lequel on est ou celui précisé).\n\n- Si argument all: Pour afficher toutes les configurations de serveur stockées dans la base de données.```"
+					value: "```- Si aucun argument ou id: Affiche la configuration du serveur (sur lequel on est ou celui précisé).\n\n- Si argument all: Affiche toutes les configurations de serveur stockées dans la base de données.```"
 				}
 			],
 			footer: {text: `-----------------------------------------------------------------------------------------------\n${emojiCharacters.FR} Ce bot utilise un projet Github fait par Zargith (Zargith/Carapuce_Discord_JS_bot)\n${emojiCharacters.EN} This bot uses a Github project made by Zargith (Zargith/Carapuce_Discord_JS_bot)`, icon_url: "attachment://coding_unicorn.png", url: "https://github.com/Zargith/Carapuce_Discord_JS_bot"},
