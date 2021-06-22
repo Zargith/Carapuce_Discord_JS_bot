@@ -5,7 +5,6 @@ const flipCoin = require("./entertainment/flipCoin.js");
 const DJCarapuce = require("./entertainment/music/newDJCarapuce.js");
 const useAnimatedEmojis = require("./entertainment/useAnimatedEmojis.js");
 const devJokes = require("./entertainment/devJokes/devJokes.js");
-const isInWhiteList = require("../utils/isInWhiteList.js");
 const emojis = require("../utils/emojiCharacters.js");
 const weather = require("./entertainment/weather.js");
 
@@ -102,7 +101,7 @@ module.exports = function(message) {
 			break;
 
 		case (`${bot.config.prefix}DansLaWhiteList`):
-			if (isInWhiteList(message.author.id) || message.author.id === bot.owner.id)
+			if (bot.config.whiteList.includes(message.author.id) || message.author.id === bot.owner.id)
 				message.reply(" oui tu y es !");
 			else
 				message.reply(" non tu n'y es pas.");

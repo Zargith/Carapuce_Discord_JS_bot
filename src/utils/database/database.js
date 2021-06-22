@@ -54,10 +54,13 @@ function connect() {
 	client.connect(async err => {
 		if (err)
 			return console.log(err);
+
 		mongodb = client.db(DBNAME);
 		console.log(`Connected to database ${DBNAME}`);
+
 		const collections = await mongodb.listCollections({}, {nameOnly: true}).toArray();
 		const collectionsIsPresent = {Servers: false};
+
 		for (let i = 0; i < collections.length; i++) {
 			if (collections[i].name === "Servers")
 				collectionsIsPresent.Servers = true;
@@ -82,21 +85,42 @@ function get() {
 	return mongodb;
 }
 
+// Function to check, by interaction with database, if it is still connected to it
+async function isConnected() {
+	try {
+		const collections = await mongodb.listCollections({}, {nameOnly: true, maxTimeMS: 1000}).toArray();
+		if (collections !== undefined)
+			return true;
+		return false;
+	} catch (exception) {
+		return false;
+	}
+}
+
 // Function to update a model instance field in the database
 async function updateField(modelInstance, collectionName, fieldName, newValue) {
-	let updatePair = {};
-	updatePair[fieldName] = newValue;
-	const dbOutput = await mongodb.collection(collectionName).updateOne(
-		modelInstance,
-		{$set: updatePair}
-	);
-	if (!dbOutput.result || !dbOutput.result.ok || dbOutput.result.ok != 1)
-		throw Error(`Echec lors de la mise à jour de l'entrée ${fieldName} d'une instance de la collection ${collectionName}`);
+	try {
+		let updatePair = {};
+		updatePair[fieldName] = newValue;
+
+		const dbOutput = await mongodb.collection(collectionName).updateOne(
+			{_id: modelInstance._id},
+			{$set: updatePair}
+		);
+		if (!dbOutput.result || !dbOutput.result.ok || dbOutput.result.ok != 1)
+			return ({success: false, message: `Echec lors de la mise à jour de l'entrée ${fieldName} d'une instance de la collection ${collectionName}`});
+
+		return ({success: true});
+	} catch (exception) {
+		console.log(`Error exception:\n${exception.stack}`);
+		return ({success: false, message: exception.message});
+	}
 }
 
 module.exports = {
 	connect,
 	close,
 	get,
-	updateField
+	updateField,
+	isConnected
 };

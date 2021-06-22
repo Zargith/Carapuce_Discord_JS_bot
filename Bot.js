@@ -4,7 +4,6 @@ const Discord = require("discord.js");
 const botStartup = require("./src/utils/onBotStartup.js");
 const guildMemberAdd = require("./src/utils/guildAddMember.js");
 const roleReaction = require("./src/utils/oldUtils/roleReaction.js");
-const isInWhiteList = require("./src/utils/isInWhiteList.js");
 const checkBannedWords = require("./src/utils/checkBannedWords/checkBannedWords.js");
 const sendError = require("./src/utils/sendError.js");
 const usersCommands = require("./src/commands/usersCommands.js");
@@ -36,11 +35,15 @@ bot.on("ready", async function() {
 			}
 		}
 		setInterval(() => restartBot(null, bot), 86400000); // 86,400,000ms = 24hrs
+		setInterval(async () => {
+			if (!(await bot.db.isConnected()) && bot.owner)
+				bot.owner.send({embed: {color: 16711680, description: "MongoDB Error : Database not connected !", timestamp: new Date()}});
+		}, 60000); // 60,000ms = 1 minute
 	} catch (exception) {
 		console.log(`ERREUR at ${new Date()}\nErreur lors du démarrage du bot.\n\nL\'erreur suivante s\'est produite :\n${exception.stack}`);
 		// if a bot owner is defined, the bot will send him/her the complete error to let him/her know what happened
 		if (bot.owner)
-			bot.owner.send({embed: {color: 16711680, description: `__**ERREUR**__ at ${new Date()}\nErreur lors du démarrage du bot.\n\n__L\'erreur suivante s\'est produite :__\n*${exception.stack}*`}});
+			bot.owner.send({embed: {color: 16711680, description: `__**ERREUR**__\nErreur lors du démarrage du bot.\n\n__L\'erreur suivante s\'est produite :__\n*${exception.stack}*`, timestamp: new Date()}});
 	}
 });
 
@@ -62,10 +65,10 @@ bot.on("message", message => {
 		if (!message.content.startsWith(bot.config.prefix))
 			return;
 
-		if (!message.guild && message.author.id !== bot.config.ownerID && !isInWhiteList(message.author.id)) {
+		if (!message.guild && message.author.id !== bot.config.ownerID && !bot.config.whiteList.includes(message.author.id)) {
 			bot.users.get(bot.config.ownerID).send({embed: {color: 3447003, description: `L\'utilisateur ${message.author.username} m\'a envoyé :\n\n${message.content}`}});
 			return;
-		} else if (message.author.id === bot.config.ownerID || isInWhiteList(message.author.id))
+		} else if (message.author.id === bot.config.ownerID || bot.config.whiteList.includes(message.author.id))
 			whitelistCommands(message);
 		else if (isServerAdmin(message))
 			adminCommands(message);
