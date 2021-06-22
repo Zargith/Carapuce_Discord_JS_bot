@@ -2,7 +2,7 @@
 	"validator": {
 		"$jsonSchema": {
 			"bsonType": "object",
-			"required": [ "serverId" ],
+			"required": ["serverId"],
 			"properties": {
 				"serverId": {
 					"bsonType": "number",
@@ -14,37 +14,43 @@
 				},
 				"defaultRolesIds": {
 					"bsonType": "array",
-					"description": "must be an array of numbers"
+					"description": "must be an array of numbers",
+					"items": {
+						"bsonType": "string"
+					}
 				},
 				"listeners": {
 					"bsonType": "array",
 					"description": "must be an array of objects",
-					"required": ["messageId", "cumulativeRoles", "defaultRoleId", "reactionRole"],
-					"properties": {
-						"messageId": {
-							"bsonType": "number",
-							"description": "must be a number and is required"
-						},
-						"cumulativeRoles": {
-							"bsonType": "bool",
-							"description": "must be a boolean and is required"
-						},
-						"defaultRoleId": {
-							"bsonType": "number",
-							"description": "must be a number and is required"
-						},
-						"reactionRole": {
-							"bsonType": "object",
-							"description": "must be a object and is required",
-							"required": ["emoji", "roleId"],
-							"properties": {
-								"emoji": {
-									"bsonType": "string",
-									"description": "must be a string and is required"
-								},
-								"roleId": {
-									"bsonType": "number",
-									"description": "must be a number and is required"
+					"items": {
+						"bsonType": "object",
+						"required": ["messageId", "cumulativeRoles", "defaultRoleId", "reactionRole"],
+						"properties": {
+							"messageId": {
+								"bsonType": "number",
+								"description": "must be a number and is required"
+							},
+							"cumulativeRoles": {
+								"bsonType": "bool",
+								"description": "must be a boolean and is required"
+							},
+							"defaultRoleId": {
+								"bsonType": "number",
+								"description": "must be a number and is required"
+							},
+							"reactionRole": {
+								"bsonType": "object",
+								"description": "must be a object and is required",
+								"required": ["emoji", "roleId"],
+								"properties": {
+									"emoji": {
+										"bsonType": "string",
+										"description": "must be a string and is required"
+									},
+									"roleId": {
+										"bsonType": "number",
+										"description": "must be a number and is required"
+									}
 								}
 							}
 						}
@@ -52,7 +58,10 @@
 				},
 				"bannedWords": {
 					"bsonType": "array",
-					"description": "must be an array of strings"
+					"description": "must be an array of strings",
+					"items": {
+						"bsonType": "string"
+					}
 				}
 			}
 		}

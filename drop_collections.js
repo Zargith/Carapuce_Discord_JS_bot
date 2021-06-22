@@ -2,7 +2,7 @@ const DBURI = "mongodb://localhost:27017/CaraDatabase";
 const config = require("./config.json");
 
 const DBNAME = config.dbName;
-//const Logger = require("mongodb").Logger;
+// const Logger = require("mongodb").Logger;
 const mongoClient = require("mongodb").MongoClient;
 let client;
 let db;
@@ -21,7 +21,7 @@ try {
 			console.log("No collection found");
 			process.exit(0);
 		}
-		console.log(`Collections:`);
+		console.log("Collections:");
 		for (let i = 0; i < collections.length; i++)
 			console.log(`\t${collections[i].name}`);
 		console.log("");
