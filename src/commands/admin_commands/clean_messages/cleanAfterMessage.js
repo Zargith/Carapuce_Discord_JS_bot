@@ -21,4 +21,9 @@ module.exports = function(message) {
 		for (let i = 0; i < messages.length && messages[i].id !== args[1]; i++)
 			messages[i].delete();
 	});
+
+	// display this message when the bot is deleting the others then delete it
+	message.channel.send("Suppression des messages en cours !").then(newMessage => {
+		newMessage.delete();
+	});
 };

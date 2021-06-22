@@ -6,6 +6,7 @@ module.exports = async function(message) {
 		messages = messages.array();
 		messages.forEach(msg => msg.delete());
 	});
+
 	// display this message when the bot is deleting the others then delete it
 	message.channel.send("Suppression des messages en cours !").then(newMessage => {
 		newMessage.delete();
