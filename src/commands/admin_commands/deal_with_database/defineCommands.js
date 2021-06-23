@@ -23,7 +23,7 @@ module.exports = async function(message) {
 				break;
 
 			case ("defaultRoles"):
-				res = defineDefaultRoles(Number.parseInt(message.guild.id), args);
+				res = await defineDefaultRoles(Number.parseInt(message.guild.id), args);
 				if (!res.success)
 					throw Error(res.message);
 				if (res.success && res.message)

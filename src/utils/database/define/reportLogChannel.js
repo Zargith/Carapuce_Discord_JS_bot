@@ -20,7 +20,7 @@ module.exports = async function(serverId, channelId) {
 		if (resGettingDB.reportLogChannel)
 			return {success: false, message: `Un channel de rapport des logs est déjà défini, tu veux surement utiliser la commande *${bot.config.prefix}redefine* à la place ?`};
 
-		const resUpdt = await bot.db.updateField(server, "Servers", "reportLogChannel", channelId);
+		const resUpdt = await bot.db.updateField(resGettingDB, "Servers", "reportLogChannel", channelId);
 		if (!resUpdt.success)
 			return ({success: false, message: resUpdt.message});
 

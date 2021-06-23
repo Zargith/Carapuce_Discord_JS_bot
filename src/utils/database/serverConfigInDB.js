@@ -36,15 +36,17 @@ module.exports = async function(message) {
 
 function sendEmbedMessage(message, server) {
 	const poll = new Discord.MessageEmbed()
-		.setColor(3447003)
+		.setColor(0xace4ff)
 		.setTitle(`Serveur *${getServerNamefromId(server.serverId)}*`)
 		.setDescription(`ID du serveur *${server.serverId}*`);
 
 	delete server._id;
 	delete server.serverId;
 
-	for (const [key, value] of Object.entries(server))
-		poll.addField(`__**${key} :**__`, value.toString());
+	for (const [key, value] of Object.entries(server)) {
+		if (value && value != "" && value !== 0)
+			poll.addField(`__**${key} :**__`, value.toString());
+	}
 
 	message.channel.send(poll);
 }

@@ -14,7 +14,7 @@ module.exports = async function(serverId, roleIds) {
 		if (!resGettingDB || resGettingDB.defaultRolesIds)
 			return {success: true, message: `Tu ne peux pas redéfinir un paramère s'il n'est pas déjà configuré. Utilises plutôt ${bot.config.prefix}define defaultRoles`};
 
-		const resUpdt = await bot.db.updateField(server, "Servers", "defaultRolesIds", roleIds);
+		const resUpdt = await bot.db.updateField(resGettingDB, "Servers", "defaultRolesIds", roleIds);
 		if (!resUpdt.success)
 			return ({success: false, message: resUpdt.message});
 

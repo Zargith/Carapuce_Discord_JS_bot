@@ -15,6 +15,7 @@
 				"defaultRolesIds": {
 					"bsonType": "array",
 					"description": "must be an array of numbers",
+					"uniqueItems": true,
 					"items": {
 						"bsonType": "string"
 					}
@@ -22,6 +23,7 @@
 				"listeners": {
 					"bsonType": "array",
 					"description": "must be an array of objects",
+					"uniqueItems": true,
 					"items": {
 						"bsonType": "object",
 						"required": ["messageId", "cumulativeRoles", "defaultRoleId", "reactionRole"],

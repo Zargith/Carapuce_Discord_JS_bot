@@ -1,22 +1,23 @@
-module.exports = async function(json) {
+module.exports = async function(query) {
 	try {
 		if (!bot.db.get())
 			throw Error("Il n'y a pas de bases de données");
 
-		const resGettingDB = await bot.db.get().collection("Servers").findOne({serverdId: json.serverdId});
+		const resGettingDB = await bot.db.get().collection("Servers").findOne({serverId: query.serverId});
 		if (resGettingDB)
 			throw Error("Il y a déjà une configuration pour le serveur");
 
-		if (!json.serverId)
+		if (!query.serverId)
 			throw Error("Il manque au moins l'ID du serveur pour la configuration de ce dernier dans la base de données");
-		let server = {serverId: json.serverId};
+		const server = {serverId: query.serverId, reportLogChannel: 0, defaultRolesIds: [], listeners: []};
+		// let server = {serverId: query.serverId};
 
-		if (json.reportLogChannel)
-			server.reportLogChannel = json.reportLogChannel;
-		if (json.defaultRolesIds)
-			server.defaultRolesIds = json.defaultRolesIds;
-		if (json.listeners)
-			server.listeners = json.listeners;
+		if (query.reportLogChannel)
+			server.reportLogChannel = query.reportLogChannel;
+		if (query.defaultRolesIds)
+			server.defaultRolesIds = query.defaultRolesIds;
+		if (query.listeners)
+			server.listeners = query.listeners;
 
 		const resInsertDB = await bot.db.get().collection("Servers").insertOne(server);
 		if (!resInsertDB.result || !resInsertDB.result.ok || resInsertDB.result.ok != 1)

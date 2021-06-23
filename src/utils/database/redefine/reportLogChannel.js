@@ -11,13 +11,11 @@ module.exports = async function(serverId, channelId) {
 			throw Error("La base de données n'est pas connectée...");
 
 		const server = {serverId: serverId};
-		console.debug(server)
 		const resGettingDB = await bot.db.get().collection("Servers").findOne(server);
-		console.debug(resGettingDB)
-		if (!resGettingDB || !resGettingDB.reportLogChannel)
+		if (!resGettingDB || !resGettingDB.reportLogChannel || resGettingDB.reportLogChannel === 0)
 			return {success: true, message: `Tu ne peux pas redéfinir un paramètre s'il n'est pas déjà configuré. Utilises plutôt ${bot.config.prefix}define logChannel`};
 
-		const resUpdt = await bot.db.updateField(server, "Servers", "reportLogChannel", channelId);
+		const resUpdt = await bot.db.updateField(resGettingDB, "Servers", "reportLogChannel", channelId);
 		if (!resUpdt.success)
 			return ({success: false, message: resUpdt.message});
 

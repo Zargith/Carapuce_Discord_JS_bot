@@ -1,6 +1,7 @@
 const sendError = require("../../../utils/sendError.js");
 const redefineReportLogChannel = require("../../../utils/database/redefine/reportLogChannel.js");
 // const redefineBannedWords = require("./admin_commands/redefineBannedWords.js");
+const redefineDefaultRoles = require("../../../utils/database/redefine/defaultRoles.js");
 
 module.exports = async function(message) {
 	try {
@@ -21,7 +22,7 @@ module.exports = async function(message) {
 				break;
 
 			case ("defaultRoles"):
-				res = defineDefaultRoles(Number.parseInt(message.guild.id), args);
+				res = redefineDefaultRoles(Number.parseInt(message.guild.id), args);
 				if (!res.success)
 					throw Error(res.message);
 				if (res.success && res.message)

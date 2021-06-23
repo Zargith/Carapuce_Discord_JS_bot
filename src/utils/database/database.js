@@ -107,7 +107,7 @@ async function updateField(modelInstance, collectionName, fieldName, newValue) {
 			{_id: modelInstance._id},
 			{$set: updatePair}
 		);
-		if (!dbOutput.result || !dbOutput.result.ok || dbOutput.result.ok != 1)
+		if (!dbOutput.result || !dbOutput.result.ok || dbOutput.result.ok != 1 || dbOutput.modifiedCount !== 1)
 			return ({success: false, message: `Echec lors de la mise à jour de l'entrée ${fieldName} d'une instance de la collection ${collectionName}`});
 
 		return ({success: true});

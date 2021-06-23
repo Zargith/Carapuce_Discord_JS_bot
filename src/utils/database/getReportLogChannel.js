@@ -5,9 +5,9 @@ module.exports = async function(idServer) {
 	if (!bot.db.get())
 		throw Error("La base de données n'est pas connectée...");
 
-	const resGettingDB = await bot.db.get().collection("Servers").findOne({serverdId: idServer});
+	const resGettingDB = await bot.db.get().collection("Servers").findOne({serverId: idServer});
 	if (!resGettingDB)
 		return;
 
-	return resGettingDB.serverdId;
+	return resGettingDB.serverId;
 };
