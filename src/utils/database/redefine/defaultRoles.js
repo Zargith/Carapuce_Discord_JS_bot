@@ -1,4 +1,7 @@
-module.exports = async function(serverId, roleIds) {
+const parseRoles = require("../../parseRoles.js");
+const getRolesIds = require("../../getRolesIds.js");
+
+module.exports = async function(serverId, roleMentions) {
 	try {
 		/*
 			set the IDs of the roles you configured as the default roles given to new members from the server
@@ -9,9 +12,14 @@ module.exports = async function(serverId, roleIds) {
 		if (!bot.db.get())
 			throw Error("La base de données n'est pas connectée...");
 
+		const roles = parseRoles(serverId, roleMentions);
+		if (!roles.success)
+			return {success: true, message: roles.message};
+		const roleIds = getRolesIds(roles.roles);
+
 		const server = {serverId: serverId};
 		const resGettingDB = await bot.db.get().collection("Servers").findOne(server);
-		if (!resGettingDB || resGettingDB.defaultRolesIds)
+		if (!resGettingDB || !resGettingDB.defaultRolesIds || resGettingDB.defaultRolesIds.length < 1)
 			return {success: true, message: `Tu ne peux pas redéfinir un paramère s'il n'est pas déjà configuré. Utilises plutôt ${bot.config.prefix}define defaultRoles`};
 
 		const resUpdt = await bot.db.updateField(resGettingDB, "Servers", "defaultRolesIds", roleIds);

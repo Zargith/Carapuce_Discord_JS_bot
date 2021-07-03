@@ -24,11 +24,11 @@ module.exports = function(message) {
 					value: "```Permet de redéfinir un channel de report des logs dans la configuration du serveur, dans la base de données.```"
 				},
 				{
-					name: `// ${bot.config.prefix}define defaultRoles *<id du rôle>*`,
+					name: `${bot.config.prefix}define defaultRoles *<id du rôle/mention du rôle>*`,
 					value: "```Permet de définir des rôles par défaut dans la configuration du serveur, dans la base de données.```"
 				},
 				{
-					name: `// ${bot.config.prefix}redefine defaultRoles *<id du rôle>*`,
+					name: `${bot.config.prefix}redefine defaultRoles *<id du rôle/mention du rôle>*`,
 					value: "```Permet de définir des rôles par défaut dans la configuration du serveur, dans la base de données.```"
 				},
 				// {

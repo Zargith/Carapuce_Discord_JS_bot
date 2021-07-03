@@ -26,6 +26,7 @@
     "ffmpeg-static": "^4.4.0",
     "mongodb": "^3.6.4",
     "node-fetch": "^2.6.1",
+    "npm": "^7.19.1",
     "ytdl-core": "^4.5.0"
   },
   "devDependencies": {

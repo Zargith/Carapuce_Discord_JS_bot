@@ -113,7 +113,7 @@ async function updateField(modelInstance, collectionName, fieldName, newValue) {
 		return ({success: true});
 	} catch (exception) {
 		console.log(`Error exception:\n${exception.stack}`);
-		return ({success: false, message: exception.message});
+		return ({success: false, message: exception.stack});
 	}
 }
 
