@@ -1,15 +1,15 @@
 const serverValidator = require("./schemas-validators/server.json");
 
 // Global that stores the name of the database we're working with.
-const DBNAME = bot.config.dbName;
+const DBNAME = bot.config.database.dbName;
 
 // Global that stores the host of our database. By default it is "localhost"
 // /!\ Warning : If the database is stored in a local docker container, it may be the name of the container not "localhost" /!\\
-const HOST = bot.config.host ? bot.config.host : "localhost";
+const HOST = bot.config.database.host ? bot.config.database.host : "localhost";
 
 // Global that stores the port of our database. By default it is "27017"
 // /!\ Warning : If the database is stored in a local docker container, it may be the port you linked to /!\\
-const PORT = bot.config.port ? bot.config.port : "27017";
+const PORT = bot.config.database.port ? bot.config.database.port : "27017";
 
 // Global that stores the auth source of the database the user is created in. By default it is "admin"
 const AUTHSOURCE = bot.config.authSource ? bot.config.authSource : "admin";

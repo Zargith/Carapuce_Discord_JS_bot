@@ -3,15 +3,14 @@
 This repository is for my discord bot named Carapuce. I've mostly did it by myself and most of string are in French.
 For the music part (after dicord.js module v12), I copied code from this repository: [https://github.com/ZerioDev/Music-bot](https://github.com/ZerioDev/Music-bot)
 
-The bot needs to have a config.json file like the following as the root of the repository:
+The bot needs to have a *config.json* file like the following as the root of the repository:
 
 ```json
 {
     "prefix": "Command's prefix (ex: !cara)",
     "token": "Bot's token",
-    "ownerID": "Your ID : not Kevin#0000 but something like 012345678901234567",
+    "ownerId": "Your ID : not Kevin#0000 but something like 012345678901234567",
     "whiteList": ["Authorised user's ID 1", "Authorised user's ID 2"],
-    "youtubeAPIKey": "Your Youtube API Key",
     "filters": {
         "bassboost": "Bassboost",
         "8D": "8D",
@@ -31,6 +30,15 @@ The bot needs to have a config.json file like the following as the root of the r
         "gate": "Gate",
         "haas": "Haas",
         "mcompand": "Mcompand"
+    },
+    "database": {
+        "dbName": "Name of your database, in docker-compose.yml: CaraDatabase",
+        "host": "By default: localhost, in docker-compose.yml: cara_db)",
+        "port": "Port of the database, by default: 27017",
+        "authSource": "Your database's auth source, by default: admin"
+    },
+    "APIKeys": {
+        "openweathermapAPIKey": "Your OpenWeatherMap API Key"
     }
 }
 ```

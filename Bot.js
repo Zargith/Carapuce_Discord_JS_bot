@@ -28,12 +28,13 @@ bot.on("ready", async function() {
 		console.log("\n");
 		bot.user.setActivity(`${bot.config.prefix}help`, {type: "WATCHING"});
 		if (bot.config.ownerID) {
-			const owner = await bot.users.fetch(bot.config.ownerID);
+			const owner = await bot.users.fetch(bot.config.ownerId);
 			if (owner) {
 				bot.owner = owner;
 				bot.owner.send({embed: {color: 65330, description: "Started successfully"}});
 			}
 		}
+
 		setInterval(() => restartBot(null, bot), 86400000); // 86,400,000ms = 24hrs
 		setInterval(async () => {
 			if (!(await bot.db.isConnected()) && bot.owner)

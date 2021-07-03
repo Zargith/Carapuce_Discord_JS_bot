@@ -71,7 +71,7 @@ module.exports = function(message) {
 					value: "```Envoie une blague de dev (en anglais) style jokes de papa```"
 				},
 				{
-					name: `${bot.config.prefix}météo *<Ville>* / ${bot.config.prefix}weather *<City>*`,
+					name: `${bot.config.prefix}météo *<Ville>* / ${bot.config.prefix}meteo *<Ville>* / ${bot.config.prefix}weather *<City>*`,
 					value: "```Donne la météo pour la ville précisée. **Attention !** Les 'petit(e)s' villes/villages ne seront probablement pas trouvés.```"
 				},
 				{

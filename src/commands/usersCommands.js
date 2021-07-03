@@ -125,6 +125,7 @@ module.exports = function(message) {
 			break;
 
 		case (`${bot.config.prefix}météo`):
+		case (`${bot.config.prefix}meteo`):
 		case (`${bot.config.prefix}weather`):
 			if (args.length < 1) {
 				message.channel.send("Cette commande nécessite de préciser un lieu");

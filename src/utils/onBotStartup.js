@@ -9,8 +9,8 @@ module.exports = function() {
 	bot.filters = config.filters;
 
 	// The bot needs his config file to work properly with the database.
-	if (!config || !config.dbName)
-		throw new Error("Missing information in config file.");
+	if (!config || !config.prefix || !config.token || !config.ownerId || !config.filters || !config.database || !config.database.dbName || !config.database.host || !config.database.port || !config.database.authSource || !config.APIKeys || !config.APIKeys.OpenWeatherMap)
+		throw new Error("Missing information in config file. Please  refer to the 'README.md'.");
 
 	bot.config = config;
 	if (!bot.config.prefix)
