@@ -31,28 +31,7 @@ The bot needs to have a config.json file like the following as the root of the r
         "gate": "Gate",
         "haas": "Haas",
         "mcompand": "Mcompand"
-    },
-    "guilds": [
-        {
-            "guildID": "ID of the server you want configs",
-            "defaultRolesName": ["Optionnal name of roles (case sensitive) you want to set when someone join the server"],
-            "reportLogChannel": "Optionnal ID of the report log channel",
-            "bannedWords": ["Optionnal","list", "of", "words", "that", "the", "bot", "can", "report"],
-            "listeners": [
-                {
-                    "messageID": "ID of the message you want the bot to listen",
-                    "cumulativeRoles": true,
-                    "defaultRoleName": "Name of the role (case sensitive) you want to set by default when the user remove his reactions to the message",
-                    "reactionRole": [
-                        {
-                            "emoji": "ex: 🦄",
-                            "roleName": "name of the role (case sensitive)"
-                        }
-                    ]
-                }
-            ]
-        }
-    ]
+    }
 }
 ```
 

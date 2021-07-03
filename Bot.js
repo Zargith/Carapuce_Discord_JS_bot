@@ -122,7 +122,7 @@ bot.on("messageReactionRemove", async (reaction, user) => {
 });
 
 
-bot.on("guildMemberAdd", async member => {
+bot.on("guildMemberAdd", async function(member) {
 	try {
 		guildMemberAdd.createWelcomeImage(member);
 		if (bot.config.guilds)

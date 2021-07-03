@@ -1,7 +1,6 @@
 const Discord = require("discord.js");
 const Canvas = require("canvas");
 const isServerInConfig = require("./role_reaction_managment/isServerInConfig.js");
-const getDefaultRolesName = require("./role_reaction_managment/getDefaultRolesName.js");
 const emojiCharacters = require("./emojiCharacters.js");
 
 const applyText = (canvas, text) => {
@@ -51,16 +50,17 @@ module.exports.createWelcomeImage = async function(member) {
 module.exports.addDefaultRoles = async function(member) {
 	if (!member)
 		return;
-	const guild = member.guild;
-	if (!guild || !isServerInConfig(guild.id))
+
+	const server = {serverId: Number.parseInt(member.guild.id)};
+	const resGettingDB = await bot.db.get().collection("Servers").findOne(server);
+	if (!resGettingDB || !resGettingDB.defaultRolesIds || resGettingDB.defaultRolesIds.length < 1)
 		return;
-	const defaultRolesName = getDefaultRolesName(guild.id);
-	if (!defaultRolesName || defaultRolesName === [])
-		return;
-	for (let i = 0; i < defaultRolesName.length; i++) {
-		const role = guild.roles.cache.find(r => r.name === defaultRolesName[i]);
+
+	const defaultRolesIds = resGettingDB.defaultRolesIds;
+	for (let i = 0; i < defaultRolesIds.length; i++) {
+		const role = member.guild.roles.cache.find(r => r.id === defaultRolesIds[i]);
 		if (!role)
-			throw new Error(`Cannot find role *${defaultRolesName[i]}* and give it to <@${member.id}>`);
+			throw new Error(`Cannot find role *<@${defaultRolesIds[i]}>* and give it to <@${member.id}>`);
 		member.roles.add(role);
 	}
 };
