@@ -20,7 +20,9 @@ const channelErrorMessage = async function(message, exception) {
 			return;
 
 		// else check if a report log channel is defined and send a error report to if it succeed to get it
-		const reportLogChannel = message.guild.channels.cache.get(await getReportLogChannel(message.guild.id));
+		const reportLogChannelId = await getReportLogChannel(message.guild.id);
+		const reportLogChannel = message.guild.channels.cache.find(ch => ch.id == reportLogChannelId);
+
 		if (reportLogChannel)
 			reportLogChannel.send({embed: {color: 16711680, description: `__**ERREUR**__\nL\'utilisateur *${message.author.username}* sur ce serveur a envoyé la commande :\n${message.content}\n\n__L\'erreur suivante s\'est produite :__\n*${exception.stack}*`, timestamp: new Date()}});
 	} catch (excep) {

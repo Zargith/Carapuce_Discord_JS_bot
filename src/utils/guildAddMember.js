@@ -1,6 +1,5 @@
 const Discord = require("discord.js");
 const Canvas = require("canvas");
-const isServerInConfig = require("./role_reaction_managment/isServerInConfig.js");
 const emojiCharacters = require("./emojiCharacters.js");
 
 const applyText = (canvas, text) => {
@@ -51,7 +50,7 @@ module.exports.addDefaultRoles = async function(member) {
 	if (!member)
 		return;
 
-	const server = {serverId: Number.parseInt(member.guild.id)};
+	const server = {serverId: member.guild.id};
 	const resGettingDB = await bot.db.get().collection("Servers").findOne(server);
 	if (!resGettingDB || !resGettingDB.defaultRolesIds || resGettingDB.defaultRolesIds.length < 1)
 		return;

@@ -12,7 +12,7 @@ module.exports = async function(message) {
 		// check if the first word of the message content is equal to one of the following ones
 		switch (command) {
 			case ("logChannel"):
-				res = await redefineReportLogChannel(Number.parseInt(message.guild.id), Number.parseInt(args[0]));
+				res = await redefineReportLogChannel(message.guild.id, args[0]);
 				if (!res.success)
 					throw Error(res.message);
 				if (res.success && res.message)
@@ -22,7 +22,7 @@ module.exports = async function(message) {
 				break;
 
 			case ("defaultRoles"):
-				res = await redefineDefaultRoles(Number.parseInt(message.guild.id), args);
+				res = await redefineDefaultRoles(message.guild.id, args);
 				if (!res.success)
 					throw Error(res.message);
 				if (res.success && res.message)
@@ -31,7 +31,7 @@ module.exports = async function(message) {
 					message.channel.send("Configuration enrgistrée !");
 				break;
 
-			// case (`${bot.config.prefix}redefineBannedWords`):
+			// case ("bannedWords"):
 			// 	redefineBannedWords(message);
 			// 	break;
 			default:

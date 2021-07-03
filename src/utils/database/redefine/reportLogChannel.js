@@ -12,7 +12,7 @@ module.exports = async function(serverId, channelId) {
 
 		const server = {serverId: serverId};
 		const resGettingDB = await bot.db.get().collection("Servers").findOne(server);
-		if (!resGettingDB || !resGettingDB.reportLogChannel || resGettingDB.reportLogChannel === 0)
+		if (!resGettingDB || !resGettingDB.reportLogChannel || resGettingDB.reportLogChannel === "-1")
 			return {success: true, message: `Tu ne peux pas redéfinir un paramètre s'il n'est pas déjà configuré. Utilises plutôt ${bot.config.prefix}define logChannel`};
 
 		const resUpdt = await bot.db.updateField(resGettingDB, "Servers", "reportLogChannel", channelId);

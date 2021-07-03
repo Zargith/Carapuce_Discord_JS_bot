@@ -9,5 +9,5 @@ module.exports = async function(idServer) {
 	if (!resGettingDB)
 		return;
 
-	return resGettingDB.serverId;
+	return resGettingDB.reportLogChannel;
 };

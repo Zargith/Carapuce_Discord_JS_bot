@@ -12,7 +12,7 @@ module.exports = async function(message) {
 
 		if (args.length < 1) {
 			if (message.guild)
-				args.push(Number.parseInt(message.guild.id));
+				args.push(message.guild.id);
 			else
 				return (message.channel.send("Tu dois préciser l'ID d'un serveur où te trouver dans un si tu vux utiliser la commande telle quelle"));
 		}
@@ -24,7 +24,7 @@ module.exports = async function(message) {
 			resGettingDB.forEach(elem => sendEmbedMessage(message, elem));
 			return;
 		} else {
-			const resGettingDB = await bot.db.get().collection("Servers").findOne({serverId: Number.parseInt(args[0])});
+			const resGettingDB = await bot.db.get().collection("Servers").findOne({serverId: args[0]});
 			if (!resGettingDB)
 				return message.channel.send("Il n'y a pas de configuration pour le serveur");
 			sendEmbedMessage(message, resGettingDB);
@@ -44,7 +44,7 @@ function sendEmbedMessage(message, server) {
 	delete server.serverId;
 
 	for (const [key, value] of Object.entries(server)) {
-		if (value && value != "" && value !== 0)
+		if (value && value != "" && value !== "-1")
 			poll.addField(`__**${key} :**__`, value.toString());
 	}
 

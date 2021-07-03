@@ -13,7 +13,7 @@ module.exports = async function(message) {
 		// check if the first word (after the word for the command) of the message content is equal to one of the following ones
 		switch (command) {
 			case ("logChannel"):
-				res = await defineReportLogChannel(Number.parseInt(message.guild.id), Number.parseInt(args[0]));
+				res = await defineReportLogChannel(message.guild.id, args[0]);
 				if (!res.success)
 					throw Error(res.message);
 				if (res.success && res.message)
@@ -23,7 +23,7 @@ module.exports = async function(message) {
 				break;
 
 			case ("defaultRoles"):
-				res = await defineDefaultRoles(Number.parseInt(message.guild.id), args);
+				res = await defineDefaultRoles(message.guild.id, args);
 				if (!res.success)
 					throw Error(res.message);
 				if (res.success && res.message)

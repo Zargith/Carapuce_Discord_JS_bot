@@ -9,8 +9,7 @@ module.exports = async function(query) {
 
 		if (!query.serverId)
 			throw Error("Il manque au moins l'ID du serveur pour la configuration de ce dernier dans la base de données");
-		const server = {serverId: query.serverId, reportLogChannel: 0, defaultRolesIds: [], listeners: []};
-		// let server = {serverId: query.serverId};
+		const server = {serverId: query.serverId, reportLogChannel: "-1", defaultRolesIds: [], listeners: []};
 
 		if (query.reportLogChannel)
 			server.reportLogChannel = query.reportLogChannel;

@@ -5,16 +5,16 @@
 			"required": ["serverId"],
 			"properties": {
 				"serverId": {
-					"bsonType": "number",
-					"description": "must be a number and is required"
+					"bsonType": "string",
+					"description": "must be a string and is required"
 				},
 				"reportLogChannel": {
-					"bsonType": "number",
-					"description": "must be a number"
+					"bsonType": "string",
+					"description": "must be a string"
 				},
 				"defaultRolesIds": {
 					"bsonType": "array",
-					"description": "must be an array of numbers",
+					"description": "must be an array of string",
 					"uniqueItems": true,
 					"items": {
 						"bsonType": "string"

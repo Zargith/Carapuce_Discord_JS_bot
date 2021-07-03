@@ -23,7 +23,7 @@ module.exports = async function(serverId, roleMentions) {
 		if (!resGettingDB)
 			return (await addServer({serverId: serverId, defaultRolesIds: roleIds}));
 
-		if (resGettingDB.defaultRolesIds)
+		if (resGettingDB.defaultRolesIds && resGettingDB.defaultRolesIds.length > 0)
 			return {success: true, message: `Des rôles par défaut sont déjà définis, tu veux surement utiliser la commande *${bot.config.prefix}redefine* à la place ?`};
 
 		const resUpdt = await bot.db.updateField(resGettingDB, "Servers", "defaultRolesIds", roleIds);

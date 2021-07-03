@@ -126,7 +126,7 @@ bot.on("guildMemberAdd", async function(member) {
 	try {
 		guildMemberAdd.createWelcomeImage(member);
 		if (bot.config.guilds)
-			guildMemberAdd.addDefaultRoles(member); // TODO utiliser DB
+			guildMemberAdd.addDefaultRoles(member);
 	} catch (exception) {
 		console.log(`ERREUR\nLors de l'arrivée de l'utilisateur ${member.user.tag} sur le serveur ${member.guild.name}\nL'erreur suivante s'est produite:\n${exception.stack}`);
 		if (bot.owner)
