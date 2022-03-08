@@ -16,7 +16,7 @@ module.exports = function(message) {
 
 	// get all channels and display they with their name, type and ID
 	let str = `__Serveur :__ ${guild.name},\t__ID :__ ${guild.id}\n\n`;
-	guild.channels.cache.array().forEach(chan => {
+	guild.channels.cache.forEach(chan => {
 		str += (`\t- __Name :__ ${chan.name }\n\t\t__Type :__ ${chan.type}\n\t\t__ID :__ ${chan.id}\n\n`);
 	});
 	message.channel.send(str);

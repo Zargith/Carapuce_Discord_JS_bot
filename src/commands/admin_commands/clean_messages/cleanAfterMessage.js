@@ -4,9 +4,9 @@ module.exports = function(message) {
 	if (args.length != 2 || isNaN(parseInt(args[1])))
 		throw Error("Pour clean après un message, il faut uniquement en paramètre l'ID du message après lequel on veut clean");
 
-	message.channel.messages.fetch().then(messages => {
+	message.channel.messages.fetch({ force: true, limit: 1000 }).then(messages => {
 		// get all messages into an array instead of a map and sort them by their date (from newest to oldest)
-		messages = messages.array().sort((a, b) => b.createdAt - a.createdAt);
+		messages = messages.toJSON().sort((a, b) => b.createdAt - a.createdAt);
 
 		// check if the ID given as parameter is in the one of the channel
 		let isInArray = false;

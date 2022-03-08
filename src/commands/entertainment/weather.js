@@ -1,7 +1,7 @@
 const fetch = require("node-fetch");
 
 module.exports = async function(message) {
-	if (!bot.config.APIKeys.OpenWeatherMap || bot.config.APIKeys.OpenWeatherMap == "")
+	if (!bot.config.apiKeys.openWeatherMap || bot.config.apiKeys.openWeatherMap == "")
 		throw Error("Missing OpenWeatherMap API Key");
 
 	let city = "";
@@ -10,7 +10,7 @@ module.exports = async function(message) {
 	else
 		city = encodeURI(message.content.trim().substring(`${bot.config.prefix}weather `.length));
 
-	await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${city}&lang=fr&appid=${bot.config.APIKeys.OpenWeatherMap}`)
+	await fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${city}&lang=fr&appid=${bot.config.apiKeys.openWeatherMap}`)
 		.then(function(response) {
 			// if good answer from the API call, then go to the next function. Else throw an error
 			if (response.status === 200)
@@ -21,9 +21,21 @@ module.exports = async function(message) {
 			}
 			throw response.statusText;
 		})
-		.then(function(json) {
-			if (json && json.weather[0])
-				message.channel.send(`Actuellement à *${json.name}*, il fait *${json.weather[0].description}*`);
+		.then(async function(json) {
+			const lat = json["0"].lat;
+			const lon = json["0"].lon;
+			const weatherRes = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&lang=fr&appid=${bot.config.apiKeys.openWeatherMap}`);
+
+			if (weatherRes.status === 404 || weatherRes.statusText === "Not Found") {
+				message.channel.send("Lieu non trouvé");
+				return;
+			}
+
+			const weatherJson = await weatherRes.json();
+			console.log(weatherJson);
+
+			if (weatherJson && weatherJson.weather[0])
+				message.channel.send(`Actuellement à *${weatherJson.name}*, il fait *${weatherJson.weather[0].description}*`);
 		}).catch(error => {
 			throw error;
 		});

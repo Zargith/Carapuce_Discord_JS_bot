@@ -1,4 +1,4 @@
-const Discord = require("discord.js");
+const { Client, Intents } = require('discord.js');
 
 // in src directory
 const botStartup = require("./src/utils/onBotStartup.js");
@@ -12,34 +12,35 @@ const restartBot = require("./src/commands/whitelist_commands/restartBot.js");
 const whitelistCommands = require("./src/commands/whitelistCommands.js");
 const isServerAdmin = require("./src/utils/isServerAdmin");
 const emojiCharacters = require("./src/utils/emojiCharacters.js");
+const getUserById = require("./src/utils/getUserById.js");
 
 // Define bot as global variable
-bot = new Discord.Client({partials: ["MESSAGE", "CHANNEL", "REACTION"], disableMentions: "everyone"});
-
+bot = new Client({ intents: [ Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_EMOJIS_AND_STICKERS, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS, Intents.FLAGS.GUILDS], allowedMentions: { parse: ['users', 'roles'], repliedUser: true } });
 botStartup();
 
 bot.on("ready", async function() {
 	try {
 		console.log(`Logged in as ${bot.user.tag} !`);
 		console.log("Servers :");
-		bot.guilds.cache.array().forEach(guild => {
+		bot.guilds.cache.forEach(guild => {
 			console.log(" - " + guild.name);
 		});
 		console.log("\n");
-		bot.user.setActivity(`${bot.config.prefix}help`, {type: "WATCHING"});
-		if (bot.config.ownerID) {
-			const owner = await bot.users.fetch(bot.config.ownerId);
+
+		bot.user.setActivity(`${bot.config.prefix}help`, { type: "WATCHING" });
+		if (bot.config.ownerId) {
+			const owner = await getUserById(bot.config.ownerId);
 			if (owner) {
 				bot.owner = owner;
-				bot.owner.send({embed: {color: 65330, description: "Started successfully"}});
+				bot.owner.send({ embeds: [{ color: 0x00ff00, description: "Started successfully" }]});
 			}
 		}
 
 		setInterval(() => restartBot(null, bot), 86400000); // 86,400,000ms = 24hrs
-		setInterval(async () => {
-			if (!(await bot.db.isConnected()) && bot.owner)
-				bot.owner.send({embed: {color: 16711680, description: "MongoDB Error : Database not connected !", timestamp: new Date()}});
-		}, 60000); // 60,000ms = 1 minute
+		// setInterval(async () => {
+		// 	if (!(await bot.db.isConnected()) && bot.owner)
+		// 		bot.owner.send({embed: {color: 16711680, description: "MongoDB Error : Database not connected !", timestamp: new Date()}});
+		// }, 60000); // 60,000ms = 1 minute
 	} catch (exception) {
 		console.log(`ERREUR at ${new Date()}\nErreur lors du démarrage du bot.\n\nL\'erreur suivante s\'est produite :\n${exception.stack}`);
 		// if a bot owner is defined, the bot will send him/her the complete error to let him/her know what happened
@@ -48,7 +49,7 @@ bot.on("ready", async function() {
 	}
 });
 
-bot.on("message", message => {
+bot.on("messageCreate", message => {
 	try {
 		// if the message includes in anyway "carapuce" it will react with an emoji named carapuce
 		if (message.content.toLowerCase().includes("carapuce")) {
@@ -57,18 +58,17 @@ bot.on("message", message => {
 				message.react(emojiCarapuce);
 		}
 
-		if (message.guild)
-			checkBannedWords(message);
-
+		// if (message.guild)
+		// 	checkBannedWords(message);
 
 		// if the message doesn't start by the prefix setted on the config file or if this variable isn't defined, the code doesn't go further
 		if (!bot.config.prefix || !message.content.startsWith(bot.config.prefix) || message.author.bot)
 			return;
 
-		if (!message.guild && message.author.id !== bot.config.ownerID && !bot.config.whiteList.includes(message.author.id)) {
-			bot.users.get(bot.config.ownerID).send({embed: {color: 3447003, description: `L\'utilisateur ${message.author.username} m\'a envoyé :\n\n${message.content}`}});
+		if (!message.guild && message.author.id !== bot.config.ownerId && !bot.config.whiteList.includes(message.author.id)) {
+			bot.users.get(bot.config.ownerId).send({embed: {color: 3447003, description: `L\'utilisateur ${message.author.username} m\'a envoyé :\n\n${message.content}`}});
 			return;
-		} else if (message.author.id === bot.config.ownerID || bot.config.whiteList.includes(message.author.id))
+		} else if (message.author.id === bot.config.ownerId || bot.config.whiteList.includes(message.author.id))
 			whitelistCommands(message);
 		else if (isServerAdmin(message))
 			adminCommands(message);
@@ -79,6 +79,23 @@ bot.on("message", message => {
 	}
 });
 
+bot.on('interactionCreate', async (interaction) => {
+	try {
+		if (!interaction.isCommand())
+			return;
+
+		if (!interaction.inGuild && interaction.user.id !== bot.config.ownerId && !bot.config.whiteList.includes(interaction.user.id))
+			return;
+		// else if (interaction.user.id === bot.config.ownerId || bot.config.whiteList.includes(interaction.user.id))
+		// 	whitelistCommands(interaction);
+		// else if (isServerAdmin(interaction))
+		// 	adminCommands(interaction);
+		// else
+			usersCommands(interaction, true);
+	} catch (exception) {
+		sendError(interaction, exception);
+	}
+});
 
 process.on("unhandledRejection", err => {
 	console.error(err);

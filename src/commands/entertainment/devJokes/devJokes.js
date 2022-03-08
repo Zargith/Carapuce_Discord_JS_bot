@@ -14,15 +14,16 @@ module.exports = async function(message) {
 			const joke = getJokeFromSVGText(svgTxt);
 			// Send the joke as an Embed with a meme
 			const husky = new Discord.MessageAttachment("./src/commands/entertainment/devJokes/husky_happy_meme.jpeg");
-			message.channel.send({
-				files: [husky],
-				embed: {
-					color: 3447003,
+			message.channel.send({ files: [husky], embeds: [
+				{
+					color: 0xace4ff,
 					title: "Dev joke",
-					thumbnail: {url: "attachment://husky_happy_meme.jpeg"},
 					description: joke,
+					thumbnail: {
+						url: "attachment://husky_happy_meme.jpeg",
+					},
 					url: "https://github.com/ABSphreak/readme-jokes"
-				}
+				}]
 			});
 		}).catch(error => {
 			throw error;

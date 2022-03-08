@@ -2,7 +2,7 @@ function getServersEmojisGif(message) {
 	if (!message.guild)
 		return;
 	// get all emojis of the server
-	const emojis = message.guild.emojis.cache.array();
+	const emojis = message.guild.emojis.cache.toJSON();
 	if (!emojis)
 		return;
 	const animatedEmojis = [];

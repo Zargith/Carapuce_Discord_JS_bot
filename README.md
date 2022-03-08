@@ -37,8 +37,8 @@ The bot needs to have a *config.json* file like the following as the root of the
         "port": "Port of the database, by default: 27017",
         "authSource": "Your database's auth source, by default: admin"
     },
-    "APIKeys": {
-        "openweathermapAPIKey": "Your OpenWeatherMap API Key"
+    "apiKeys": {
+        "openWeatherMap": "Your OpenWeatherMap API Key"
     }
 }
 ```

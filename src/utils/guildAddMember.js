@@ -25,10 +25,10 @@ module.exports.createWelcomeImage = async function(member) {
 		const background = await Canvas.loadImage("./welcome.png");
 		ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
 		ctx.strokeStyle = "#74037b";
-		ctx.strokeRect(0, 0, canvas.width - 2, canvas.height - 1);
-		ctx.strokeRect(1, 1, canvas.width - 3, canvas.height - 2);
-		ctx.strokeRect(2, 2, canvas.width - 4, canvas.height - 3);
-		ctx.strokeRect(2, 2, canvas.width - 5, canvas.height - 4);
+		ctx.strokeRect(0, 0, canvas.width - 1, canvas.height - 1);
+		ctx.strokeRect(1, 1, canvas.width - 2, canvas.height - 2);
+		ctx.strokeRect(2, 2, canvas.width - 3, canvas.height - 3);
+		ctx.strokeRect(2, 2, canvas.width - 4, canvas.height - 4);
 		ctx.font = applyText(canvas, member.displayName);
 		ctx.fillStyle = "#ce0707";
 		ctx.fillText(member.displayName, 20, 685);
@@ -39,7 +39,7 @@ module.exports.createWelcomeImage = async function(member) {
 		const avatar = await Canvas.loadImage(member.user.displayAvatarURL({format: "png"}));
 		ctx.drawImage(avatar, 700, 50, 256, 256);
 		const attachment = new Discord.MessageAttachment(canvas.toBuffer(), "welcome-image.png");
-		channel.send(`Bienvenue sur ce CaraServeur, <@${member.id}> ! <:happy_carapuce:553490319103098883>`, attachment);
+		channel.send({ content: `Bienvenue sur ce CaraServeur, <@${member.id}> ! <:happy_carapuce:553490319103098883>`, files: [attachment] });
 	} catch (exception) {
 		channel.send({embed: {color: 16711680, description: `__**ERREUR**__\nLa commande n'a pas fonctionnée ${emojiCharacters.surprised_carapuce}\n\n__L'erreur suivante s'est produite:__\n*${exception}*`}});
 		throw exception;
