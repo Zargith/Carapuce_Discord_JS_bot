@@ -1,4 +1,4 @@
-const { Client, Intents } = require('discord.js');
+const Discord = require("discord.js");
 
 // in src directory
 const botStartup = require("./src/utils/onBotStartup.js");
@@ -11,12 +11,14 @@ const adminCommands = require("./src/commands/adminCommands.js");
 const restartBot = require("./src/commands/whitelist_commands/restartBot.js");
 const whitelistCommands = require("./src/commands/whitelistCommands.js");
 const isServerAdmin = require("./src/utils/isServerAdmin");
-const emojiCharacters = require("./src/utils/emojiCharacters.js");
+// const emojiCharacters = require("./src/utils/emojiCharacters.js");
 const getUserById = require("./src/utils/getUserById.js");
 
 // Define bot as global variable
-bot = new Client({ intents: [ Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_EMOJIS_AND_STICKERS, Intents.FLAGS.GUILD_MEMBERS, Intents.FLAGS.GUILD_MESSAGES, Intents.FLAGS.GUILD_MESSAGE_REACTIONS, Intents.FLAGS.GUILDS], allowedMentions: { parse: ['users', 'roles'], repliedUser: true } });
-botStartup();
+global.bot = new Discord.Client({ intents: [ Discord.Intents.FLAGS.GUILDS, Discord.Intents.FLAGS.GUILD_EMOJIS_AND_STICKERS, Discord.Intents.FLAGS.GUILD_MEMBERS, Discord.Intents.FLAGS.GUILD_MESSAGES, Discord.Intents.FLAGS.GUILD_MESSAGE_REACTIONS, Discord.Intents.FLAGS.GUILD_VOICE_STATES ], allowedMentions: { parse: [ "users", "roles" ], repliedUser: true } });
+(async () => {
+	await botStartup();
+})();
 
 bot.on("ready", async function() {
 	try {
@@ -32,20 +34,20 @@ bot.on("ready", async function() {
 			const owner = await getUserById(bot.config.ownerId);
 			if (owner) {
 				bot.owner = owner;
-				bot.owner.send({ embeds: [{ color: 0x00ff00, description: "Started successfully" }]});
+				// bot.owner.send({ embeds: [{ color: 0x00ff00, description: "Started successfully" }]});
 			}
 		}
 
 		setInterval(() => restartBot(null, bot), 86400000); // 86,400,000ms = 24hrs
 		// setInterval(async () => {
 		// 	if (!(await bot.db.isConnected()) && bot.owner)
-		// 		bot.owner.send({embed: {color: 16711680, description: "MongoDB Error : Database not connected !", timestamp: new Date()}});
+		// 		bot.owner.send({ embeds: [{ color: 16711680, description: "MongoDB Error : Database not connected !", timestamp: new Date() }] });
 		// }, 60000); // 60,000ms = 1 minute
 	} catch (exception) {
 		console.log(`ERREUR at ${new Date()}\nErreur lors du démarrage du bot.\n\nL\'erreur suivante s\'est produite :\n${exception.stack}`);
 		// if a bot owner is defined, the bot will send him/her the complete error to let him/her know what happened
 		if (bot.owner)
-			bot.owner.send({embed: {color: 16711680, description: `__**ERREUR**__\nErreur lors du démarrage du bot.\n\n__L\'erreur suivante s\'est produite :__\n*${exception.stack}*`, timestamp: new Date()}});
+			bot.owner.send({ embeds: [{ color: 16711680, description: `__**ERREUR**__\nErreur lors du démarrage du bot.\n\n__L\'erreur suivante s\'est produite :__\n*${exception.stack}*`, timestamp: new Date() }] });
 	}
 });
 
@@ -66,7 +68,7 @@ bot.on("messageCreate", message => {
 			return;
 
 		if (!message.guild && message.author.id !== bot.config.ownerId && !bot.config.whiteList.includes(message.author.id)) {
-			bot.users.get(bot.config.ownerId).send({embed: {color: 3447003, description: `L\'utilisateur ${message.author.username} m\'a envoyé :\n\n${message.content}`}});
+			bot.users.get(bot.config.ownerId).send({ embeds: [{ color: 0xace4ff, description: `L\'utilisateur ${message.author.username} m\'a envoyé :\n\n${message.content}` }] });
 			return;
 		} else if (message.author.id === bot.config.ownerId || bot.config.whiteList.includes(message.author.id))
 			whitelistCommands(message);
@@ -79,7 +81,7 @@ bot.on("messageCreate", message => {
 	}
 });
 
-bot.on('interactionCreate', async (interaction) => {
+bot.on("interactionCreate", interaction => {
 	try {
 		if (!interaction.isCommand())
 			return;
@@ -105,14 +107,14 @@ bot.on("error", async function() {
 	console.log(`Error name : ${error.name}\nError message : ${error.message}`);
 	// if a bot owner is defined, the bot will send him/her the complete error to let him/her know what happened
 	if (bot.owner)
-		bot.owner.send({embed: {color: 16711680, description: `__**ERREUR**__ at ${new Date()}\n__Error name :__ *${error.name}*\n__Error message :__*${error.message}*`}});
+		bot.owner.send({ embeds: [{ color: 16711680, description: `__**ERREUR**__ at ${new Date()}\n__Error name :__ *${error.name}*\n__Error message :__*${error.message}*`}] });
 });
 
 bot.on("invalidated", async function(error) {
 	console.log("Session has been invalidated. Restarting the bot.");
 	// if a bot owner is defined, the bot will send him/her the complete error to let him/her know what happened
 	if (bot.owner)
-		bot.owner.send.send({embed: {color: 16711680, description: "Session has been invalidated. Restarting the bot."}})
+		bot.owner.send.send({ embeds: [{ color: 16711680, description: "Session has been invalidated. Restarting the bot." }] })
 			.then(msg => bot.destroy())
 			.then(() => bot.login(bot.config.token).then(() => bot.user.setActivity(`${bot.config.prefix}help`, {type: "WATCHING"})));
 });
@@ -124,7 +126,7 @@ bot.on("messageReactionAdd", async (reaction, user) => {
 	} catch (exception) {
 		console.log(`ERREUR\nLorsque l'utilisateur ${user.tag} sur le serveur ${(reaction.message || reaction.message.guild ? reaction.message.guild.name : null)} a ajouté une réaction, l'erreur suivante s'est produite :\n${exception.stack}`);
 		if (bot.owner)
-			bot.owner.send.send({embed: {color: 16711680, description: `__**ERREUR**__ at ${new Date()}\nLorsque l'utilisateur ${user.tag} sur le serveur ${(reaction.message || reaction.message.guild ? reaction.message.guild.name : null)} a ajouté une réaction, l'erreur suivante s'est produite :\n*${exception.stack}*`}});
+			bot.owner.send.send({ embeds: [{ color: 16711680, description: `__**ERREUR**__ at ${new Date()}\nLorsque l'utilisateur ${user.tag} sur le serveur ${(reaction.message || reaction.message.guild ? reaction.message.guild.name : null)} a ajouté une réaction, l'erreur suivante s'est produite :\n*${exception.stack}*` }] });
 	}
 });
 
@@ -135,7 +137,7 @@ bot.on("messageReactionRemove", async (reaction, user) => {
 	} catch (exception) {
 		console.log(`ERREUR\nLorsque l'utilisateur ${user.tag} sur le serveur ${(reaction.message || reaction.message.guild ? reaction.message.guild.name : null)} a retité une réaction, l'erreur suivante s'est produite :\n${exception.stack}`);
 		if (bot.owner)
-			bot.owner.send({embed: {color: 16711680, description: `__**ERREUR**__ at ${new Date()}\nLorsque l'utilisateur ${user.tag} sur le serveur ${(reaction.message || reaction.message.guild ? reaction.message.guild.name : null)} a retiré une réaction, l'erreur suivante s'est produite :\n*${exception.stack}*`}});
+			bot.owner.send({ embed: [{ color: 16711680, description: `__**ERREUR**__ at ${new Date()}\nLorsque l'utilisateur ${user.tag} sur le serveur ${(reaction.message || reaction.message.guild ? reaction.message.guild.name : null)} a retiré une réaction, l'erreur suivante s'est produite :\n*${exception.stack}*` }] });
 	}
 });
 
@@ -148,11 +150,11 @@ bot.on("guildMemberAdd", async function(member) {
 	} catch (exception) {
 		console.log(`ERREUR\nLors de l'arrivée de l'utilisateur ${member.user.tag} sur le serveur ${member.guild.name}\nL'erreur suivante s'est produite:\n${exception.stack}`);
 		if (bot.owner)
-			bot.owner.send.send({embed: {color: 16711680, description: `__**ERREUR**__ at ${new Date()}\nLors de l'arrivée de l'utilisateur ${member.user.tag} sur le serveur ${member.guild.name}\n\n__L'erreur suivante s'est produite:__\n*${exception.stack}*`}});
+			bot.owner.send.send({ embeds: [{ color: 16711680, description: `__**ERREUR**__ at ${new Date()}\nLors de l'arrivée de l'utilisateur ${member.user.tag} sur le serveur ${member.guild.name}\n\n__L'erreur suivante s'est produite:__\n*${exception.stack}*` }] });
 	}
 });
 
-
+/*
 // Add some messages that will be sent when the events will be triggered
 // Send a message when a track starts
 bot.player.on("trackStart", (message, track) => message.channel.send(`Now playing ${track.title}...`));
@@ -164,20 +166,62 @@ bot.player.on("playlistAdd", (message, playlist) => message.channel.send(`La pla
 // Send messages to format search results
 bot.player.on("searchResults", (message, query, tracks) => {
 	const embed = new Discord.MessageEmbed()
-		.setAuthor(`Voilà les résultats pour ta recherche ${query} :`)
-		.setDescription(tracks.map((t, i) => `${i + 1}. ${t.title}`))
-		.setFooter("Envoie le numéro de la musique que tu veux jouer !");
-	message.channel.send(embed);
-});
-bot.player.on("searchInvalidResponse", (message, query, tracks, content, collector) => {
-	if (content === "cancel") {
+		.setAuthor({ name: `Voilà les résultats pour ta recherche \"*${query}*\" :` })
+		.setDescription(`${tracks.map((t, i) => `${i + 1}. ${t.title}`).join("\n")}`)
+		.setFooter({ text: "Envoie le numéro de la musique que tu veux jouer !" });
+	message.channel.send({ embeds: [embed] });
+	message.channel.send(`Essaies un nombre entre **1** et **${tracks.length}** ou **cancel**`);
+
+	const collector = message.channel.createMessageCollector({
+		time: 15000,
+		errors: ["time"],
+		filter: m => m.author.id === message.author.id
+	});
+
+	collector.on("collect", async query => {
+		if (query.content.toLowerCase() === "cancel")
+			return message.channel.send("Recherche annulée") && collector.stop();
+
+		const value = parseInt(query.content);
+
+		if (!value || value <= 0 || value > tracks.length)
+			return message.channel.send(`Reponse invalide, essaies un nombre entre **1** et **${tracks.length}** ou **cancel**`);
+
 		collector.stop();
-		return message.channel.send("Search cancelled!");
-	}
-	message.channel.send(`Envoies un nombre entre 1 et ${tracks.length}!`);
+
+		const queue = bot.player.getQueue(message);
+		try {
+			if (!queue.connection)
+				await queue.connect(message.member.voice.channel);
+		} catch {
+			await bot.player.deleteQueue(message.guild.id);
+			return message.channel.send("Je n'arrive pas à rejoindre la salon vocal...");
+		}
+
+		await message.channel.send("Charchement de la recherche");
+
+		queue.addTrack(res.tracks[query.content - 1]);
+
+		if (!queue.playing) await queue.play();
+	});
+
+	collector.on("end", (msg, reason) => {
+		if (reason === "time")
+			return message.channel.send(`Tu as mis trop de temps à répondre ${message.author}, recherche annulée`);
+	});
 });
+// bot.player.on("searchInvalidResponse", (message, query, tracks, content, collector) => {
+// 	console.debug(message, query, tracks, content, collector);
+// 	if (message.author.bot)
+// 		return;
+// 	if (content === "cancel") {
+// 		collector.stop();
+// 		return message.channel.send("Recherche annulée !");
+// 	}
+// 	message.channel.send(`Envoies un nombre entre 1 et ${tracks.length} !`);
+// });
 bot.player.on("searchCancel", (message, query, tracks) => message.channel.send("Tu n'as pas fournéis de réponce valide. Rélance la commande si tu souhaites réessayer !"));
-bot.player.on("noResults", (message, query) => message.channel.send(`Aucun résultat trouvé sur Youtube pour ${query}!`));
+bot.player.on("noResults", (message, query) => message.channel.send(`Aucun résultat trouvé sur Youtube pour ${query} !`));
 
 // Send a message when the music is stopped
 bot.player.on("queueEnd", (message, queue) => message.channel.send(`Il n'y a plus de musiques à jouer, penses à en remettre si tu vux que je continue de les jouer ! ${emojiCharacters.happy_carapuce}`));
@@ -188,7 +232,7 @@ bot.player.on("botDisconnect", (message, queue) => message.channel.send(`La musi
 bot.player.on("error", async (error, message) => {
 	switch (error) {
 		case ("NotPlaying"):
-			message.channel.send("Il n'y a pas de pusique jouée sur le serveur.");
+			message.channel.send("Il n'y a pas de musique jouée sur le serveur.");
 			break;
 		case ("NotConnected"):
 			message.channel.send("Tu dois être connecté à un salon vocal si tu veux que je te rejoigne !");
@@ -197,13 +241,14 @@ bot.player.on("error", async (error, message) => {
 			message.channel.send("Je ne peux pas te rejoindre, vérifies mes droits stp...");
 			break;
 		case "LiveVideo":
-			message.channel.send("Les directs YouTube ne sont pas supportés!");
+			message.channel.send("Les directs YouTube ne sont pas supportés !");
 			break;
 		case "VideoUnavailable":
-			message.channel.send("Cette vidéo YouTube n'est pas disponible!");
+			message.channel.send("Cette vidéo YouTube n'est pas disponible !");
 			break;
 		default:
 			if (bot.owner)
-				bot.owner.send({embed: {color: 16711680, description: `__**ERREUR**__ at ${new Date()}\nL\'utilisateur ${message.author.tag}${!message.guild ? "" : `, sur le serveur ${message.member.guild.name}`} a envoyé la commande :\n${message.content}\n\n__L\'erreur suivante s\'est produite :__\n*${error.stack}*`}});
+				bot.owner.send({ embeds: [{ color: 16711680, description: `__**ERREUR**__ at ${new Date()}\nL\'utilisateur ${message.author.tag}${!message.guild ? "" : `, sur le serveur ${message.member.guild.name}`} a envoyé la commande :\n${message.content}\n\n__L\'erreur suivante s\'est produite :__\n*${error.stack}*` }] });
 	}
 });
+*/

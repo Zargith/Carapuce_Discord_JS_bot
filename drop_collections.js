@@ -9,9 +9,9 @@ let db;
 
 try {
 	client = new mongoClient(DBURI, {useUnifiedTopology: true});
-//	Logger.setLevel("debug");
+	// Logger.setLevel("debug");
 
-	client.connect(async (err) => {
+	client.connect(async err => {
 		if (err)
 			return console.log(err);
 		db = client.db(DBNAME);
@@ -25,14 +25,14 @@ try {
 		for (let i = 0; i < collections.length; i++)
 			console.log(`\t${collections[i].name}`);
 		console.log("");
-		drop_collection(collections, 0);
+		dropCollection(collections, 0);
 	});
 } catch (exception) {
 	console.log(`Error exception:\n${exception.stack}`);
 	process.exit(1);
 }
 
-async function drop_collection(collections, i) {
+async function dropCollection(collections, i) {
 	if (i >= collections.length)
 		process.exit(0);
 
@@ -40,6 +40,6 @@ async function drop_collection(collections, i) {
 		if (error) throw error;
 		if (delOK) console.log(`Collection ${collections[i].name} deleted`);
 		i++;
-		drop_collection(collections, i);
+		dropCollection(collections, i);
 	});
 }

@@ -24,7 +24,7 @@ const channelErrorMessage = async function(message, exception) {
 		const reportLogChannel = message.guild.channels.cache.find(ch => ch.id == reportLogChannelId);
 
 		if (reportLogChannel)
-			reportLogChannel.send({embed: {color: 16711680, description: `__**ERREUR**__\nL\'utilisateur *${message.author.username}* sur ce serveur a envoyé la commande :\n${message.content}\n\n__L\'erreur suivante s\'est produite :__\n*${exception.stack}*`, timestamp: new Date()}});
+			reportLogChannel.send({ embeds: [{ color: 0xFF0000, description: `__**ERREUR**__\nL\'utilisateur *${message.author.username}* sur ce serveur a envoyé la commande :\n${message.content}\n\n__L\'erreur suivante s\'est produite :__\n*${exception.stack}*`, timestamp: new Date() }]});
 	} catch (excep) {
 		ownerErrorMessage(message, excep);
 	}
@@ -33,7 +33,7 @@ const channelErrorMessage = async function(message, exception) {
 const ownerErrorMessage = async function(message, exception) {
 	// if a bot owner is defined, the bot will send him/her the complete error to let him/her know what happened
 	if (bot.owner)
-		bot.owner.send({embed: {color: 16711680, description: `__**ERREUR**__\nL\'utilisateur *${message.author.tag}*${!message.guild ? "" : `, sur le serveur ${message.member.guild.name}`} a envoyé la commande :\n${message.content}\n\n__L\'erreur suivante s\'est produite :__\n*${exception.stack}*`, timestamp: new Date()}});
+		bot.owner.send({ embeds: [{ color: 0xFF0000, description: `__**ERREUR**__\nL\'utilisateur *${message.author.tag}*${!message.guild ? "" : `, sur le serveur ${message.member.guild.name}`} a envoyé la commande :\n${message.content}\n\n__L\'erreur suivante s\'est produite :__\n*${exception.stack}*`, timestamp: new Date() }] });
 };
 
 module.exports.consoleErrorMessage = consoleErrorMessage;

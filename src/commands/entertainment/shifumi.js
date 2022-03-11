@@ -1,20 +1,16 @@
 const isInArray = require("../../utils/isInArray.js");
 const emojis = require("../../utils/emojiCharacters.js");
 
-module.exports = function(message) {
-	const arg = message.content.split(" ");
-	if (arg.length !== 2) {
-		message.channel.send(`Dis moi juste pierre, feuille ou ciseaux, je n'ai pas besoin d'autre chose ici ${emojis.carapuce}`);
-		return;
-	}
-	if (!isInArray(arg[1], ["pierre", "p", "feuille", "f", "ciseaux", "c"])) {
-		message.channel.send(`Dis moi ce que tu veux jouer quand même! ${emojis.angry_carapuce}`);
+module.exports = function(message, isInteraction) {
+	const arg = isInteraction ? message.options.get("pierre_feuille_ciseaux").value : message.content.split(" ")[1];
+	if (!isInArray(arg, ["pierre", "p", "feuille", "f", "ciseaux", "c"])) {
+		message.channel.send(`Dis moi ce que tu veux jouer quand même ! ${emojis.angry_carapuce}`);
 		return;
 	}
 
 	let pChoice = 0;
 
-	switch (arg[1][0]) {
+	switch (arg[0]) {
 		case ("p"):
 			pChoice = 1;
 			break;
@@ -26,20 +22,20 @@ module.exports = function(message) {
 			break;
 		default:
 			message.channel.send("Il y a eu une erreur");
-			throw new Error(`Le parsing du shifumi a échoué. Argument reçu : ${arg[1]}`);
+			throw new Error(`Le parsing du shifumi a échoué. Argument reçu : ${arg}`);
 	}
 
 	const flip = Math.floor(Math.random() * 3 + 1);
 
 	switch (flip) {
 		case 1:
-			message.channel.send({embed: {color: 3447003, description: "Pierre!"}});
+			message.channel.send({ embeds: [{ color: 0xace4ff, description: "Pierre !" }]});
 			break;
 		case 2:
-			message.channel.send({embed: {color: 3447003, description: "Feuille!"}});
+			message.channel.send({ embeds: [{ color: 0xace4ff, description: "Feuille !" }]});
 			break;
 		case 3:
-			message.channel.send({embed: {color: 3447003, description: "Ciseaux!"}});
+			message.channel.send({ embeds: [{ color: 0xace4ff, description: "Ciseaux !" }]});
 			break;
 	}
 

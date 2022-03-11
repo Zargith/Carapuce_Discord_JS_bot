@@ -8,9 +8,9 @@ const devJokes = require("./entertainment/devJokes/devJokes.js");
 const emojis = require("../utils/emojiCharacters.js");
 const weather = require("./entertainment/weather.js");
 
-module.exports = async function(message, interaction =  false) {
-	const args = !interaction ? message.content.split(" ") : null;
-	const command = !interaction ? args.shift().split(bot.config.prefix)[1] : message.commandName;
+module.exports = async function(message, isInteraction = false) {
+	const args = isInteraction ? [] : message.content.split(" ");
+	const command = isInteraction ? message.commandName : args.shift().split(bot.config.prefix)[1];
 
 	// check if the first word of the message content is equal to one of the following ones
 	switch (command) {
@@ -23,27 +23,30 @@ module.exports = async function(message, interaction =  false) {
 		case ("stop"):
 		case ("playlist"):
 		case ("cleanPlaylist"):
+		case ("cleanplaylist"):
 		case ("pause"):
 		case ("resume"):
 		case ("loop"):
 		case ("setVolume"):
+		case ("setvolume"):
 		case ("shuffle"):
 		case ("filters"):
 		case ("progress"):
+			return message.channel.send("Cette commande a été désactivée car doit être mise à jour.");
 			if (!message.guild) {
 				message.reply("Tu ne peux pas utiliser cette commande en privé.");
 				break;
 			}
-			DJCarapuce(message);
+			DJCarapuce(message, isInteraction);
 			break;
 
 		case ("help"):
-			if (args.length === 0) {
+			if ((!isInteraction && args.length === 0) || (isInteraction && !message.options.get("page_name"))) {
 				// print the common help
 				help.printCommonHelp(message);
 				break;
 			} else {
-				switch (args[0]) {
+				switch (isInteraction ? message.options.get("page_name").value : args[0]) {
 					case ("musique"):
 						// print the music help
 						help.printMusicHelp(message);
@@ -62,7 +65,7 @@ module.exports = async function(message, interaction =  false) {
 			break;
 
 		case ("avatar"):
-			message.reply(message.author.avatarURL);
+			message.reply(isInteraction ? message.user.displayAvatarURL({ dynamic: true, format: "png" }) : message.author.displayAvatarURL({ dynamic: true, format: "png" }));
 			break;
 
 		case ("bonjour"):
@@ -76,25 +79,26 @@ module.exports = async function(message, interaction =  false) {
 		case ("holà"):
 			// catch many cases of commands to say hello
 			message.react("553490319103098883");
-			message.reply(`carabonjour à toi ! ${emojis.carapuce}`);
+			message.reply(`Carabonjour à toi ! ${emojis.carapuce}`);
 			break;
 
 		case ("flip"):
 			// to play head or tail
-			flipCoin(message);
+			flipCoin(message, isInteraction);
 			break;
 
 		case ("shifumi"):
 			// to play to the shifumi game against the bot
-			shifumi(message);
+			shifumi(message, isInteraction);
 			break;
 
 		case ("poll"):
 			// to create a poll with 2 to 11 answers possible
-			myPoll(message);
+			myPoll(message, isInteraction);
 			break;
 
 		case ("listEmojis"):
+		case ("listemojis"):
 			if (!message.guild) {
 				message.reply("Tu ne peux pas utiliser cette commande en privé.");
 				break;
@@ -105,11 +109,11 @@ module.exports = async function(message, interaction =  false) {
 			break;
 
 		case ("DansLaWhiteList"):
-			console.log(bot.owner)
-			if ((bot.owner.id && message.author.id === bot.owner.id) || (bot.config.whiteList.length > 0 && bot.config.whiteList.includes(message.author.id)))
-				message.reply(" oui tu y es !");
+		case ("danslawhitelist"):
+			if ((bot.owner.id && ((isInteraction && message.user.id === bot.owner.id) || message.author.id === bot.owner.id)) || (bot.config.whiteList.length > 0 && (bot.config.whiteList.includes(message.author.id) || (isInteraction && bot.config.whiteList.includes(message.user.id)))))
+				message.reply("Oui tu y es !");
 			else
-				message.reply(" non tu n'y es pas.");
+				message.reply("Non tu n'y es pas.");
 			break;
 
 		case ("invite"):
@@ -128,11 +132,11 @@ module.exports = async function(message, interaction =  false) {
 		case ("météo"):
 		case ("meteo"):
 		case ("weather"):
-			if (args.length < 1) {
+			if (!isInteraction && args.length < 1) {
 				message.channel.send("Cette commande nécessite de préciser un lieu");
 				break;
 			}
-			weather(message);
+			weather(message, isInteraction);
 			break;
 
 		case ("github"):
@@ -143,6 +147,6 @@ module.exports = async function(message, interaction =  false) {
 			// check if the user tryed to use an animated emoji
 			// else say that the command isn't reconized
 			if (!useAnimatedEmojis(message))
-				message.channel.send(`Commande \`${!interaction ? message.content : message.commandName}\` non-reconnue ou tu n'en dispose pas du droit d'utilisation ici`);
+				message.channel.send(`Commande \`${!isInteraction ? message.content : message.commandName}\` non-reconnue ou tu n'en dispose pas du droit d'utilisation ici`);
 	}
 };

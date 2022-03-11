@@ -5,7 +5,7 @@ const dataBaseHelp = require("./dataBaseHelp.js");
 const whitelistHelp = require("./whitelistHelp.js");
 
 module.exports.printCommonHelp = function(message) {
-	commonHelp(message);
+	commonHelp.help(message);
 };
 
 module.exports.printAdminHelp = function(message) {
@@ -17,7 +17,7 @@ module.exports.printWhitelistHelp = function(message) {
 };
 
 module.exports.printMusicHelp = function(message) {
-	musicHelp(message);
+	musicHelp.help(message);
 };
 
 module.exports.printDataBaseHelp = function(message) {

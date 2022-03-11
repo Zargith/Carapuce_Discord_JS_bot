@@ -31,5 +31,5 @@ module.exports = async function(message, updatedMessage, bot) {
 	let suspectsWords = "";
 	for (let i = 0; i < foundedWordsStep3.length; i++)
 		suspectsWords += `${( foundedWordsStep3[i] === "null" ? "" : `${(i === 0 ? "" : ", ")}${foundedWordsStep3[i]}`)}`;
-	reportLogChannel.send({embed: {color: 16711680, title: "/!\\Message probablement incorrect /!\\", description: `${message.author} ${ updatedMessage ? "a mis à jour son message et" : ""} a envoyé :\n\n${message.content}\n\n${message.url}\n\nMessage contenant : ${suspectsWords}`}});
+	reportLogChannel.send({ embeds: [{ color: 0xFF0000, title: "/!\\Message probablement incorrect /!\\", description: `${message.author} ${ updatedMessage ? "a mis à jour son message et" : ""} a envoyé :\n\n${message.content}\n\n${message.url}\n\nMessage contenant : ${suspectsWords}` }] });
 };

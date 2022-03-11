@@ -41,7 +41,7 @@ module.exports.createWelcomeImage = async function(member) {
 		const attachment = new Discord.MessageAttachment(canvas.toBuffer(), "welcome-image.png");
 		channel.send({ content: `Bienvenue sur ce CaraServeur, <@${member.id}> ! <:happy_carapuce:553490319103098883>`, files: [attachment] });
 	} catch (exception) {
-		channel.send({embed: {color: 16711680, description: `__**ERREUR**__\nLa commande n'a pas fonctionnée ${emojiCharacters.surprised_carapuce}\n\n__L'erreur suivante s'est produite:__\n*${exception}*`}});
+		channel.send({ embeds: [{ color: 0xFF0000, description: `__**ERREUR**__\nLa commande n'a pas fonctionnée ${emojiCharacters.surprised_carapuce}\n\n__L'erreur suivante s'est produite:__\n*${exception}*` }] });
 		throw exception;
 	}
 };

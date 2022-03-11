@@ -14,14 +14,14 @@ module.exports = async function(message) {
 	});
 
 	message.channel.send({
-		embed: {
-			color: 3447003,
+		embeds: [{
+			color: 0xace4ff,
 			description: `Liste des filtres (dés)activés.\nUtilisez \`${bot.config.prefix}filters update\` pour ajouter/retirer un filtre à une musique.`,
 			fields: [
 				{name: "Filtres", value: filtersStatuses[0].join("\n"), inline: true},
 				{name: "** **", value: filtersStatuses[1].join("\n"), inline: true},
 			],
 			timestamp: new Date()
-		},
+		}],
 	});
 };

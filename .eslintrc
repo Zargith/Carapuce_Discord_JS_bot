@@ -8,7 +8,7 @@
 	],
 	"globals": {
 		"Atomics": "readonly",
-		"SharedArrayBuffer": "readonly",
+		"SharedArrayBuffer": "readonly"
 	},
 	"parserOptions": {
 		"ecmaVersion": 11	},
@@ -30,6 +30,9 @@
 		"require-jsdoc": "off",
 		"new-cap": "off",
 		"curly": "off",
-		"eol-last": "off"
+		"eol-last": "off",
+		"object-curly-spacing": "off",
+		"array-bracket-spacing": "off",
+		"linebreak-style": "off"
 	}
 }

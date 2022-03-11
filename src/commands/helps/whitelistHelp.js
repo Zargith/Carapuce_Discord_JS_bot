@@ -6,7 +6,7 @@ module.exports = function(message) {
 
 	message.channel.send({ files: [devUnicorn], embeds: [
 		{
-			color: 3447003,
+			color: 0xace4ff,
 			description: "__**Les différentes commandes :**__",
 			fields: [
 				{

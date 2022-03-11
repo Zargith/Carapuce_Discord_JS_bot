@@ -1,4 +1,4 @@
-const { Permissions } = require('discord.js');
+const { Permissions } = require("discord.js");
 
 // function to check the message author have a role that have administrator rights
 module.exports = function(message) {

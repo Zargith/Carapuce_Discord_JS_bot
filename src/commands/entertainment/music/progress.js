@@ -11,7 +11,7 @@ module.exports = async function(message) {
 
 	message.channel.send({
 		embed: {
-			color: 3447003,
+			color: 0xace4ff,
 			author: {name: track.title, url: track.url},
 			fields: [
 				{

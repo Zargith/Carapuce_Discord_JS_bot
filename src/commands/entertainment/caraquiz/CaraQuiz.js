@@ -24,10 +24,10 @@ module.exports = {
 				case 1:
 					if (!this.waitResponse) {
 						this.inQuiz = true;
-						message.channel.send("Nous allons jouer à un cara-quiz!\nPour répondre il te suffira de donner la lettre correspondante à la réponse que tu aura choisi <:carapuce:551198314687758357>");
+						message.channel.send("Nous allons jouer à un cara-quiz !\nPour répondre il te suffira de donner la lettre correspondante à la réponse que tu aura choisi <:carapuce:551198314687758357>");
 						message.channel.send({
 							embed: {
-								color: 3447003,
+								color: 0xace4ff,
 								description: "__**Question n°1 :**__",
 								fields: [{
 									name: "Zargith m'a créé",
@@ -57,7 +57,7 @@ module.exports = {
 						this.inQuiz = true;
 						message.channel.send({
 							embed: {
-								color: 3447003,
+								color: 0xace4ff,
 								description: "__**Question n°2 :**__",
 								fields: [{
 									name: "Quel est le meilleur starteur parmis ces choix ?",
@@ -87,7 +87,7 @@ module.exports = {
 						this.inQuiz = true;
 						message.channel.send({
 							embed: {
-								color: 3447003,
+								color: 0xace4ff,
 								description: "__**Question n°3 :**__",
 								fields: [{
 									name: "Qu'est-ce qui est jaune et qui attend ?",

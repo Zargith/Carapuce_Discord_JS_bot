@@ -13,7 +13,7 @@ module.exports = async function(message) {
 
 			// if it exist, get the report log channel and send it a message with the error log
 			if (reportLogChannel)
-				reportLogChannel.send({embed: {color: 16711680, description: `__**ERREUR**__\nL\'utilisateur ${message.author.tag}${(!message.guild ? "" : `, sur le serveur ${message.member.guild.name}`)} a envoyé la commande :\n${message.content}\n\n__L\'erreur suivante s\'est produite :__\n*${exception.stack}*`}});
+				reportLogChannel.send({ embeds: [{ color: 0xFF0000, description: `__**ERREUR**__\nL\'utilisateur ${message.author.tag}${(!message.guild ? "" : `, sur le serveur ${message.member.guild.name}`)} a envoyé la commande :\n${message.content}\n\n__L\'erreur suivante s\'est produite :__\n*${exception.stack}*` }] });
 			else
 				message.channel.send("Le channel de rapport des logs n'est pas défini ou mal configuré. Merci de concter un admin (du serveur) si vous souhaitez que ce soit fait");
 		} catch (exp) {
