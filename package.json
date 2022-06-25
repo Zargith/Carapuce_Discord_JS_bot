@@ -22,7 +22,7 @@
     "canvas": "^2.6.1",
     "discord-player": "^3.0.3",
     "discord.js": "^12.5.1",
-    "node-fetch": "^2.6.1",
+    "node-fetch": "^2.6.7",
     "ytdl-core": "^2.1.7"
   },
   "devDependencies": {
