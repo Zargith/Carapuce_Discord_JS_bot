@@ -16,7 +16,7 @@ const Commands = [
 					name: "page_name",
 					description: "name of the help page you want (music, admin, whitelist/wl).",
 					required: false,
-					type: Discord.Constants.ApplicationCommandOptionTypes.STRING,
+					type: Discord.ApplicationCommandOptionType.String,
 					choices: [
 						{
 							name: "musique",
@@ -95,7 +95,7 @@ const Commands = [
 					name: "pile_face",
 					description: "Pile ou face.",
 					required: true,
-					type: Discord.Constants.ApplicationCommandOptionTypes.STRING,
+					type: Discord.ApplicationCommandOptionType.String,
 					choices: [
 						{
 							name: "pile",
@@ -140,7 +140,7 @@ const Commands = [
 					name: "pierre_feuille_ciseaux",
 					description: "Pierre, feuille ou ciseaux.",
 					required: true,
-					type: Discord.Constants.ApplicationCommandOptionTypes.STRING,
+					type: Discord.ApplicationCommandOptionType.String,
 					choices: [
 						{
 							name: "pierre",
@@ -172,73 +172,73 @@ const Commands = [
 					name: "question",
 					description: "Question du sondage.",
 					required: true,
-					type: Discord.Constants.ApplicationCommandOptionTypes.STRING
+					type: Discord.ApplicationCommandOptionType.String
 				},
 				{
 					name: "answer1",
 					description: "Réponse 1.",
 					required: true,
-					type: Discord.Constants.ApplicationCommandOptionTypes.STRING
+					type: Discord.ApplicationCommandOptionType.String
 				},
 				{
 					name: "answer2",
 					description: "Réponse 2.",
 					required: true,
-					type: Discord.Constants.ApplicationCommandOptionTypes.STRING
+					type: Discord.ApplicationCommandOptionType.String
 				},
 				{
 					name: "answer3",
 					description: "Réponse 3.",
 					required: false,
-					type: Discord.Constants.ApplicationCommandOptionTypes.STRING
+					type: Discord.ApplicationCommandOptionType.String
 				},
 				{
 					name: "answer4",
 					description: "Réponse 4.",
 					required: false,
-					type: Discord.Constants.ApplicationCommandOptionTypes.STRING
+					type: Discord.ApplicationCommandOptionType.String
 				},
 				{
 					name: "answer5",
 					description: "Réponse 5.",
 					required: false,
-					type: Discord.Constants.ApplicationCommandOptionTypes.STRING
+					type: Discord.ApplicationCommandOptionType.String
 				},
 				{
 					name: "answer6",
 					description: "Réponse 6.",
 					required: false,
-					type: Discord.Constants.ApplicationCommandOptionTypes.STRING
+					type: Discord.ApplicationCommandOptionType.String
 				},
 				{
 					name: "answer7",
 					description: "Réponse 7.",
 					required: false,
-					type: Discord.Constants.ApplicationCommandOptionTypes.STRING
+					type: Discord.ApplicationCommandOptionType.String
 				},
 				{
 					name: "answer8",
 					description: "Réponse 8.",
 					required: false,
-					type: Discord.Constants.ApplicationCommandOptionTypes.STRING
+					type: Discord.ApplicationCommandOptionType.String
 				},
 				{
 					name: "answer9",
 					description: "Réponse 9.",
 					required: false,
-					type: Discord.Constants.ApplicationCommandOptionTypes.STRING
+					type: Discord.ApplicationCommandOptionType.String
 				},
 				{
 					name: "answer10",
 					description: "Réponse 10.",
 					required: false,
-					type: Discord.Constants.ApplicationCommandOptionTypes.STRING
+					type: Discord.ApplicationCommandOptionType.String
 				},
 				{
 					name: "answer11",
 					description: "Réponse 11.",
 					required: false,
-					type: Discord.Constants.ApplicationCommandOptionTypes.STRING
+					type: Discord.ApplicationCommandOptionType.String
 				}
 			]
 		}
@@ -256,7 +256,7 @@ const Commands = [
 					name: "someone",
 					description: "Personne à marier.",
 					required: false,
-					type: Discord.Constants.ApplicationCommandOptionTypes.USER
+					type: Discord.ApplicationCommandOptionType.User
 				}
 			]
 		}
@@ -284,7 +284,7 @@ const Commands = [
 					name: "city",
 					description: "Nom de la ville d'où vous voulez la météo.",
 					required: true,
-					type: Discord.Constants.ApplicationCommandOptionTypes.STRING
+					type: Discord.ApplicationCommandOptionType.String
 				}
 			]
 		}
@@ -298,7 +298,7 @@ const Commands = [
 					name: "city",
 					description: "Nom de la ville d'où vous voulez la météo.",
 					required: true,
-					type: Discord.Constants.ApplicationCommandOptionTypes.STRING
+					type: Discord.ApplicationCommandOptionType.String
 				}
 			]
 		}
@@ -312,7 +312,7 @@ const Commands = [
 					name: "city",
 					description: "Nom de la ville d'où vous voulez la météo.",
 					required: true,
-					type: Discord.Constants.ApplicationCommandOptionTypes.STRING
+					type: Discord.ApplicationCommandOptionType.String
 				}
 			]
 		}

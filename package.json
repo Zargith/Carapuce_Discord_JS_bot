@@ -18,17 +18,17 @@
   },
   "homepage": "https://github.com/Zargith/Carapuce_Discord_JS_bot#readme",
   "dependencies": {
-    "@discordjs/opus": "^0.5.3",
+    "@discordjs/opus": "^0.9.0",
     "@discordjs/rest": "^0.3.0",
     "axios": "^0.21.1",
     "canvas": "^2.6.1",
     "discord-api-types": "^0.27.3",
     "discord-player": "^5.2.0",
-    "discord.js": "^13.6.0",
+    "discord.js": "^14.6.0",
     "ffmpeg-static": "^4.4.0",
     "mongodb": "^3.6.4",
     "node-fetch": "^2.6.1",
-    "npm": "^7.19.1",
+    "npm": "^9.2.0",
     "ytdl-core": "^4.5.0"
   },
   "devDependencies": {

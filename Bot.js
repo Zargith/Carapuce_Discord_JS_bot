@@ -1,10 +1,10 @@
-const Discord = require("discord.js");
+const { Client, GatewayIntentBits, SlashCommandBuilder } = require("discord.js");
 
 // in src directory
 const botStartup = require("./src/utils/onBotStartup.js");
 const guildMemberAdd = require("./src/utils/guildAddMember.js");
 const roleReaction = require("./src/utils/oldUtils/roleReaction.js");
-const checkBannedWords = require("./src/utils/checkBannedWords/checkBannedWords.js");
+// const checkBannedWords = require("./src/utils/checkBannedWords/checkBannedWords.js");
 const sendError = require("./src/utils/sendError.js");
 const usersCommands = require("./src/commands/usersCommands.js");
 const adminCommands = require("./src/commands/adminCommands.js");
@@ -15,7 +15,7 @@ const isServerAdmin = require("./src/utils/isServerAdmin");
 const getUserById = require("./src/utils/getUserById.js");
 
 // Define bot as global variable
-global.bot = new Discord.Client({ intents: [ Discord.Intents.FLAGS.GUILDS, Discord.Intents.FLAGS.GUILD_EMOJIS_AND_STICKERS, Discord.Intents.FLAGS.GUILD_MEMBERS, Discord.Intents.FLAGS.GUILD_MESSAGES, Discord.Intents.FLAGS.GUILD_MESSAGE_REACTIONS, Discord.Intents.FLAGS.GUILD_VOICE_STATES ], allowedMentions: { parse: [ "users", "roles" ], repliedUser: true } });
+global.bot = new Client({ intents: [ GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages, GatewayIntentBits.GuildMembers, GatewayIntentBits.MessageContent, GatewayIntentBits.DirectMessages, GatewayIntentBits.GuildEmojisAndStickers, GatewayIntentBits.GuildMessageReactions, GatewayIntentBits.GuildVoiceStates], allowedMentions: { parse: [ "users", "roles" ], repliedUser: true } });
 (async () => {
 	await botStartup();
 })();

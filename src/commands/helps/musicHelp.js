@@ -14,7 +14,7 @@ const Commands = [
 				{
 					name: "url_or_key_words",
 					description: "URL Youtube/Spotify/Soundcloud ou mots clés",
-					type: Discord.Constants.ApplicationCommandOptionTypes.STRING,
+					type: Discord.ApplicationCommandOptionType.String,
 					required: true
 				}
 			]
@@ -112,7 +112,7 @@ const Commands = [
 				{
 					name: "volume",
 					description: "Volume entre 0 et 100",
-					type: Discord.Constants.ApplicationCommandOptionTypes.INTEGER,
+					type: Discord.ApplicationCommandOptionType.Integer,
 					required: true
 				}
 			]
@@ -130,7 +130,7 @@ const Commands = [
 				{
 					name: "update_filters",
 					description: "Pour actualiser la liste des filtres",
-					type: Discord.Constants.ApplicationCommandOptionTypes.STRING,
+					type: Discord.ApplicationCommandOptionType.String,
 					required: false,
 					choices: [
 						{
