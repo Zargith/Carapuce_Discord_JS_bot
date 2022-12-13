@@ -60,7 +60,7 @@ const Commands = [
 		},
 		slashCommand: {
 			name: "ping",
-			description: "Pour afficher ke ping du bot.",
+			description: "Pour afficher le ping du bot.",
 		}
 	},
 	{
